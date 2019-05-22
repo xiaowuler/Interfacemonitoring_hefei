@@ -1,0 +1,148 @@
+.log{
+    padding: 0 10px;
+}
+
+.query {
+    width: 64px;
+    text-align: center;
+    line-height: 36px;
+    color: #ffffff;
+    font-size: 16px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background: #59bbd9;
+}
+
+.toolbar{
+    height: 56px;
+    padding-top: 8px;
+    border-bottom: 1px solid #3b3d51;
+    font-size: 16px;
+}
+
+.toolbar .symbol{
+    width: 20px;
+    line-height: 36px;
+    text-align: center;
+}
+
+.toolbar .toolbar-mr{
+    margin-right: 10px;
+}
+
+.toolbar .toolbar-title{
+    margin-right: 8px;
+    line-height: 36px;
+}
+
+.toolbar .combo-arrow{
+    background: url("../images/drop-down.png") no-repeat 8px center;
+}
+
+.toolbar-time .combo-arrow{
+    background: url("../images/calendar.png") no-repeat 5px center;
+}
+
+.toolbar-time .textbox .textbox-text{
+    border: 0;
+}
+
+.textbox-width .textbox{
+    width: 92px!important;
+}
+
+.textbox-width .textbox .textbox-text{
+    width: 63px!important;
+}
+
+.toolbar-caller .textbox{
+    width: 145px!important;
+}
+
+.toolbar-caller .textbox .textbox-text{
+    width: 116px!important;
+}
+
+.toolbar-time .textbox{
+    width: 203px!important;
+}
+
+.panel:nth-of-type(5) .combo-panel,
+.panel:nth-of-type(6) .combo-panel{
+    background: #ffffff;
+}
+
+.panel:nth-of-type(5) .textbox,
+.panel:nth-of-type(6) .textbox{
+    border: 1px solid #95B8E7!important;
+    background: transparent!important;
+}
+
+.panel:nth-of-type(5) .textbox .textbox-text,
+.panel:nth-of-type(6) .textbox .textbox-text{
+    padding: 0 4px!important;
+    text-align: left!important;
+    height: 28px!important;
+    line-height: 28px!important;
+    background: #fff!important;
+    color: #53556c!important;
+    border-right: 1px solid #95B8E7!important;
+}
+
+.log-table{
+    height: 455px;
+}
+
+.log-table .success{
+    padding-left: 22px;
+    color: #20ad3e;
+    background: url("../images/icon-success.png") no-repeat left;
+}
+
+.log-table .fail{
+    padding-left: 22px;
+    color: #e60d17;
+    background: url("../images/icon-fail.png") no-repeat left;
+}
+
+.detail{
+    margin-top: 10px;
+    padding: 17px 10px 10px 10px;
+}
+
+.detail h2{
+    margin-bottom: 17px;
+    font-size: 16px;
+}
+
+.detail-info li{
+    margin-top: 10px;
+    position: relative;
+}
+
+.detail-info li span{
+    width: 96px;
+    display: block;
+    text-align: center;
+    line-height: 36px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #2f3144;
+}
+
+.detail-info li div{
+    margin-left: 106px;
+    padding-left: 10px;
+    line-height: 36px;
+    background: #2f3144;
+}
+
+.detail-info li div.error-info {
+    height: 136px;
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
+
+}

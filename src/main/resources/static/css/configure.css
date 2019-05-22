@@ -1,0 +1,33 @@
+.configure{
+    padding: 10px 10px 0 10px;
+}
+
+.configure-table{
+    height: 800px;
+    border-top: 1px solid #3b3d51;
+}
+
+.table .datagrid-body{
+    /*height: 710px!important;*/
+}
+
+.dialog{
+    width: 380px;
+    margin-left: -180px;
+}
+
+.dialog-detail{
+    padding: 10px 16px;
+}
+
+.option-value{
+    margin-right: 0;
+}
+
+.option-value input{
+    width: 100px;
+}
+
+.option-describe input{
+    width: 345px;
+}

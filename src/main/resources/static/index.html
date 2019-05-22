@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>接口控件</title>
+    <link rel="stylesheet" href="plug/easyui.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+<div class="wrap">
+    <div class="top bg clearfix">
+        <div class="logo fl"><img src="images/logo.png"></div>
+        <div class="top-info fr">
+            <div class="top-user">欢迎，<span id="name">罗小武</span>[ <span id="level">超级管理员</span> ]</div>
+            <button class="quit-button">退出</button>
+        </div>
+    </div>
+
+    <div class="aside bg">
+        <ul>
+            <li class="level-first-menu">
+                <h2>接口管理</h2>
+                <ul>
+                    <li class="level-second-menu icon-controls active"><a href="javascript:;">接口控件</a></li>
+                    <li class="level-second-menu icon-log"><a href="port-log.html">接口日志</a></li>
+                    <li class="level-second-menu icon-accredit"><a href="accredit.html">授权管理</a></li>
+                </ul>
+            </li>
+            <li class="level-first-menu">
+                <h2>系统管理</h2>
+                <ul>
+                    <li class="level-second-menu icon-manage"><a href="user-manage.html">用户管理</a></li>
+                    <li class="level-second-menu icon-configure"><a href="configure.html">系统配置</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="port-chart" id="port-chart"></div>
+        <div class="port-table table bg">
+            <table id="port-table">
+                <thead>
+                <tr>
+                    <th data-options="field:'Type',width:$(this).width() * 0.12,align:'center'">分类</th>
+                    <th data-options="field:'Number',width:300,align:'center'">本天内调用次数</th>
+                    <th data-options="field:'Success',width:$(this).width() * 0.12,align:'center'">成功率（%）</th>
+                    <th data-options="field:'SuccessTime',width:$(this).width() * 0.12,align:'center'">成功平均耗时（ms）</th>
+                    <th data-options="field:'FailTime',width:375,align:'center'">失败平均耗时（ms）</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口B</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口C</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口D</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口E</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口F</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口G</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口H</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口I</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口J</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td>接口A</td>
+                        <td>26</td>
+                        <td>25</td>
+                        <td>0.9</td>
+                        <td>0.5</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="plug/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="plug/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="plug/highcharts.js"></script>
+<script type="text/javascript" src="plug/pareto.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+</html>

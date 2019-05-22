@@ -1,0 +1,14 @@
+.port-chart {
+    height: 395px;
+}
+
+.port-table {
+    height: 452px;
+    margin-top: 10px;
+    padding: 0 10px;
+}
+
+.port-table .datagrid-view{
+    height: 395px!important;
+}
+

@@ -1,0 +1,164 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: 0;
+    vertical-align: top;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 16px;
+    color: #dbdbdb;
+    font-weight: normal;
+    -webkit-text-size-adjust: 100%;
+    max-width: 100%;
+    min-width: 1200px;
+    /*overflow-x: hidden;*/
+    position: relative;
+    left: 0;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    font-family: "Microsoft YaHei";
+    background: #1e1e2f;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    vertical-align: middle;
+}
+
+img {
+    height: auto;
+    border: none;
+    display: inline-block;
+}
+
+img,
+input,
+textarea,
+select,
+span,
+button {
+    outline: none;
+}
+
+button {
+    cursor: pointer;
+    color: #dbdbdb;
+}
+
+button,
+input{
+    font-family: "Microsoft YaHei";
+}
+
+textarea {
+    resize: none;
+}
+
+a {
+    display: block;
+    text-decoration: none;
+    color: #a7a7a7;
+}
+
+li {
+    list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: normal;
+    font-size: 16px;
+}
+
+i, em {
+    font-style: normal;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    overflow: hidden;
+    visibility: hidden
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section,
+summary {
+    display: block;
+}
+
+input::-webkit-input-placeholder { /* WebKit browsers */
+    color: #dbdbdb;
+    font-size: 16px;
+    font-family: "Microsoft YaHei";
+}
+
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #dbdbdb;
+    font-size: 16px;
+    font-family: "Microsoft YaHei";
+}
+
+input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #dbdbdb;
+    font-size: 16px;
+    font-family: "Microsoft YaHei";
+}
+
+input:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #dbdbdb;
+    font-size: 16px;
+    font-family: "Microsoft YaHei";
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.table {
+    width: 100%;
+    display: table;
+    height: 100%;
+}
+
+.table-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.width1200 {
+    width: 1200px;
+    margin: 0 auto;
+}

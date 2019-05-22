@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pingchuan.weather.Dao.LogMapper">
+    
+    <insert id="insert" parameterType="com.pingchuan.weather.Model.Log">
+         INSERT INTO `logs` (
+             `id`,
+             `name`,
+             `params`,
+             `caller`,
+             `is_success`,
+             `error_message`,
+             `start_time`,
+             `end_time`,
+             `reserved1`,
+             `reserved2`,
+             `reserved3`
+         ) VALUES (
+             #{id},
+             #{name},
+             #{params},
+             #{caller},
+             #{isSuccess},
+             #{errorMessage},
+             #{startTime},
+             #{endTime},
+             #{reserved1},
+             #{reserved2},
+             #{reserved3}
+         )
+    </insert>
+    
+    <delete id="delete" parameterType="com.pingchuan.weather.Model.Log">
+        DELETE FROM `logs`
+        <where> 
+            <if test="id != null"> and `id` = #{id} </if>
+            <if test="name != null"> and `name` = #{name} </if>
+            <if test="params != null"> and `params` = #{params} </if>
+            <if test="caller != null"> and `caller` = #{caller} </if>
+            <if test="isSuccess != null"> and `is_success` = #{isSuccess} </if>
+            <if test="errorMessage != null"> and `error_message` = #{errorMessage} </if>
+            <if test="startTime != null"> and `start_time` = #{startTime} </if>
+            <if test="endTime != null"> and `end_time` = #{endTime} </if>
+            <if test="reserved1 != null"> and `reserved1` = #{reserved1} </if>
+            <if test="reserved2 != null"> and `reserved2` = #{reserved2} </if>
+            <if test="reserved3 != null"> and `reserved3` = #{reserved3} </if>
+        </where>
+    </delete>
+    
+    <update id="updateById" parameterType="com.pingchuan.weather.Model.Log">
+        UPDATE `logs`
+        <set>
+            <if test="id != null"> `id` = #{id}, </if>
+            <if test="name != null"> `name` = #{name}, </if>
+            <if test="params != null"> `params` = #{params}, </if>
+            <if test="caller != null"> `caller` = #{caller}, </if>
+            <if test="isSuccess != null"> `is_success` = #{isSuccess}, </if>
+            <if test="errorMessage != null"> `error_message` = #{errorMessage}, </if>
+            <if test="startTime != null"> `start_time` = #{startTime}, </if>
+            <if test="endTime != null"> `end_time` = #{endTime}, </if>
+            <if test="reserved1 != null"> `reserved1` = #{reserved1}, </if>
+            <if test="reserved2 != null"> `reserved2` = #{reserved2}, </if>
+            <if test="reserved3 != null"> `reserved3` = #{reserved3}, </if>
+        </set>
+        where `id` = #{id}
+        
+    </update>
+    
+    <select id="findAll" resultType="com.pingchuan.weather.Model.Log">
+        SELECT  
+             `id` `id`,
+             `name` `name`,
+             `params` `params`,
+             `caller` `caller`,
+             `is_success` `isSuccess`,
+             `error_message` `errorMessage`,
+             `start_time` `startTime`,
+             `end_time` `endTime`,
+             `reserved1` `reserved1`,
+             `reserved2` `reserved2`,
+             `reserved3` `reserved3`
+        FROM
+            `logs`
+    </select>
+    
+</mapper>
+

@@ -1,0 +1,17 @@
+.user-manage{
+    padding: 10px 10px 0 10px;
+}
+
+.user-table{
+    height: 800px;
+    border-top: 1px solid #3b3d51;
+}
+
+.table .datagrid-body{
+
+}
+
+.dialog{
+    height: 184px;
+    margin-top: -92px;
+}

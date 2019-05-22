@@ -1,0 +1,12 @@
+.accredit{
+    padding: 10px 10px 0 10px;
+}
+
+.accredit-table{
+    height: 800px;
+    border-top: 1px solid #3b3d51;
+}
+
+.table .datagrid-body{
+    height: 710px!important;
+}

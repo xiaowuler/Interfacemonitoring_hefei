@@ -1,0 +1,40 @@
+server:
+  port: 8085
+  url: www.nanjing.com
+# 数据库的链接信息
+spring:
+  datasource:
+    url: jdbc:mysql://10.129.4.202:3306/hefei_interface?characterEncoding=utf-8&&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+  mvc:
+    view:
+     prefix : classpath:templates/
+     suffix : .html
+
+#mybatis配置mapper.xml文件位置以及包扫描
+mybatis:
+   mapper-locations: classpath*:mapper/*.xml #mapper文件扫描
+   type-aliases-package: com.nanjing.weather.model #别名扫描
+
+ #-------jpa 配置
+  #jpa:
+  #  show-sql: true
+   # generate-ddl: true
+   # hibernate:
+   #   ddl-auto: update
+#ddl-auto: create 每次都创建表，若存在则先删除 update 表不存在则创建，有更新字段才重新创建
+#mybatis:
+#  mapper-locations: classpath*:mapper/*.xml   #mapper文件扫描
+#  type-aliases-package: com.itheima.boot.pojo
+
+pagehelper:
+    helper-dialect: mysql
+    reasonable: true
+    support-methods-arguments: true
+    params: count==countSql
+    page-size-zero: true
+#logging:
+#  level:
+#    com.nanjing.weather.dao: debug
