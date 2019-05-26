@@ -14,4 +14,6 @@ public interface ConfigMapper {
     void updateById(Config config);
     
     List<Config> findAll();
+
+    Config findOneById(int id);
 }

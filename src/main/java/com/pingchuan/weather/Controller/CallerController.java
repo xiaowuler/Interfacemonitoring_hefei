@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pingchuan.weather.Model.Caller;
 import com.pingchuan.weather.Service.CallerService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/caller")
 public class CallerController{
@@ -34,5 +36,10 @@ public class CallerController{
     @RequestMapping("/findAllByPage")
     public PageInfo<Caller> findAllByPage(int pageNum, int pageSize){
         return callerService.findAllByPage(pageNum, pageSize);
+    }
+
+    @RequestMapping("/findAllByEnable")
+    public List<Caller> findAllByEnable(){
+        return callerService.findAllByEnable();
     }
 }

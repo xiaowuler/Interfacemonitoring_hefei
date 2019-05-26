@@ -3,6 +3,7 @@ package com.pingchuan.weather.Dao;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import com.pingchuan.weather.Model.Caller;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface CallerMapper {
@@ -14,4 +15,6 @@ public interface CallerMapper {
     void updateById(Caller caller);
     
     List<Caller> findAll();
+
+    Caller findOneById(@Param("id") int id);
 }

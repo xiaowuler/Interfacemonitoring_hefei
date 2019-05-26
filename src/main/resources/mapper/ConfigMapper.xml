@@ -36,11 +36,22 @@
     
     <select id="findAll" resultType="com.pingchuan.weather.Model.Config">
         SELECT  
-             `name` `name`,
-             `value` `value`,
-             `description` `description`
+            `name` `name`,
+            `value` `value`,
+            `description` `description`
         FROM
             `configs`
+    </select>
+
+    <select id="findOneById" resultType="com.pingchuan.weather.Model.Config">
+        SELECT
+            `name` `name`,
+            `value` `value`,
+            `description` `description`
+        FROM
+            `configs`
+        WHERE
+            id = #{0}
     </select>
     
 </mapper>

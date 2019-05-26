@@ -10,7 +10,6 @@ var App = function () {
     this.ReLayout = function () {
         var height = $('.content').height();
         $('.aside').height(height);
-        alert(123);
         $('.port-table, .datagrid').width($('.content').width() - 10);
     };
 

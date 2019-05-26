@@ -36,4 +36,9 @@ public class CallerServiceImpl implements CallerService{
         List<Caller> callers = callerMapper.findAll();
         return new PageInfo<>(callers);
     }
+
+    @Override
+    public List<Caller> findAllByEnable() {
+        return callerMapper.findAll();
+    }
 }

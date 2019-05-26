@@ -47,6 +47,18 @@
         FROM
             `callers`
     </select>
+
+    <select id="findOneById" resultType="com.pingchuan.weather.Model.Caller">
+        SELECT
+             `code` `code`,
+             `name` `name`,
+             `key` `key`,
+             `enabled` `enabled`
+        FROM
+            `callers`
+        where
+            id = #{id}
+    </select>
     
 </mapper>
 

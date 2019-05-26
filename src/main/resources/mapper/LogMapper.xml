@@ -82,6 +82,118 @@
         FROM
             `logs`
     </select>
+
+    <select id="findAllLogName" resultType="com.pingchuan.weather.Model.Log">
+        SELECT
+              `id` `id`,
+             `name` `name`,
+             `params` `params`,
+             `caller` `caller`,
+             `is_success` `isSuccess`,
+             `error_message` `errorMessage`,
+             `start_time` `startTime`,
+             `end_time` `endTime`,
+             `reserved1` `reserved1`,
+             `reserved2` `reserved2`,
+             `reserved3` `reserved3`
+        FROM
+              `logs`
+        WHERE
+              start_time between #{startTime} and #{endTime}
+        GROUP BY
+              `name`
+    </select>
+
+    <select id="findAllLogNames" resultType="com.pingchuan.weather.Model.Log">
+        SELECT
+              `id` `id`,
+             `name` `name`,
+             `params` `params`,
+             `caller` `caller`,
+             `is_success` `isSuccess`,
+             `error_message` `errorMessage`,
+             `start_time` `startTime`,
+             `end_time` `endTime`,
+             `reserved1` `reserved1`,
+             `reserved2` `reserved2`,
+             `reserved3` `reserved3`
+        FROM
+              `logs`
+        GROUP BY
+              `name`
+    </select>
+
+    <select id="getInfoOfWeekByInterface" resultType="com.pingchuan.weather.Model.Log">
+        SELECT
+              `id` `id`,
+             `name` `name`,
+             `params` `params`,
+             `caller` `caller`,
+             `is_success` `isSuccess`,
+             `error_message` `errorMessage`,
+             `start_time` `startTime`,
+             `end_time` `endTime`,
+             `reserved1` `reserved1`,
+             `reserved2` `reserved2`,
+             `reserved3` `reserved3`
+        FROM
+              `logs`
+        WHERE
+              `name` = #{name} and start_time between #{startTime} and #{endTime}
+    </select>
+
+    <select id="findOneByToday" resultType="int">
+        SELECT
+              count(*)
+        FROM
+              `logs`
+        WHERE
+              `name` = #{name} and start_time between #{startTime} and #{endTime}
+    </select>
+
+    <select id="findOneByCount" resultType="com.pingchuan.weather.Model.Log">
+        SELECT
+              `id` `id`,
+             `name` `name`,
+             `params` `params`,
+             `caller` `caller`,
+             `is_success` `isSuccess`,
+             `error_message` `errorMessage`,
+             `start_time` `startTime`,
+             `end_time` `endTime`,
+             `reserved1` `reserved1`,
+             `reserved2` `reserved2`,
+             `reserved3` `reserved3`
+        FROM
+              `logs`
+        WHERE
+              `name` = #{name} order by startTime desc limit 0,#{count}
+    </select>
+
+    <select id="findOneByCount" resultType="com.pingchuan.weather.Model.Log">
+        SELECT
+              `id` `id`,
+             `name` `name`,
+             `params` `params`,
+             `caller` `caller`,
+             `is_success` `isSuccess`,
+             `error_message` `errorMessage`,
+             `start_time` `startTime`,
+             `end_time` `endTime`,
+             `reserved1` `reserved1`,
+             `reserved2` `reserved2`,
+             `reserved3` `reserved3`
+        FROM
+              `logs`
+        WHERE
+              `name` = #{name} and start_time between #{startTime} and #{endTime} and caller_id = #{callerId}
+              <if test="state != -1">
+                  and is_success = #{state}
+              </if>
+              order by startTime desc
+    </select>
+
+
     
 </mapper>
 

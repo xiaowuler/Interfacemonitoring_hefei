@@ -2,12 +2,17 @@ package com.pingchuan.weather.Controller;
 
 import com.github.pagehelper.PageInfo;
 
+import com.pingchuan.weather.DTO.LogDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pingchuan.weather.Model.Log;
 import com.pingchuan.weather.Service.LogService;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/log")
@@ -35,4 +40,26 @@ public class LogController{
     public PageInfo<Log> findAllByPage(int pageNum, int pageSize){
         return logService.findAllByPage(pageNum, pageSize);
     }
+
+    @RequestMapping("/findAllByDate")
+    public List<LogDTO> findAllByDate(){
+        return logService.findAllByDate();
+    }
+
+    @RequestMapping("/findAllByState")
+    public PageInfo<LogDTO> findAllByState(int pageNum, int pageSize){
+        return logService.findAllByState(pageNum, pageSize);
+    }
+
+    @RequestMapping("/findAllCheckInfo")
+    public List<Log> findAllCheckInfo(){
+        return logService.findAllLogName();
+    }
+
+    @RequestMapping("/findAllByCallerAndNameAndStateAndTime")
+    public PageInfo<LogDTO> findAllByCallerAndNameAndStateAndTime(String name, int callerId, Date startTime, Date endTime, int state, int pageNum, int pageSize){
+        return logService.findAllByCallerAndNameAndStateAndTime(name, callerId, startTime, endTime, state, pageNum, pageSize);
+    }
+
+
 }
