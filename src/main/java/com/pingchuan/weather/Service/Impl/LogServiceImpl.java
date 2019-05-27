@@ -56,8 +56,8 @@ public class LogServiceImpl implements LogService{
         List<LogDTO> logDTOS = new ArrayList<>();
 
         //准备参数
-        String startTime = getTimeByDays(-7);
-        String endTime = getTimeByDays(1);
+        long startTime = getTimeByDays(-7);
+        long endTime = getTimeByDays(1);
         //Config failureRateConfig = configMapper.findOneById(3);
         //Config consumingAvgConfig = configMapper.findOneById(2);
         //Config healthStatusConfig = configMapper.findOneById(4);
@@ -81,9 +81,9 @@ public class LogServiceImpl implements LogService{
 
         List<LogDTO> logDTOS = new ArrayList<>();
         //准备参数
-        String startTime = getTimeByDays(-7);
-        String endTime = getTimeByDays(1);
-        String lastTime = getLastTime();
+        long startTime = getTimeByDays(-7);
+        long endTime = getTimeByDays(1);
+        long lastTime = getLastTime();
         Config successRateConfig = configMapper.findOneById(5);
         Config successConsumingAvgConfig = configMapper.findOneById(6);
         Config failureConsumingAvgConfig = configMapper.findOneById(6);
@@ -93,7 +93,6 @@ public class LogServiceImpl implements LogService{
         for (Log log : logs){
             logDTO = new LogDTO();
             logDTO.setLog(log);
-            //logDTO = getInfoOfWeek(logDTO, startTime, endTime);
             logDTO.setCallNumberDay(getTodayCallNumber(logDTO.getLog().getName(), startTime, lastTime));
             logDTO.setSuccessRate(getOneSuccessRate(successRateConfig, logDTO.getLog().getName()));
             logDTO.setSuccessConsumingAvg(getOneConsumingAvg(1, logDTO.getLog().getName(), Integer.parseInt(successConsumingAvgConfig.getValue())));
@@ -112,18 +111,22 @@ public class LogServiceImpl implements LogService{
     @Override
     public PageInfo<LogDTO> findAllByCallerAndNameAndStateAndTime(String name, int callerId, Date startTime, Date endTime, int state, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Log> logs = logMapper.findAllByCallerAndNameAndStateAndTime(name, callerId, startTime, endTime, state);
+
+        List<Log> logs = logMapper.findAllByCallerAndNameAndStateAndTime(name, callerId, startTime.getTime(), endTime.getTime(), state);
         List<LogDTO> logDTOS = new ArrayList<>();
 
         for (Log log:
              logs) {
             LogDTO logDTO = new LogDTO();
-            Long count = log.getEndTime().getTime() - log.getStartTime().getTime();
+            Long count = log.getEndTime() - log.getStartTime();
             count = count == 0 ? 500 : count;
             logDTO.setConsumingTime(count);
-            Caller caller = callerMapper.findOneById(callerId);
+            Caller caller = callerMapper.findOneById(log.getCaller());
             logDTO.setCallerName(caller.getName());
             logDTO.setLog(log);
+
+            logDTO.setStartTime(new Date(log.getStartTime()));
+            logDTO.setEndTime(new Date(log.getEndTime()));
             logDTOS.add(logDTO);
         }
 
@@ -137,7 +140,7 @@ public class LogServiceImpl implements LogService{
         for (Log log : logs){
             if (log.getIsSuccess() == flag)
             {
-                Long count = log.getEndTime().getTime() - log.getStartTime().getTime();
+                Long count = log.getEndTime() - log.getStartTime();
                 consumingTime += count == 0 ? 400 : count;
             }
         }
@@ -159,25 +162,23 @@ public class LogServiceImpl implements LogService{
         return Float.parseFloat(df.format((float)successCount / count));
     }
 
-    private int getTodayCallNumber(String name, String startTime, String endTime) {
+    private int getTodayCallNumber(String name, long startTime, long endTime) {
         return logMapper.findOneByToday(name, startTime, endTime);
     }
 
-    private String getLastTime(){
+    private long getLastTime(){
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
         calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return sdf.format(calendar.getTime());
+        return calendar.getTimeInMillis();
     }
 
-    private String getTimeByDays(int days){
+    private long getTimeByDays(int days){
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
         calendar.add(Calendar.DAY_OF_MONTH, days);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return sdf.format(calendar.getTime());
+        return calendar.getTimeInMillis();
     }
 
-    private LogDTO getInfoOfWeek(LogDTO logDTO, String startTime, String endTime) {
+    private LogDTO getInfoOfWeek(LogDTO logDTO, long startTime, long endTime) {
         List<Log> logs = logMapper.getInfoOfWeekByInterface(logDTO.getLog().getName(), startTime, endTime);
         if (logs == null)
         {
@@ -195,7 +196,7 @@ public class LogServiceImpl implements LogService{
         int healthStatusCount = 0;
 
         for (int x = 0, len = logs.size(); x < len; x++){
-            Long count = logs.get(x).getEndTime().getTime() - logs.get(x).getStartTime().getTime();
+            Long count = logs.get(x).getEndTime() - logs.get(x).getStartTime();
             count = count == 0 ? 500 : count;
             countTime += count;
 

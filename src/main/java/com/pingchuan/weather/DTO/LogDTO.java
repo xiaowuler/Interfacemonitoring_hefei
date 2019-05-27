@@ -3,6 +3,8 @@ package com.pingchuan.weather.DTO;
 import com.pingchuan.weather.Model.Log;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @description: Log输出类
  * @author: XW
@@ -35,6 +37,10 @@ public class LogDTO {
 
     //失败平均耗时
     private float failureConsumingAvg;
+
+    private Date startTime;
+
+    private Date endTime;
 
     private Log log;
 

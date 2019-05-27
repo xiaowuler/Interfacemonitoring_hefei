@@ -12,8 +12,8 @@ public class Log {
     private String caller;
     private Byte isSuccess;
     private String errorMessage;
-    private Timestamp startTime;
-    private Timestamp endTime;
+    private Long startTime;
+    private Long endTime;
     private String reserved1;
     private String reserved2;
     private String reserved3;

@@ -170,7 +170,7 @@
               `name` = #{name} order by startTime desc limit 0,#{count}
     </select>
 
-    <select id="findOneByCount" resultType="com.pingchuan.weather.Model.Log">
+    <select id="findAllByCallerAndNameAndStateAndTime" resultType="com.pingchuan.weather.Model.Log">
         SELECT
               `id` `id`,
              `name` `name`,
@@ -186,7 +186,13 @@
         FROM
               `logs`
         WHERE
-              `name` = #{name} and start_time between #{startTime} and #{endTime} and caller_id = #{callerId}
+              start_time between #{startTime} and #{endTime}
+              <if test="state != -1">
+                  and `name` = #{name}
+              </if>
+              <if test="callerId != '-1'">
+                  and and caller_id = #{callerId}
+              </if>
               <if test="state != -1">
                   and is_success = #{state}
               </if>

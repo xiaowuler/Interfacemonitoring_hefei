@@ -12,7 +12,6 @@ import com.pingchuan.weather.Service.LogService;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/log")

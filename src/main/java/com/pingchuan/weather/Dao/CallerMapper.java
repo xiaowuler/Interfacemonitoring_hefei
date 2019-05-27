@@ -16,5 +16,5 @@ public interface CallerMapper {
     
     List<Caller> findAll();
 
-    Caller findOneById(@Param("id") int id);
+    Caller findOneById(@Param("code") String code);
 }

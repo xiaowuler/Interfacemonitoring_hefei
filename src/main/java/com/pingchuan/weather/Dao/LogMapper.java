@@ -17,15 +17,15 @@ public interface LogMapper {
     
     List<Log> findAll();
 
-    List<Log> findAllLogName(@Param("startTime") String startTime, @Param("endTime") String endTime);
+    List<Log> findAllLogName(@Param("startTime") long startTime, @Param("endTime") long endTime);
 
-    List<Log> getInfoOfWeekByInterface(@Param("name") String name, @Param("startTime") String startTime, @Param("endTime") String endTime);
+    List<Log> getInfoOfWeekByInterface(@Param("name") String name, @Param("startTime") long startTime, @Param("endTime") long endTime);
 
-    int findOneByToday(@Param("name") String name, @Param("startTime") String startTime, @Param("endTime") String endTime);
+    int findOneByToday(@Param("name") String name, @Param("startTime") long startTime, @Param("endTime") long endTime);
 
     List<Log> findOneByCount(@Param("name") String name, @Param("count") int count);
 
     List<Log> findAllLogNames();
 
-    List<Log> findAllByCallerAndNameAndStateAndTime(@Param("name") String name, @Param("callerId") int callerId, @Param("startTime") Date startTime, @Param("endTime") Date endTime, @Param("state") int state);
+    List<Log> findAllByCallerAndNameAndStateAndTime(@Param("name") String name, @Param("callerId") int callerId, @Param("startTime") long startTime, @Param("endTime") long endTime, @Param("state") int state);
 }
