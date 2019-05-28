@@ -24,7 +24,7 @@ public class LogDTO {
     private float consumingAvg;
 
     //健康状态
-    private float healthStatus;
+    private float correctRate;
 
     //本天调用次数
     private int callNumberDay;

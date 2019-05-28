@@ -183,7 +183,7 @@ public class LogServiceImpl implements LogService{
         if (logs == null)
         {
             logDTO.setFailureRate(0);
-            logDTO.setHealthStatus(0);
+            logDTO.setCorrectRate(0);
             logDTO.setConsumingAvg(0);
             return logDTO;
         }
@@ -209,7 +209,7 @@ public class LogServiceImpl implements LogService{
 
         DecimalFormat df=new DecimalFormat("0.00");
         logDTO.setFailureRate(Float.parseFloat(df.format((float)failureRateCount / logs.size())));
-        logDTO.setHealthStatus(Float.parseFloat(df.format((float)healthStatusCount / logs.size())));
+        logDTO.setCorrectRate(Float.parseFloat(df.format((float)healthStatusCount / logs.size())));
         logDTO.setConsumingAvg(Float.parseFloat(df.format((float)countTime / logs.size())));
 
         return logDTO;
