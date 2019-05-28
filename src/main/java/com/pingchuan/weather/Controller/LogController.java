@@ -34,12 +34,14 @@ public class LogController{
     public void updateById(Log log){
         logService.updateById(log);
     }
-    
+
+    //首页接口信息分页
     @RequestMapping("/findAllByPage")
     public PageInfo<Log> findAllByPage(int pageNum, int pageSize){
         return logService.findAllByPage(pageNum, pageSize);
     }
 
+    //首页则线图
     @RequestMapping("/findAllByDate")
     public List<LogDTO> findAllByDate(){
         return logService.findAllByDate();
