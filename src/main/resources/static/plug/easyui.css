@@ -1475,8 +1475,6 @@
   margin-left: -1px;
 }
 .tabs li a.tabs-inner:hover {
-  background: #eaf2ff;
-  color: #000000;
   filter: none;
 }
 .tabs li.tabs-selected a.tabs-inner {

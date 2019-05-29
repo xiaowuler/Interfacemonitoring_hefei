@@ -1,0 +1,95 @@
+.bg{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    background: url("../images/login-bg.jpg") no-repeat center/cover;
+}
+
+.login{
+    width: 370px;
+    height: 321px;
+    margin-left: -185px;
+    margin-top: -160px;
+    padding: 0 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 1px solid #53556c;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background: #35374c;
+}
+
+.login-logo{
+    margin-top: 18px;
+    text-align: center;
+}
+
+.input-group{
+    margin-top: 15px;
+}
+
+.input-group label{
+    margin-bottom: 10px;
+    display: block;
+}
+
+.input-group input{
+    width: 100%;
+    padding: 0 10px;
+    line-height: 36px;
+    border: 1px solid #6b6c7b;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    font-size: 16px;
+    color: #dbdbdb;
+    background: transparent;
+}
+
+.input-checkbox i{
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    position: absolute;
+    top: 5px;
+    left: 0;
+    z-index: 0;
+    border: 1px solid #6b6c7b;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.input-checkbox{
+    margin-top: 5px;
+    position: relative;
+}
+
+.input-checkbox input{
+    margin-top: 6px;
+    margin-right: 3px;
+    position: relative;
+    z-index: 1;
+    font-size: 14px;
+    opacity: 0;
+}
+
+.input-checkbox input[type='checkbox']:checked+i{
+    background: url("../images/icon-checked.png") no-repeat center;
+}
+
+.login-btn{
+    width: 100%;
+    margin-top: 15px;
+    line-height: 36px;
+    color: #ffffff;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background: #59bbd9;
+}

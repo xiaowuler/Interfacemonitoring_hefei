@@ -2,6 +2,7 @@ var App = function () {
 
     this.Startup = function () {
         this.ReLayout();
+        this.ReLoadTableData();
         this.ReloadPortTable();
         this.CalendarControl();
         this.SetSelectPanel();
@@ -9,10 +10,38 @@ var App = function () {
     };
 
     this.ReLayout = function () {
-        var height = $('.content').height();
-        $('.aside').height(height);
+        var width = $('.content').width();
+        var windowHeight = $(window).height();
+        $('.aside').height(windowHeight - 70);
+        $('.datagrid').width(width - 20);
+        $('.log-table').width(width - 20);
+        $('.log-table,.datagrid-wrap').height(windowHeight - 475);
+    };
 
-        $('.port-table, .datagrid').width($('.content').width() - 10);
+    this.ReLoadTableData = function () {
+        var params = this.GetParams();
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            data: {
+                pageNum: 1,
+                pageSize: 10
+            },
+            url: 'log/findAllByCallerAndNameAndStateAndTime',
+            success: function (result) {
+                console.log(result);
+                $('#log-table').datagrid('loadData', result.list);
+            }.bind(this)
+        });
+    };
+
+    this.GetParams = function () {
+        return{
+            name: 'name',
+            startTime: $('#start-date').val(),
+            endTime: 'aa',
+            state: 1
+        }
     };
 
     this.ReloadPortTable = function () {

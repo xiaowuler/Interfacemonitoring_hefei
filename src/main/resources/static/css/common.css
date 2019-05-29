@@ -37,7 +37,7 @@
 }
 
 .aside h2{
-    padding-left: 45px;
+    padding-left: 35px;
     line-height: 36px;
     font-size: 16px;
     background: #53556c;
@@ -73,6 +73,10 @@
 
 .aside .icon-configure a {
     background: url("../images/icon-configure.png") no-repeat left;
+}
+
+.aside .icon-debug a{
+    background: url("../images/icon-debug.png") no-repeat left;
 }
 
 .aside .level-second-menu.active:after,

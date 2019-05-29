@@ -41,7 +41,7 @@ public class LogController{
         return logService.findAllByPage(pageNum, pageSize);
     }
 
-    //首页则线图
+    //首页折线图
     @RequestMapping("/findAllByDate")
     public List<LogDTO> findAllByDate(){
         return logService.findAllByDate();

@@ -1,179 +1,159 @@
 var App = function () {
+    this.result = null;
 
     this.Startup = function () {
-        this.ReLayout()
+        this.ReLayout();
+        this.ReLoadChartData();
         this.ReloadPortTable();
+        this.ReLoadTableData();
         this.ReloadPortChart();
+
         window.onresize = this.ReLayout.bind(this);
     };
 
     this.ReLayout = function () {
-        var height = $('.content').height();
-        $('.aside').height(height);
-        $('.port-table, .datagrid').width($('.content').width() - 10);
+        var windowHeight = $(window).height();
+        $('.aside').height(windowHeight - 70);
+        $('.datagrid').width($('.content').width() - 20);
+        $('.port-table').width($('.content').width() - 20);
+        $('.port-table,.datagrid-wrap').height(windowHeight - 475);
     };
 
-    this.ReloadPortTable = function () {
-        $('#port-table').datagrid({
-            striped: true,
-            singleSelect: true,
-            fitColumns: true,
-            fit: true,
-            pagination: true,
-            pageNumber: 1,
-            pageSize: 10,
-            pageList: [5, 10, 15]
+    this.ReLoadChartData = function () {
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            url: 'log/findAllByDate',
+            success: function (result) {
+                //console.log(result);
+                this.result = result;
+                this.SetChartData(this.result)
+            }.bind(this)
         });
     };
 
-    this.ReloadPortChart = function () {
-        //Highcharts.chart('port-chart', {
-        //    chart: {
-        //        type: 'column',
-        //        backgroundColor: '#27293d'
-        //    },
-        //    title: {
-        //        text: '接口基础信息',
-        //        style:{
-        //            color: '#dbdbdb',
-        //            fontSize: '20px'
-        //        }
-        //    },
-        //    credits: {
-        //        enabled: false
-        //    },
-        //    xAxis: {
-        //        categories: ['接口A', '接口B', '接口C', '接口D', '接口E', '接口F', '接口G', '接口H', '接口I', '接口J', '接口K', '接口L', '接口M', '接口N']
-        //    },
-        //    yAxis: [{
-        //        title: {
-        //            text: '正确率'
-        //        }
-        //    }, {
-        //        title: {
-        //            text: '调用次数'
-        //        },
-        //        minPadding: 0,
-        //        maxPadding: 0,
-        //        max: 100,
-        //        min: 0,
-        //        opposite: true,
-        //        labels: {
-        //            format: "{value}",
-        //            style: {
-        //                color: '#9a9a9a',
-        //                fontSize: '14px'
-        //            }
-        //        }
-        //    }, {
-        //        title: {
-        //            text: '失败率'
-        //        },
-        //        minPadding: 0,
-        //        maxPadding: 0,
-        //        max: 100,
-        //        min: 0,
-        //        opposite: true,
-        //        labels: {
-        //            format: "{value}",
-        //            style: {
-        //                color: '#9a9a9a',
-        //                fontSize: '14px'
-        //            }
-        //        }
-        //    }, {
-        //        title: {
-        //            text: '平均耗时'
-        //        },
-        //        minPadding: 0,
-        //        maxPadding: 0,
-        //        max: 100,
-        //        min: 0,
-        //        opposite: true,
-        //        labels: {
-        //            format: "{value}",
-        //            style: {
-        //                color: '#9a9a9a',
-        //                fontSize: '14px'
-        //            }
-        //        }
-        //    }  , {
-        //            title: {
-        //                text: '健康状态'
-        //            },
-        //            minPadding: 0,
-        //            maxPadding: 0,
-        //            max: 100,
-        //            min: 0,
-        //            opposite: true,
-        //            labels: {
-        //                format: "{value}",
-        //                style: {
-        //                    color: '#9a9a9a',
-        //                    fontSize: '14px'
-        //                }
-        //            }
-        //    }],
-        //    legend: {
-        //        layout: 'horizontal',
-        //        align: 'center',
-        //        verticalAlign: 'top',
-        //        x: -20,
-        //        y: -20,
-        //        itemStyle: {
-        //            color: '#9a9a9a',
-        //            fontSize: '14px'
-        //        }
-        //    },
-        //    series: [{
-        //        type: 'pareto',
-        //        name: '调用次数',
-        //        yAxis: 1,
-        //        zIndex: 10,
-        //        pointWidth: 30,
-        //        baseSeries: 1,
-        //        data: [12, 5, 15, 26, 12, 31, 36, 10, 21, 36, 22, 31, 36, 11],
-        //        tooltip: {
-        //            pointFormat: '{series.name} {point.y:2f} '
-        //        }
-        //    }, {
-        //        name: '正确率',
-        //        type: 'column',
-        //        zIndex: 2,
-        //        pointWidth: 30,
-        //        data: [12, 5, 15, 26, 12, 31, 36, 10, 21, 36, 22, 31, 36, 11],
-        //        tooltip: {
-        //            pointFormat: '{series.name} {point.y} %'
-        //        }
-        //    }, {
-        //        name: '失败率',
-        //        type: 'pareto',
-        //        zIndex: 2,
-        //        pointWidth: 30,
-        //        data: [12, 5, 15, 26, 12, 21, 36, 10, 21, 36, 32, 31, 36, 11],
-        //        tooltip: {
-        //            pointFormat: '{series.name} {point.y} %'
-        //        }
-        //    }, {
-        //        name: '平均耗时',
-        //        type: 'pareto',
-        //        zIndex: 2,
-        //        pointWidth: 30,
-        //        data: [1, 0.5, 1.5, 2, 2, 1, 0.5, 0.5, 2, 2, 1.5, 0.5, 0.5, 1],
-        //        tooltip: {
-        //            pointFormat: '{series.name} {point.y} %'
-        //        }
-        //    }, {
-        //        name: '健康状态',
-        //        type: 'pareto',
-        //        zIndex: 2,
-        //        pointWidth: 30,
-        //        data: [12, 5, 15, 16, 22, 11, 26, 30, 11, 26, 12, 11, 26, 11],
-        //        tooltip: {
-        //            pointFormat: '{series.name} {point.y} %'
-        //        }
-        //    }]
-        //});
+    this.ReLoadTableData = function () {
+        var params = this.GetParams();
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            data: params,
+            url: 'log/findAllByState',
+            success: function (result) {
+                console.log(result);
+                $('#port-table').datagrid('loadData', result.list);
+            }.bind(this)
+        });
+    };
+
+    this.GetParams = function () {
+        var options = $('#port-table').datagrid("getPager" ).data("pagination" ).options;
+        var size = options.pageSize;
+        return {
+            pageNum: 1,
+            pageSize: size
+        };
+    };
+
+    this.SetChartData = function (result) {
+        this.result = result;
+        var yMarks = [];
+        var elementSeries = [];
+        var xMarks = this.GetChartXMarks();
+        var titles = this.SetChartTitle();
+        titles.forEach(function (title) {
+            var opposite = title === '成功率' ? false : true;
+            var yAxis = this.GetChartYAxis(title, opposite);
+            yMarks.push(yAxis);
+
+            var type = title === '成功率' ? 'column' : 'pareto';
+            var values = this.GetChartElementValues(title);
+            var series = this.GetChartElementSerie(type, title, values, yMarks.length - 1);
+            elementSeries.push(series);
+        }.bind(this));
+        this.ReloadPortChart(xMarks, yMarks, elementSeries);
+    };
+
+    this.SetChartTitle = function () {
+        var titles = ['成功率', '调用次数', '失败率', '平均耗时'];
+        return titles;
+    };
+
+    this.GetChartXMarks = function () {
+        var marks = [];
+
+        this.result.forEach(function (item, index) {
+            var port = item.log.name;
+            marks.push(port)
+        }.bind(this));
+
+        return marks;
+    };
+
+    this.GetChartElementValues = function (title) {
+        var values = [];
+
+        this.result.forEach(function (value) {
+            var seconds = (value.consumingAvg) * 0.001;
+            if (title === '成功率')
+                values.push(value.successRate);
+            else if (title === '调用次数')
+                values.push(value.callNumber);
+            else if (title === '失败率')
+                values.push(value.failureRate);
+            else if (title === '平均耗时')
+                values.push(seconds);
+        }.bind(this));
+
+        return values;
+    };
+
+    this.GetChartYAxis = function (title, opposite) {
+        return {
+            title: {
+                text: title,
+                style: {
+                    fontFamily: '微软雅黑'
+                }
+            },
+            opposite: opposite,
+            minPadding: 0,
+            maxPadding: 0,
+            labels: {
+                formatter: function () {
+                    return this.value;// + '%';
+                }
+            }
+        };
+    };
+
+    this.GetChartElementSerie = function (type, name, values, yAxisIndex) {
+        var unit = this.SetUnit(name);
+        return {
+            type: type,
+            name: name,
+            yAxis: yAxisIndex,
+            data: values,
+            pointWidth: 30,
+            tooltip: {
+                headerFormat: '接口名：{point.x}<br>',
+                pointFormat: '{series.name}：{point.y:.2f}' + unit
+            }
+        };
+    };
+
+    this.SetUnit = function (name) {
+        if (name === '成功率')
+            return '%';
+        else if (name === '调用次数')
+            return '次';
+        else if (name === '失败率')
+            return '%';
+        else if (name === '平均耗时')
+            return 's';
+    };
+
+    this.ReloadPortChart = function (xMarks, yMarks, elementSeries) {
         Highcharts.chart('port-chart', {
             chart: {
                 type: 'column',
@@ -194,24 +174,10 @@ var App = function () {
             },
             colors: ['#1c96d5', '#ff5ee0', '#f7a45c', '#00ffff', '#1c96d5'],
             xAxis: {
-                categories: ['接口A', '接口B', '接口C', '接口D', '接口E', '接口F', '接口G', '接口H', '接口I', '接口J', '接口K', '接口L', '接口M', '接口N'],
+                categories: xMarks,
                 lineColor: '#999999'
             },
-            yAxis: {
-                title: {
-                    text: '正确率（%）'
-                },
-                labels: {
-                    format: "{value}",
-                    style: {
-                        color: '#9a9a9a',
-                        fontSize: '14px'
-                    }
-                },
-                gridLineDashStyle: 'ShortDot',
-                lineColor: '#999999',
-                lineWidth: 1
-            },
+            yAxis: yMarks,
             legend: {
                 layout: 'horizontal',
                 align: 'center',
@@ -223,10 +189,6 @@ var App = function () {
                     fontSize: '14px'
                 }
             },
-            //tooltip: {
-            //    crosshairs: true,
-            //    shared: true
-            //},
             plotOptions: {
                 spline: {
                     marker: {
@@ -239,26 +201,52 @@ var App = function () {
                     borderWidth: 0
                 }
             },
-            series: [{
-                name: '调用次数',
-                pointWidth: 30,
-                data: [12, 5, 15, 26, 12, 31, 36, 10, 21, 36, 22, 31, 36, 11]
-            }, {
-                name: '失败率',
-                type: 'pareto',
-                data: [12, 5, 15, 26, 12, 21, 36, 10, 21, 36, 32, 31, 36, 11]
-            }, {
-                name: '平均耗时',
-                type: 'pareto',
-                data: [1, 0.5, 1.5, 2, 2, 1, 0.5, 0.5, 2, 2, 1.5, 0.5, 0.5, 1]
-            }, {
-                name: '健康状态',
-                type: 'pareto',
-                data: [12, 5, 15, 16, 22, 11, 26, 30, 11, 26, 12, 11, 26, 11]
-            }]
+            series: elementSeries
         });
     };
 
+    this.ReloadPortTable = function () {
+        var width = $(window).width();
+        $('#port-table').datagrid({
+            columns: [[
+                { field: 'name', title: '分类', align: 'center', width: width * 0.12},
+                { field: 'callNumberDay', title: '本天内调用次数', align: 'center', width: width * 0.2},
+                { field: 'successRate', title: '成功率（%）', align: 'center', width: width * 0.2},
+                { field: 'successConsumingAvg', title: '成功平均耗时（s）', align: 'center', width: width * 0.2, formatter: this.TimeFormatter.bind(this) },
+                { field: 'failureConsumingAvg', title: '失败平均耗时（s）', align: 'center', width: width * 0.2, formatter: this.TimeFormatter.bind(this) }
+            ]],
+            striped: true,
+            singleSelect: true,
+            fitColumns: true,
+            fit: true,
+            pagination: true,
+            pageNumber: 1,
+            pageSize: 10,
+            pageList: [5, 10, 15],
+            loadMsg: '正在加载数据，请稍后...',
+            onBeforeLoad: this.OnTableGridBeforeLoad.bind(this),
+            onLoadSuccess: this.OnTableGridLoaded.bind(this)
+        });
+    };
+
+    this.TimeFormatter = function (value, row) {
+        var item = value === 0 ? value : (value * 0.001).toFixed(2);
+        return item;
+    };
+
+    this.OnTableGridBeforeLoad = function () {
+        $('#port-table').datagrid('getPager').pagination({
+            beforePageText: '第',
+            afterPageText: '页&nbsp;&nbsp;&nbsp;共{pages}页',
+            displayMsg: '当前显示{from}-{to}条记录&nbsp;&nbsp;&nbsp;共{total}条记录',
+            layout: ['list', 'sep', 'first', 'prev', 'sep', 'manual', 'sep', 'next', 'last', 'sep', 'refresh', 'info']
+        });
+    };
+
+    this.OnTableGridLoaded = function (data) {
+        $('#port-table').datagrid('selectRow', 0);
+        //this.ReLayout();
+    };
 };
 
 $(document).ready(function () {
