@@ -4,6 +4,7 @@
 }
 
 .port-instruct{
+    margin-bottom: 10px;
     padding: 0 10px;
 }
 
@@ -13,28 +14,54 @@
     line-height: 27px;
 }
 
-.port-param{
-    margin: 10px 0;
-    padding: 0 10px;
-}
-
 .port-param table{
     width: 100%;
 }
 
-.port-param table td{
+.port-des{
+    margin-top: 10px;
+    position: relative;
+}
+
+.port-des span{
+    width: 150px;
+    float: left;
+    margin-right: 10px;
+    display: block;
     line-height: 36px;
     text-align: center;
+    background: #2f3144;
+}
+
+.port-des span.port-name{
+}
+
+.port-des span.port-explain{
+    width: 50px;
+    margin-right: 2px;
+}
+
+.port-des span.explain-txt{
+    width: calc(100% - 382px);
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.port-des span.explain-txt input{
+    text-align: left;
+    padding-left: 10px;
 }
 
 .port-param table tr:nth-of-type(even){
     background: #2f3144;
 }
 
-.port-param table input{
+.port-des input{
     width: calc(100% - 10px);
     height: 36px;
     margin: 0 auto;
+    display: block;
     text-align: center;
     color: #dbdbdb;
     font-size: 16px;

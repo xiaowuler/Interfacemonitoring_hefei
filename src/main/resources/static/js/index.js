@@ -12,10 +12,11 @@ var App = function () {
     };
 
     this.ReLayout = function () {
+        var width = $('.content').width();
         var windowHeight = $(window).height();
         $('.aside').height(windowHeight - 70);
-        $('.datagrid').width($('.content').width() - 20);
-        $('.port-table').width($('.content').width() - 20);
+        $('.datagrid').width(width - 20);
+        $('.port-table').width(width - 20);
         $('.port-table,.datagrid-wrap').height(windowHeight - 475);
     };
 
