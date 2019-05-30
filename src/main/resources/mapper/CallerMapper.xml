@@ -29,12 +29,11 @@
     <update id="updateById" parameterType="com.pingchuan.weather.Model.Caller">
         UPDATE `callers`
         <set>
-            <if test="code != null"> `code` = #{code}, </if>
             <if test="name != null"> `name` = #{name}, </if>
             <if test="key != null"> `key` = #{key}, </if>
             <if test="enabled != null"> `enabled` = #{enabled}, </if>
         </set>
-        where `id` = #{id}
+        where `code` = #{code}
         
     </update>
     

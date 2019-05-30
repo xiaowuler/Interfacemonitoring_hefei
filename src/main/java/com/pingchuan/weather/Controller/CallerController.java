@@ -32,6 +32,11 @@ public class CallerController{
     public void updateById(Caller caller){
         callerService.updateById(caller);
     }
+
+    @RequestMapping("/update")
+    public void update(String name, String code, String key, byte enable){
+        callerService.update(name, code, key, enable);
+    }
     
     @RequestMapping("/findAllByPage")
     public PageInfo<Caller> findAllByPage(int pageNum, int pageSize){

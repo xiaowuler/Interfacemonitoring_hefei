@@ -19,4 +19,6 @@ public interface CallerService{
     List<Caller> findAllByEnable();
 
     void insertOne(String name, String code, String key, byte enable);
+
+    void update(String name, String code, String key, byte enable);
 }

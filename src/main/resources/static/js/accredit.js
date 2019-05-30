@@ -4,20 +4,22 @@ var App = function () {
     this.Startup = function () {
         this.ReLayout();
         this.ReloadPortTable();
-        this.ReloadTableData();
+        this.ReloadData();
         $('#add').on('click', this.OnAddButtonClick.bind(this));
         $('#add-close').on('click', this.AddDialogHide.bind(this));
-        $('#add-sure').on('click', this.AddDialogHide.bind(this));
+        $('#add-sure').on('click', this.AddData.bind(this));
         $('#add-quit').on('click', this.AddDialogHide.bind(this));
         $('#add-switch a').on('click', this.OnSwitchButtonClick.bind(this));
+        $('#add-create-key').on('click', this.AddDialogCreateKey.bind(this));
 
         $('#edit').on('click', this.OnEditButtonClick.bind(this));
         $('#edit-close').on('click', this.EditDialogHide.bind(this));
-        $('#edit-sure').on('click', this.EditDialogHide.bind(this));
+        $('#edit-sure').on('click', this.InsertData.bind(this));
         $('#edit-quit').on('click', this.EditDialogHide.bind(this));
         $('#edit-switch a').on('click', this.OnSwitchButtonClick.bind(this));
         $('#delete').on('click', this.OnDeleteButtonClick.bind(this));
         window.onresize = this.ReLayout.bind(this);
+
     };
 
     this.ReLayout = function () {
@@ -29,7 +31,7 @@ var App = function () {
         $('.accredit-table,.datagrid-wrap').height(windowHeight - 130);
     };
 
-    this.ReloadTableData = function () {
+    this.ReloadData = function () {
         var params = this.GetParams();
         $.ajax({
             type: "POST",
@@ -98,12 +100,35 @@ var App = function () {
         $('.dialog-bg').hide();
     };
 
-    this.createUUID = function () {
+    this.AddData = function () {
+        this.AddDialogHide();
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            data: {
+                name: $('#add-name').val(),
+                code: $('#add-number').val(),
+                key: $('#add-key').val(),
+                enable: $('#add-switch').hasClass('switch-on') ? 1 : 0
+            },
+            url: 'caller/insertOne',
+            success: function (result) {
+                this.ReloadData();
+            }.bind(this)
+        });
+    };
+
+    this.AddDialogCreateKey = function () {
+        var uuId = this.CreateUUID();
+        $('#add-key').attr('value', uuId);
+    };
+
+    this.CreateUUID = function () {
         return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
             var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
-    }
+    };
 
     this.OnEditButtonClick = function () {
         $('.dialog-edit').show();
@@ -124,6 +149,25 @@ var App = function () {
     this.EditDialogHide = function () {
         $('.dialog-edit').hide();
         $('.dialog-bg').hide();
+    };
+
+    this.InsertData = function () {
+        this.EditDialogHide();
+        this.AddDialogHide();
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            data: {
+                name: $('#edit-name').val(),
+                code: $('#edit-number').val(),
+                key: $('#edit-key').val(),
+                enable: $('#edit-switch').hasClass('switch-on') ? 1 : 0
+            },
+            url: 'caller/update',
+            success: function (result) {
+                this.ReloadData();
+            }.bind(this)
+        });
     };
 
     this.OnSwitchButtonClick = function (event) {
