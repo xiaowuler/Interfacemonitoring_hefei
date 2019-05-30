@@ -58,8 +58,8 @@ public class LogController{
     }
 
     @RequestMapping("/findAllByCallerAndNameAndStateAndTime")
-    public PageInfo<LogDTO> findAllByCallerAndNameAndStateAndTime(String name, int callerId, Date startTime, Date endTime, int state, int pageNum, int pageSize){
-        return logService.findAllByCallerAndNameAndStateAndTime(name, callerId, startTime, endTime, state, pageNum, pageSize);
+    public PageInfo<LogDTO> findAllByCallerAndNameAndStateAndTime(String name, String callerCode, Date startTime, Date endTime, int state, int pageNum, int pageSize){
+        return logService.findAllByCallerAndNameAndStateAndTime(name, callerCode, startTime, endTime, state, pageNum, pageSize);
     }
 
 

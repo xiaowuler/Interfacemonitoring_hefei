@@ -187,11 +187,11 @@
               `logs`
         WHERE
               start_time between #{startTime} and #{endTime}
-              <if test="state != -1">
+              <if test="name != '全部'">
                   and `name` = #{name}
               </if>
-              <if test="callerId != '-1'">
-                  and and caller_id = #{callerId}
+              <if test="callerCode != '-1'">
+                  and and code = #{callerCode}
               </if>
               <if test="state != -1">
                   and is_success = #{state}

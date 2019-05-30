@@ -27,5 +27,5 @@ public interface LogMapper {
 
     List<Log> findAllLogNames();
 
-    List<Log> findAllByCallerAndNameAndStateAndTime(@Param("name") String name, @Param("callerId") int callerId, @Param("startTime") long startTime, @Param("endTime") long endTime, @Param("state") int state);
+    List<Log> findAllByCallerAndNameAndStateAndTime(@Param("name") String name, @Param("callerCode") String callerCode, @Param("startTime") long startTime, @Param("endTime") long endTime, @Param("state") int state);
 }

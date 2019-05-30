@@ -1,5 +1,6 @@
 package com.pingchuan.weather.Service.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.PageHelper;
@@ -39,6 +40,11 @@ public class CallerServiceImpl implements CallerService{
 
     @Override
     public List<Caller> findAllByEnable() {
-        return callerMapper.findAll();
+        ArrayList<Caller> callers =  (ArrayList<Caller>) callerMapper.findAll();
+        Caller caller = new Caller();
+        caller.setName("全部");
+        caller.setCode("-1");
+        callers.add(0, caller);
+        return callers;
     }
 }

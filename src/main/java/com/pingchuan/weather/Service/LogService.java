@@ -25,5 +25,5 @@ public interface LogService{
 
     List<Log> findAllLogName();
 
-    PageInfo<LogDTO> findAllByCallerAndNameAndStateAndTime(String name, int callerId, Date startTime, Date endTime, int state, int pageNum, int pageSize);
+    PageInfo<LogDTO> findAllByCallerAndNameAndStateAndTime(String name, String callerId, Date startTime, Date endTime, int state, int pageNum, int pageSize);
 }

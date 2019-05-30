@@ -49,4 +49,6 @@ public class LogDTO {
 
     //调用者
     private String callerName;
+
+    private String name;
 }

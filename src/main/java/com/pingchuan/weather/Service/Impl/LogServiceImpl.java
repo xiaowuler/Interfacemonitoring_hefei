@@ -68,6 +68,7 @@ public class LogServiceImpl implements LogService{
         for (Log log : logs){
             logDTO = new LogDTO();
             logDTO.setLog(log);
+            logDTO.setName(log.getName());
             logDTO = getInfoOfWeek(logDTO, startTime, endTime);
             logDTOS.add(logDTO);
         }
@@ -93,6 +94,7 @@ public class LogServiceImpl implements LogService{
         for (Log log : logs){
             logDTO = new LogDTO();
             logDTO.setLog(log);
+            logDTO.setName(log.getName());
             logDTO.setCallNumberDay(getTodayCallNumber(logDTO.getLog().getName(), startTime, lastTime));
             logDTO.setSuccessRate(getOneSuccessRate(successRateConfig, logDTO.getLog().getName()));
             logDTO.setSuccessConsumingAvg(getOneConsumingAvg(1, logDTO.getLog().getName(), Integer.parseInt(successConsumingAvgConfig.getValue())));
@@ -105,11 +107,15 @@ public class LogServiceImpl implements LogService{
 
     @Override
     public List<Log> findAllLogName() {
-        return logMapper.findAllLogNames();
+        ArrayList<Log> logNames = (ArrayList<Log>) logMapper.findAllLogNames();
+        Log log = new Log();
+        log.setName("全部");
+        logNames.add(0, log);
+        return logNames;
     }
 
     @Override
-    public PageInfo<LogDTO> findAllByCallerAndNameAndStateAndTime(String name, int callerId, Date startTime, Date endTime, int state, int pageNum, int pageSize) {
+    public PageInfo<LogDTO> findAllByCallerAndNameAndStateAndTime(String name, String callerId, Date startTime, Date endTime, int state, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
 
         List<Log> logs = logMapper.findAllByCallerAndNameAndStateAndTime(name, callerId, startTime.getTime(), endTime.getTime(), state);
