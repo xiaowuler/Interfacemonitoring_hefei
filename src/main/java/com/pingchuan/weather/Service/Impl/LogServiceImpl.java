@@ -130,7 +130,7 @@ public class LogServiceImpl implements LogService{
             Caller caller = callerMapper.findOneById(log.getCaller());
             logDTO.setCallerName(caller.getName());
             logDTO.setLog(log);
-
+            logDTO.setName(log.getName());
             logDTO.setStartTime(new Date(log.getStartTime()));
             logDTO.setEndTime(new Date(log.getEndTime()));
             logDTOS.add(logDTO);
