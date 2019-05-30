@@ -26,7 +26,7 @@ var App = function () {
             dataType: 'json',
             url: 'log/findAllByDate',
             success: function (result) {
-                //console.log(result);
+                console.log(result);
                 this.result = result;
                 this.SetChartData(this.result)
             }.bind(this)
@@ -222,8 +222,8 @@ var App = function () {
             fit: true,
             pagination: true,
             pageNumber: 1,
-            pageSize: 10,
-            pageList: [5, 10, 15],
+            pageSize: 2,
+            pageList: [1, 2, 3],
             loadMsg: '正在加载数据，请稍后...',
             onBeforeLoad: this.OnTableGridBeforeLoad.bind(this),
             onLoadSuccess: this.OnTableGridLoaded.bind(this)
@@ -231,7 +231,7 @@ var App = function () {
     };
 
     this.TimeFormatter = function (value, row) {
-        var item = value === 0 ? value : (value * 0.001).toFixed(2);
+        var item = value === 0 ? value : (value * 0.001).toFixed(4);
         return item;
     };
 

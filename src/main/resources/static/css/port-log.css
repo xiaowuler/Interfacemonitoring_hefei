@@ -49,23 +49,31 @@
 }
 
 .textbox-width .textbox{
-    width: 92px!important;
+    width: 280px!important;
 }
 
 .textbox-width .textbox .textbox-text{
-    width: 63px!important;
+    width: 248px!important;
 }
 
 .toolbar-caller .textbox{
-    width: 145px!important;
+    width: 245px!important;
 }
 
 .toolbar-caller .textbox .textbox-text{
-    width: 116px!important;
+    width: 216px!important;
 }
 
 .toolbar-time .textbox{
     width: 203px!important;
+}
+
+.toolbar-state .textbox .textbox-text{
+    width: 72px!important;
+}
+
+.toolbar-state .textbox{
+    width: 103px!important;
 }
 
 .panel:nth-of-type(5) .combo-panel,
@@ -90,8 +98,9 @@
     border-right: 1px solid #95B8E7!important;
 }
 
-.log-table{
-    height: 455px;
+#log-table{
+    width: 100%;
+    height: 100%;
 }
 
 .log-table .success{
@@ -146,4 +155,8 @@
     word-break: break-all;
     overflow: hidden;
 
+}
+
+.combo-panel{
+    height: auto!important;
 }

@@ -56,33 +56,17 @@
             <div class="toolbar clearfix">
                 <div class="toolbar-name toolbar-mr textbox-width fl">
                     <span class="toolbar-title">名称</span>
-                    <select class="easyui-combobox" id="name" name="name" labelPosition="top" editable="false">
-                        <option value="全部">全部</option>
-                        <option value="接口A">接口A</option>
-                        <option value="接口B">接口B</option>
-                        <option value="接口C">接口C</option>
-                        <option value="接口D">接口D</option>
-                        <option value="接口E">接口E</option>
-                        <option value="接口F">接口F</option>
-                        <option value="接口G">接口G</option>
-                        <option value="接口H">接口H</option>
-                        <option value="接口I">接口I</option>
-                        <option value="接口J">接口J</option>
-                    </select>
+                    <select class="easyui-combobox" id="name" name="name" labelPosition="top" editable="false"></select>
                 </div>
                 <div class="toolbar-caller toolbar-mr fl">
                     <span class="toolbar-title">调用者</span>
-                    <select class="easyui-combobox" id="caller" name="caller" labelPosition="top" editable="false">
-                        <option value="全部">全部</option>
-                        <option value="短信发送平台">短信发送平台</option>
-                        <option value="邮箱发送平台">邮箱发送平台</option>
-                    </select>
+                    <select class="easyui-combobox" id="caller" name="caller" labelPosition="top" editable="false"></select>
                 </div>
                 <div class="toolbar-time toolbar-mr fl">
                     <span class="toolbar-title fl">起止时间</span>
-                    <div class="fl"><input class="easyui-datetimebox" id="start-date" data-options="editable:false" value=" "></div>
+                    <div class="fl"><input class="easyui-datebox" id="start-date" data-options="editable:false" value=" "></div>
                     <div class="symbol fl">~</div>
-                    <div class="fl"><input class="easyui-datetimebox" id="end-date" data-options="editable:false" value=" "></div>
+                    <div class="fl"><input class="easyui-datebox" id="end-date" data-options="editable:false" value=" "></div>
                 </div>
                 <div class="toolbar-state toolbar-mr textbox-width fl">
                     <span class="toolbar-title">状态</span>
@@ -96,7 +80,7 @@
             </div>
             <div class="log-table table bg">
                 <table id="log-table">
-                    <thead>
+                    <!--<thead>
                     <tr>
                         <th data-options="field:'Name',width:$(this).width() * 0.12,align:'center'">名称</th>
                         <th data-options="field:'State',width:$(this).width() * 0.12,align:'center'">状态</th>
@@ -195,7 +179,7 @@
                         <td>2019/05/13 10:45:18</td>
                         <td>0.9</td>
                     </tr>
-                    </tbody>
+                    </tbody>-->
                 </table>
             </div>
         </div>
