@@ -38,6 +38,11 @@ public class CallerController{
         return callerService.findAllByPage(pageNum, pageSize);
     }
 
+    @RequestMapping("/insertOne")
+    public void insertOne(String name, String code, String key, byte enable){
+        callerService.insertOne(name, code, key, enable);
+    }
+
     @RequestMapping("/findAllByEnable")
     public List<Caller> findAllByEnable(){
         return callerService.findAllByEnable();

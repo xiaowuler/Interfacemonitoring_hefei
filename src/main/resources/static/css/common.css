@@ -367,9 +367,12 @@
     background: #27293d;
 }
 
-.table .datagrid-row-selected,
-.table .datagrid-row-over{
+.table .datagrid-row-selected{
     background: #3b3d54;
+}
+
+.table .datagrid-row-over{
+    background: #59bbd9;
 }
 
 .table .datagrid-pager {

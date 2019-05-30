@@ -17,4 +17,6 @@ public interface CallerService{
     PageInfo<Caller> findAllByPage(int pageNum, int pageSize);
 
     List<Caller> findAllByEnable();
+
+    void insertOne(String name, String code, String key, byte enable);
 }

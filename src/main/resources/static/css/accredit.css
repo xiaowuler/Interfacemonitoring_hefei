@@ -7,6 +7,7 @@
     border-top: 1px solid #3b3d51;
 }
 
-.table .datagrid-body{
-    height: 710px!important;
+#accredit-table{
+    width: 100%;
+    height: 100%;
 }

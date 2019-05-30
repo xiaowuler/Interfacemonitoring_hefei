@@ -4,10 +4,12 @@ var App = function () {
         this.ReLayout();
         this.CalendarControl();
         this.ReloadPortTable();
-        this.ReLoadTableData();
         this.SetSelectPanel();
         this.ReLoadPortComboBoxData();
         this.ReLoadCallerComboBoxData();
+        $('#query-btn').on('click', this.OnQueryButtonClick.bind(this));
+
+        $('#query-btn').trigger("click");
         window.onresize = this.ReLayout.bind(this);
     };
 
@@ -59,7 +61,6 @@ var App = function () {
             data: params,
             url: 'log/findAllByCallerAndNameAndStateAndTime',
             success: function (result) {
-                console.log(result);
                 $('#log-table').datagrid('loadData', result.list);
             }.bind(this)
         });
@@ -68,12 +69,15 @@ var App = function () {
     this.GetParams = function () {
         var options = $('#log-table').datagrid("getPager" ).data("pagination" ).options;
         var size = options.pageSize;
+        var name = $('#name').combobox('getValue');
+        var caller = $('#caller').combobox('getValue');
+        var state = $('#state').combobox('getValue');
         return{
-            name : $('#name').combobox('getValue') === '' ? '全部' : $('#name').combobox('getValue'),
-            callerCode: $('#caller').combobox('getValue') === '' ? '-1' : $('#caller').combobox('getValue'),
+            name : name === '' ? '全部' : name,
+            callerCode: caller === '' ? '-1' : caller,
             startTime: $('#start-date').datebox('getValue'),
             endTime: $('#end-date').datebox('getValue'),
-            state: $('#state').combobox('getValue') === '全部' ? -1 : $('#state').combobox('getValue') === '成功' ? 1 : 0,
+            state: state === '全部' ? -1 : state === '成功' ? 1 : 0,
             pageNum: 1,
             pageSize: size
         }
@@ -84,11 +88,11 @@ var App = function () {
         $('#log-table').datagrid({
             columns: [[
                 { field: 'name', title: '名称', align: 'center', width: width * 0.12},
-                { field: '状态', title: '状态', align: 'center', width: width * 0.12},
-                { field: '调用者', title: '调用者', align: 'center', width: width * 0.2},
-                { field: '开发时间', title: '开发时间', align: 'center', width: width * 0.2},
-                { field: '结束时间', title: '结束时间', align: 'center', width: width * 0.2},
-                { field: '结束时间', title: '耗时（s）', align: 'center', width: width * 0.2, formatter: this.TimeFormatter.bind(this)}
+                { field: 'state', title: '状态', align: 'center', width: width * 0.12, formatter: this.StateFormatter.bind(this)},
+                { field: 'callerName', title: '调用者', align: 'center', width: width * 0.2},
+                { field: 'startTime', title: '开发时间', align: 'center', width: width * 0.2, formatter: this.DateFormatter.bind(this)},
+                { field: 'endTime', title: '结束时间', align: 'center', width: width * 0.2, formatter: this.DateFormatter.bind(this)},
+                { field: 'consumingAvg', title: '耗时（s）', align: 'center', width: width * 0.2, formatter: this.TimeFormatter.bind(this)}
             ]],
             striped: true,
             singleSelect: true,
@@ -96,17 +100,30 @@ var App = function () {
             fit: true,
             pagination: true,
             pageNumber: 1,
-            pageSize: 2,
-            pageList: [1, 2, 3],
+            pageSize: 10,
+            pageList: [10, 30, 50],
             loadMsg: '正在加载数据，请稍后...',
             onBeforeLoad: this.OnTableGridBeforeLoad.bind(this),
-            onLoadSuccess: this.OnTableGridLoaded.bind(this)
+            onLoadSuccess: this.OnTableGridLoaded.bind(this),
+            onSelect: this.SetDetailText.bind(this)
         });
     };
 
     this.TimeFormatter = function (value, row) {
         var item = value === 0 ? value : (value * 0.001).toFixed(4);
         return item;
+    };
+
+    this.StateFormatter = function (value, row) {
+        if(value === '成功'){
+            return '<span class="success">成功</span>';
+        } else {
+            return '<span class="fail">失败</span>';
+        }
+    };
+
+    this.DateFormatter = function (value, row) {
+        return moment(value).format('YYYY/MM/DD');
     };
 
     this.OnTableGridBeforeLoad = function () {
@@ -122,6 +139,15 @@ var App = function () {
         $('#log-table').datagrid('selectRow', 0);
     };
 
+    this.SetDetailText = function (index, data) {
+        var url = data.log.name;
+        var param = data.log.params;
+        var message = data.log.errorMessage;
+        $('#request-url').text(url);
+        $('#request-param').text(param);
+        $('#error-info').text(message);
+    };
+
     this.CalendarControl = function () {
         $('#start-date').datebox({
             panelWidth: 203,
@@ -134,14 +160,18 @@ var App = function () {
             panelHeight: 260
         });
 
-        var startDate = moment().add(-1, 'months').format('YYYY/MM/DD');
-        $("#start-date").datebox("setValue", startDate);
+        var endDate = moment().add(1, 'months').format('YYYY/MM/DD');
+        $("#end-date").datebox("setValue", endDate);
     };
 
     this.SetSelectPanel = function () {
         $('#state').combobox({
             panelHeight: 109
         });
+    };
+
+    this.OnQueryButtonClick = function () {
+        this.ReLoadTableData();
     };
 
 };

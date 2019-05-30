@@ -47,4 +47,14 @@ public class CallerServiceImpl implements CallerService{
         callers.add(0, caller);
         return callers;
     }
+
+    @Override
+    public void insertOne(String name, String code, String key, byte enable) {
+        Caller caller = new Caller();
+        caller.setCode(code);
+        caller.setName(name);
+        caller.setKey(key);
+        caller.setEnabled(enable);
+        callerMapper.insert(caller);
+    }
 }

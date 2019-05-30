@@ -76,111 +76,10 @@
                         <option value="失败">失败</option>
                     </select>
                 </div>
-                <button id="query" class="query">查询</button>
+                <button id="query-btn" class="query">查询</button>
             </div>
             <div class="log-table table bg">
-                <table id="log-table">
-                    <!--<thead>
-                    <tr>
-                        <th data-options="field:'Name',width:$(this).width() * 0.12,align:'center'">名称</th>
-                        <th data-options="field:'State',width:$(this).width() * 0.12,align:'center'">状态</th>
-                        <th data-options="field:'Caller',width:$(this).width() * 0.12,align:'center'">调用者</th>
-                        <th data-options="field:'StartTime',width:$(this).width() * 0.12,align:'center'">开始时间</th>
-                        <th data-options="field:'EndTime',width:$(this).width() * 0.12,align:'center'">结束时间</th>
-                        <th data-options="field:'Time',width:375,align:'center'">耗时（ms）</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>接口A</td>
-                        <td><span class="success">成功</span></td>
-                        <td>短信发送平台</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>0.9</td>
-                    </tr>
-                    <tr>
-                        <td>接口B</td>
-                        <td><span class="fail">失败</span></td>
-                        <td>短信发送平台</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>0.9</td>
-                    </tr>
-                    <tr>
-                        <td>接口C</td>
-                        <td><span class="success">成功</span></td>
-                        <td>短信发送平台</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>0.9</td>
-                    </tr>
-                    <tr>
-                        <td>接口D</td>
-                        <td><span class="fail">失败</span></td>
-                        <td>短信发送平台</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>0.9</td>
-                    </tr>
-                    <tr>
-                        <td>接口E</td>
-                        <td><span class="success">成功</span></td>
-                        <td>短信发送平台</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>0.9</td>
-                    </tr>
-                    <tr>
-                        <td>接口F</td>
-                        <td><span class="fail">失败</span></td>
-                        <td>短信发送平台</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>0.9</td>
-                    </tr>
-                    <tr>
-                        <td>接口G</td>
-                        <td><span class="success">成功</span></td>
-                        <td>短信发送平台</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>0.9</td>
-                    </tr>
-                    <tr>
-                        <td>接口H</td>
-                        <td><span class="fail">失败</span></td>
-                        <td>短信发送平台</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>0.9</td>
-                    </tr>
-                    <tr>
-                        <td>接口I</td>
-                        <td><span class="success">成功</span></td>
-                        <td>短信发送平台</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>0.9</td>
-                    </tr>
-                    <tr>
-                        <td>接口J</td>
-                        <td><span class="fail">失败</span></td>
-                        <td>短信发送平台</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>0.9</td>
-                    </tr>
-                    <tr>
-                        <td>接口K</td>
-                        <td><span class="success">成功</span></td>
-                        <td>短信发送平台</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>2019/05/13 10:45:18</td>
-                        <td>0.9</td>
-                    </tr>
-                    </tbody>-->
-                </table>
+                <table id="log-table"></table>
             </div>
         </div>
         <div class="detail bg">
@@ -188,19 +87,19 @@
             <ul class="detail-info">
                 <li>
                     <span>URL</span>
-                    <div class="request-url" id="request-url">http://10.129.4.202:8085/values/GetElementById</div>
+                    <div class="request-url" id="request-url"></div>
                 </li>
                 <li>
                     <span>请求方式</span>
-                    <div class="request-type" id="request-type">GET</div>
+                    <div class="request-type" id="request-type">POST</div>
                 </li>
                 <li>
                     <span>请求参数</span>
-                    <div class="request-param" id="request-param">id=10</div>
+                    <div class="request-param" id="request-param"></div>
                 </li>
                 <li>
                     <span>错误信息</span>
-                    <div class="error-info" id="error-info">GET</div>
+                    <div class="error-info" id="error-info"></div>
                 </li>
             </ul>
         </div>
@@ -209,6 +108,7 @@
 </body>
 <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="plug/moment.min.js"></script>
+<script type="text/javascript" src="plug/helper.js"></script>
 <script type="text/javascript" src="plug/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="plug/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="js/port-log.js"></script>

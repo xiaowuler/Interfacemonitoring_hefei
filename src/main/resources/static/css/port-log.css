@@ -143,6 +143,8 @@
 }
 
 .detail-info li div{
+    height: 36px;
+    overflow: hidden;
     margin-left: 106px;
     padding-left: 10px;
     line-height: 36px;
