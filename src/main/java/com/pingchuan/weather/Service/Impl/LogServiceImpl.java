@@ -133,6 +133,7 @@ public class LogServiceImpl implements LogService{
             logDTO.setName(log.getName());
             logDTO.setStartTime(new Date(log.getStartTime()));
             logDTO.setEndTime(new Date(log.getEndTime()));
+            logDTO.setState(log.getIsSuccess() == 1 ? "成功" : "失败");
             logDTOS.add(logDTO);
         }
 

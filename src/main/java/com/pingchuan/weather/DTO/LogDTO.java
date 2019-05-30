@@ -51,4 +51,6 @@ public class LogDTO {
     private String callerName;
 
     private String name;
+
+    private String state;
 }
