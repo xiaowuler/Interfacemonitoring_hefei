@@ -152,7 +152,7 @@ public class LogServiceImpl implements LogService{
         }
 
         DecimalFormat df=new DecimalFormat("0.00");
-        return Float.parseFloat(df.format((float)consumingTime / size));
+        return Float.parseFloat(df.format((float)consumingTime / logs.size()));
     }
 
     private float getOneSuccessRate(Config successRateConfig, String name) {
