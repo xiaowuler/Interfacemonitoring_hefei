@@ -161,7 +161,7 @@ var App = function () {
                 backgroundColor: '#27293d'
             },
             title: {
-                text: '接口基础信息',
+                text: null,
                 style:{
                     color: '#dbdbdb',
                     fontSize: '20px'
@@ -183,8 +183,8 @@ var App = function () {
                 layout: 'horizontal',
                 align: 'center',
                 verticalAlign: 'top',
-                x: -20,
-                y: -20,
+                // x: -20,
+                // y: -20,
                 itemStyle: {
                     color: '#9a9a9a',
                     fontSize: '14px'

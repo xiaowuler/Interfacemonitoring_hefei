@@ -180,10 +180,10 @@ var App = function () {
             dataType: 'json',
             url: 'caller/delete',
             data: {
-                Id: this.table.datagrid('getSelected').Id
+                code: this.table.datagrid('getSelected').code
             },
             success: function (result) {
-                this.ReloadTableData();
+                this.ReloadData();
             }.bind(this)
         });
     };
