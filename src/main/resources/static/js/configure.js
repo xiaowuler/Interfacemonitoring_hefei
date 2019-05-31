@@ -8,15 +8,16 @@ var App = function () {
 
         $('#add').on('click', this.OnAddButtonClick.bind(this));
         $('#add-close').on('click', this.AddDialogHide.bind(this));
-        $('#add-sure').on('click', this.AddDialogHide.bind(this));
+        $('#add-sure').on('click', this.AddConfigure.bind(this));
         $('#add-quit').on('click', this.AddDialogHide.bind(this));
         $('#add-switch a').on('click', this.OnSwitchButtonClick.bind(this));
 
         $('#edit').on('click', this.OnEditButtonClick.bind(this));
         $('#edit-close').on('click', this.EditDialogHide.bind(this));
-        $('#edit-sure').on('click', this.EditDialogHide.bind(this));
+        $('#edit-sure').on('click', this.EditConfigure.bind(this));
         $('#edit-quit').on('click', this.EditDialogHide.bind(this));
         $('#edit-switch a').on('click', this.OnSwitchButtonClick.bind(this));
+        $('#delete').on('click', this.OnDeleteButtonClick.bind(this));
         window.onresize = this.ReLayout.bind(this);
     };
 
@@ -38,7 +39,7 @@ var App = function () {
             url: 'config/findAllByPage',
             success: function (result) {
                 console.log(result);
-                this.table.datagrid('loadData', result.list);
+                this.table.datagrid('loadData', result.rows);
             }.bind(this)
         });
     };
@@ -118,6 +119,18 @@ var App = function () {
 
     this.OnSwitchButtonClick = function (event) {
         $(event.target).parent().toggleClass('switch-on');
+    };
+
+    this.AddConfigure = function () {
+        this.AddDialogHide();
+    };
+
+    this.EditConfigure = function () {
+        this.EditDialogHide();
+    };
+
+    this.OnDeleteButtonClick = function () {
+
     };
 };
 

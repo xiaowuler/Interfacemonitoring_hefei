@@ -35,6 +35,7 @@ var App = function () {
 
     this.ReLoadTableData = function () {
         var params = this.GetParams();
+
         $.ajax({
             type: "POST",
             dataType: 'json',
