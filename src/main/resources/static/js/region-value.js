@@ -12,6 +12,7 @@ var App = function () {
     this.ReLayout = function () {
         var windowHeight = $(window).height();
         $('.aside').height(windowHeight - 70);
+        $('.return-content li, .describe').height(windowHeight - 611);
     };
 
     this.BindInputEvent = function () {

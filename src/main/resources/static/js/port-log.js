@@ -41,7 +41,7 @@ var App = function () {
         $('#caller').combobox({
             panelHeight: 'auto',
             url:"caller/findAllByEnable",
-            valueField:'name',
+            valueField:'code',
             textField:'name',
             onLoadSuccess: function (data) {
                 console.log(data)
@@ -73,11 +73,11 @@ var App = function () {
         var caller = $('#caller').combobox('getValue');
         var state = $('#state').combobox('getValue');
         return{
-            name : name === '' ? '全部' : name,
-            callerCode: caller === '' ? '-1' : caller,
+            name : name === '' || name === '全部' ? '全部'  : name,
+            callerCode: caller === '全部' || caller === '' ? '-1' : caller,
             startTime: $('#start-date').datebox('getValue'),
             endTime: $('#end-date').datebox('getValue'),
-            state: state === '全部' ? -1 : state === '成功' ? 1 : 0,
+            state: state === '全部' || state === '' ? -1 : state === '成功' ? 1 : 0,
             pageNum: 1,
             pageSize: size
         }
@@ -161,7 +161,9 @@ var App = function () {
         });
 
         var startDate = moment().add(-1, 'months').format('YYYY/MM/DD');
+        var endDate = moment().add(1, 'days').format('YYYY/MM/DD');
         $("#start-date").datebox("setValue", startDate);
+        $("#end-date").datebox("setValue", endDate);
     };
 
     this.SetSelectPanel = function () {
