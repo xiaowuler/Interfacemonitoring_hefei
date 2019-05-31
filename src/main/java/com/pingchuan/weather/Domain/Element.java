@@ -26,15 +26,15 @@ public class Element {
     private String Author ;
 
     //起报时间
-    private DateTime InitialTime ;
+    private String InitialTime ;
 
     //入库时间
-    private DateTime CreateTime ;
+    private String CreateTime ;
 
     //入库时间
-    private DateTime StorageTime ;
+    private String StorageTime ;
 
-    private DateTime ForecastTime ;
+    private String ForecastTime ;
 
     //预报间隔时次
     private long ForecastTimeLength ;
@@ -45,5 +45,5 @@ public class Element {
     //预报层次
     private int ForecastLevel ;
 
-    private List<Grid> Grids;
+    private List<Grid> grids;
 }

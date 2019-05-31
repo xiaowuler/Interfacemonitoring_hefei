@@ -2,6 +2,7 @@ package com.pingchuan.weather.Service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pingchuan.weather.Domain.SearchResultInfo;
+import com.pingchuan.weather.Domain.SearchResultInfos;
 import com.pingchuan.weather.Service.DebugService;
 import com.pingchuan.weather.Util.WebUtil;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,33 @@ public class DebugServiceImpl implements DebugService {
                 System.out.println(searchResultInfo);
             }
         }
+
+        return null;
+    }
+
+    @Override
+    public SearchResultInfos GetLineValues(String url, String requestMode, Map<String, Object> map) {
+        if (requestMode.equals("POST")){
+            String result = WebUtil.Post(url, map);
+
+            if (!StringUtils.isEmpty(result)){
+                SearchResultInfos searchResultInfos = JSONObject.parseObject(result, SearchResultInfos.class);
+                System.out.println(searchResultInfos);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public SearchResultInfo GetRegionValues(String url, String requestMode, Map<String, Object> stringObjectMap) {
+        /*if (requestMode.equals("POST")){
+            String result = WebUtil.Post(url, map);
+
+            if (!StringUtils.isEmpty(result)){
+                SearchResultInfo searchResultInfo = JSONObject.parseObject(result, SearchResultInfo.class);
+                System.out.println(searchResultInfo);
+            }
+        }*/
 
         return null;
     }
