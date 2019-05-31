@@ -42,7 +42,7 @@ var App = function () {
             url: 'log/findAllByState',
             success: function (result) {
                 console.log(result);
-                $('#port-table').datagrid('loadData', result.list);
+                $('#port-table').datagrid('loadData', result);
             }.bind(this)
         });
     };
@@ -220,6 +220,7 @@ var App = function () {
             singleSelect: true,
             fitColumns: true,
             fit: true,
+            scrollbarSize: 0,
             pagination: true,
             pageNumber: 1,
             pageSize: 2,
@@ -246,7 +247,6 @@ var App = function () {
 
     this.OnTableGridLoaded = function (data) {
         $('#port-table').datagrid('selectRow', 0);
-        //this.ReLayout();
     };
 };
 

@@ -14,6 +14,10 @@
     line-height: 27px;
 }
 
+.port-param {
+    padding: 0 10px;
+}
+
 .port-param table{
     width: 100%;
 }
@@ -34,6 +38,7 @@
 }
 
 .port-des span.port-name{
+    margin-right: 2px;
 }
 
 .port-des span.port-explain{
@@ -42,7 +47,8 @@
 }
 
 .port-des span.explain-txt{
-    width: calc(100% - 382px);
+    width: calc(100% - 364px);
+    margin-right: 0;
     position: absolute;
     top: 0;
     right: 0;
@@ -165,4 +171,59 @@
     line-height: 25px;
     color: #dbdbdb;
     font-size: 16px;
+}
+
+.return-title{
+    border-bottom: 1px solid #3b3d51;
+}
+
+.return-title ul{
+    height: 32px;
+    line-height: 32px;
+    padding-left: 10px;
+}
+
+.return-title ul li{
+    width: 60px;
+    height: 32px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    float: left;
+    color: #9e9e9e;
+}
+
+.return-title ul li.active{
+    color: #ffffff;
+    border-left: 1px solid #3b3d51;
+    border-right: 1px solid #3b3d51;
+    background: #2f3144;
+}
+
+.return-title ul li.active:before{
+    content: '';
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-border-radius: 3px 3px 0 0;
+    -moz-border-radius: 3px 3px 0 0;
+    border-radius: 3px 3px 0 0;
+    background: #59bbd9;
+}
+
+.return-title ul li.active:after{
+    content: '';
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    background: #2f3144;
+}
+
+.return-content li{
+    padding: 5px 10px 0 10px;
+    display: none;
 }

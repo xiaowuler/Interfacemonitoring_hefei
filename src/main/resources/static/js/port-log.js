@@ -61,7 +61,7 @@ var App = function () {
             data: params,
             url: 'log/findAllByCallerAndNameAndStateAndTime',
             success: function (result) {
-                $('#log-table').datagrid('loadData', result.list);
+                $('#log-table').datagrid('loadData', result);
             }.bind(this)
         });
     };
@@ -98,6 +98,7 @@ var App = function () {
             singleSelect: true,
             fitColumns: true,
             fit: true,
+            scrollbarSize: 0,
             pagination: true,
             pageNumber: 1,
             pageSize: 10,
@@ -151,8 +152,7 @@ var App = function () {
     this.CalendarControl = function () {
         $('#start-date').datebox({
             panelWidth: 203,
-            panelHeight: 260,
-            //showSeconds: true
+            panelHeight: 260
         });
 
         $('#end-date').datebox({
@@ -160,8 +160,8 @@ var App = function () {
             panelHeight: 260
         });
 
-        var endDate = moment().add(1, 'months').format('YYYY/MM/DD');
-        $("#end-date").datebox("setValue", endDate);
+        var startDate = moment().add(-1, 'months').format('YYYY/MM/DD');
+        $("#start-date").datebox("setValue", startDate);
     };
 
     this.SetSelectPanel = function () {

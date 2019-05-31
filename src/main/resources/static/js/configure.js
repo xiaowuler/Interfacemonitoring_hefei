@@ -1,8 +1,10 @@
 var App = function () {
+    this.table = $('#configure-table');
 
     this.Startup = function () {
-        this.ReloadPortTable();
         this.ReLayout();
+        this.ReloadPortTable();
+        this.ReloadData();
 
         $('#add').on('click', this.OnAddButtonClick.bind(this));
         $('#add-close').on('click', this.AddDialogHide.bind(this));
@@ -19,32 +21,62 @@ var App = function () {
     };
 
     this.ReLayout = function () {
+        var width = $('.content').width();
         var windowHeight = $(window).height();
         $('.aside').height(windowHeight - 70);
-        $('.configure-table').height(windowHeight - 139);
-        $('.configure-table, .datagrid').width($('.content').width() - 10);
-        $('.panel-body').height(windowHeight - 139);
-        $('.datagrid-view').height($('.configure-table').height() - 55);
+        $('.datagrid').width(width - 20);
+        $('.configure-table').width(width - 20);
+        $('.configure-table,.datagrid-wrap').height(windowHeight - 130);
+    };
+
+    this.ReloadData = function () {
+        var params = this.GetParams();
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            data: params,
+            url: 'config/findAllByPage',
+            success: function (result) {
+                console.log(result);
+                this.table.datagrid('loadData', result.list);
+            }.bind(this)
+        });
+    };
+
+    this.GetParams = function () {
+        var options = this.table.datagrid("getPager" ).data("pagination" ).options;
+        var size = options.pageSize;
+        return{
+            pageNum: 1,
+            pageSize: size
+        }
     };
 
     this.ReloadPortTable = function () {
-        $('#configure-table').datagrid({
-            height: window.innerHeight-160,
+        var width = $(window).width() - 214;
+        this.table.datagrid({
+            //height: window.innerHeight-160,
+            columns: [[
+                { field: 'name', title: '名称', align: 'center', width: width * 0.2},
+                { field: 'value', title: '值', align: 'center', width: width * 0.2},
+                { field: 'description', title: '描述', align: 'center', width: width * 0.2}
+            ]],
             striped: true,
             singleSelect: true,
             fitColumns: true,
             fit: true,
+            scrollbarSize: 0,
             pagination: true,
             pageNumber: 1,
             pageSize: 10,
-            pageList: [5, 10, 15],
-            onLoadSuccess: function () {
-                //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
-                $('#configure-table').datagrid('clearSelections');
-            }
+            pageList: [10, 30, 50],
+            loadMsg: '正在加载数据，请稍后...',
+            onLoadSuccess: this.OnTableGridLoaded.bind(this)
         });
+    };
 
-        //this.SetPortTablePager();
+    this.OnTableGridLoaded = function (data) {
+        this.table.datagrid('selectRow', 0);
     };
 
     this.SetPortTablePager = function () {

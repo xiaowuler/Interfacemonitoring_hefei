@@ -37,14 +37,14 @@
 }
 
 .aside h2{
-    padding-left: 35px;
+    padding-left: 30px;
     line-height: 36px;
     font-size: 16px;
     background: #53556c;
 }
 
 .aside .level-second-menu{
-    padding-left: 60px;
+    padding-left: 50px;
     line-height: 36px;
     position: relative;
     z-index: 10;

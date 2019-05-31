@@ -40,7 +40,7 @@ var App = function () {
             url: 'caller/findAllByPage',
             success: function (result) {
                 console.log(result);
-                this.table.datagrid('loadData', result.list);
+                this.table.datagrid('loadData', result);
             }.bind(this)
         });
     };
@@ -55,7 +55,7 @@ var App = function () {
     };
 
     this.ReloadPortTable = function () {
-        var width = $(window).width();
+        var width = $(window).width() - 214;
         this.table.datagrid({
             columns: [[
                 { field: 'name', title: '名称', align: 'center', width: width * 0.2},
@@ -67,6 +67,7 @@ var App = function () {
             singleSelect: true,
             fitColumns: true,
             fit: true,
+            scrollbarSize: 0,
             pagination: true,
             pageNumber: 1,
             pageSize: 10,
@@ -153,7 +154,6 @@ var App = function () {
 
     this.InsertData = function () {
         this.EditDialogHide();
-        this.AddDialogHide();
         $.ajax({
             type: "POST",
             dataType: 'json',
