@@ -44,4 +44,9 @@ public class ConfigServiceImpl implements ConfigService{
     public Config findOneByName(String name) {
         return configMapper.findOneByName(name);
     }
+
+    @Override
+    public Config findOneById(int id) {
+        return configMapper.findOneById(id);
+    }
 }

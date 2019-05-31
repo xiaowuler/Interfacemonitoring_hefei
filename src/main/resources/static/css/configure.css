@@ -14,6 +14,8 @@
 
 .dialog{
     width: 380px;
+    height: 306px;
+    margin-top: -153px;
     margin-left: -180px;
 }
 
@@ -29,6 +31,24 @@
     width: 100px;
 }
 
+.option-describe{
+    width: 100%;
+}
+
 .option-describe input{
     width: 345px;
+}
+
+.option-describe textarea{
+    width: 100%;
+    padding: 0 10px;
+    line-height: 36px;
+    background: transparent;
+    border: 1px solid #53556c;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    color: #dbdbdb;
+    font-size: 16px;
+    font-family: "Microsoft YaHei";
 }

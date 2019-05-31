@@ -39,7 +39,7 @@ var App = function () {
             url: 'config/findAllByPage',
             success: function (result) {
                 console.log(result);
-                this.table.datagrid('loadData', result.rows);
+                this.table.datagrid('loadData', result);
             }.bind(this)
         });
     };
@@ -72,6 +72,7 @@ var App = function () {
             pageSize: 10,
             pageList: [10, 30, 50],
             loadMsg: '正在加载数据，请稍后...',
+            onBeforeLoad: this.OnTableGridBeforeLoad.bind(this),
             onLoadSuccess: this.OnTableGridLoaded.bind(this)
         });
     };
@@ -80,26 +81,19 @@ var App = function () {
         this.table.datagrid('selectRow', 0);
     };
 
-    this.SetPortTablePager = function () {
-        var pager = $("#configure-table").datagrid("getPager");
-        pager.pagination({
-            total:data.length,
-            displayMsg:'当前显示从第{from}条到{to}条 共{total}条记录',
-            onSelectPage:function (pageNo, pageSize) {
-                var start = (pageNo - 1) * pageSize;
-                var end = start + pageSize;
-                $("#easyuiTable").datagrid("loadData", data.slice(start, end));
-                pager.pagination('refresh', {
-                    total:data.length,
-                    pageNumber:pageNo
-                });
-            }
+    this.OnTableGridBeforeLoad = function () {
+        this.table.datagrid('getPager').pagination({
+            beforePageText: '第',
+            afterPageText: '页&nbsp;&nbsp;&nbsp;共{pages}页',
+            displayMsg: '当前显示{from}-{to}条记录&nbsp;&nbsp;&nbsp;共{total}条记录',
+            layout: ['list', 'sep', 'first', 'prev', 'sep', 'manual', 'sep', 'next', 'last', 'sep', 'refresh', 'info']
         });
     };
 
     this.OnAddButtonClick = function () {
         $('.dialog-add').show();
         $('.dialog-bg').show();
+        $('.option input, .option textarea').val("")
     };
 
     this.AddDialogHide = function () {
@@ -110,6 +104,14 @@ var App = function () {
     this.OnEditButtonClick = function () {
         $('.dialog-edit').show();
         $('.dialog-bg').show();
+
+        var selected = this.table.datagrid('getSelected');
+        $('#edit-name').attr("value",selected.name);
+        $('#edit-value').attr("value",selected.value);
+        $('#edit-describe').attr("value",selected.description);
+
+        var index = this.table.datagrid('getRowIndex',selected.id);
+        this.table.datagrid('beginEdit',index);
     };
 
     this.EditDialogHide = function () {
@@ -123,14 +125,50 @@ var App = function () {
 
     this.AddConfigure = function () {
         this.AddDialogHide();
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            data: {
+                name: $('#add-name').val(),
+                value: $('#add-value').val(),
+                description: $('#add-describe').val()
+            },
+            url: 'config/insert',
+            success: function (result) {
+                this.ReloadData();
+            }.bind(this)
+        });
     };
 
     this.EditConfigure = function () {
         this.EditDialogHide();
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            data: {
+                name: $('#edit-name').val(),
+                value: $('#edit-value').val(),
+                description: $('#edit-describe').val()
+            },
+            url: 'config/updateById',
+            success: function (result) {
+                this.ReloadData();
+            }.bind(this)
+        });
     };
 
     this.OnDeleteButtonClick = function () {
-
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            url: 'config/delete',
+            data: {
+                id: this.table.datagrid('getSelected').id
+            },
+            success: function (result) {
+                this.ReloadData();
+            }.bind(this)
+        });
     };
 };
 

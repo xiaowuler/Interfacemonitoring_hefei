@@ -27,16 +27,17 @@ public class ConfigController{
     }
     
     @RequestMapping("/delete")
-    public void delete(String name){
-        Config config = configService.findOneByName(name);
+    public void delete(int id){
+        Config config = configService.findOneById(id);
         if (config == null)
             return;
         configService.delete(config);
     }
     
     @RequestMapping("/updateById")
-    public void updateById(String name, String value, String description){
+    public void updateById(int id, String name, String value, String description){
         Config config = new Config();
+        config.setId(id);
         config.setName(name);
         config.setValue(value);
         config.setDescription(description);
