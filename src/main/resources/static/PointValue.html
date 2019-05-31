@@ -59,28 +59,60 @@
                 <h2 class="port-title">接口参数</h2>
                 <div class="port-detail">
                     <div class="port-des clearfix">
-                        <span class="port-name"><input type="text" value="null cvty-d789"></span>
-                        <span class="port-value"><input type="text" value="123"></span>
+                        <span class="port-name">ModeCode</span>
+                        <span class="port-value"><input type="text" id="mode" value="SPCC"></span>
+                        <span class="port-must">必填</span>
+                        <span class="port-type">String</span>
                         <span class="port-explain">说明</span>
-                        <span class="explain-txt"><input type="text" value="用户系统将作为联盟接口数据返回"></span>
+                        <span class="explain-txt">要素产品模式名（例如：‘SPCC’，必须大写）</span>
                     </div>
                     <div class="port-des clearfix">
-                        <span class="port-name"><input type="text" value="null cvty-d789"></span>
-                        <span class="port-value"><input type="text" value="123"></span>
+                        <span class="port-name">ElementCode</span>
+                        <span class="port-value"><input type="text" id="element" value="ER03"></span>
+                        <span class="port-must">必填</span>
+                        <span class="port-type">String</span>
                         <span class="port-explain">说明</span>
-                        <span class="explain-txt"><input type="text" value="用户系统将作为联盟接口数据返回"></span>
+                        <span class="explain-txt">预报要素（例如：‘ER03’）</span>
                     </div>
                     <div class="port-des clearfix">
-                        <span class="port-name"><input type="text" value="null cvty-d789"></span>
-                        <span class="port-value"><input type="text" value="123"></span>
+                        <span class="port-name">Latitude</span>
+                        <span class="port-value"><input type="text" id="latitude" value="35.1"></span>
+                        <span class="port-must">必填</span>
+                        <span class="port-type">float</span>
                         <span class="port-explain">说明</span>
-                        <span class="explain-txt"><input type="text" value="用户系统将作为联盟接口数据返回"></span>
+                        <span class="explain-txt">纬度（29-35.1）</span>
                     </div>
                     <div class="port-des clearfix">
-                        <span class="port-name"><input type="text" value="null cvty-d789"></span>
-                        <span class="port-value"><input type="text" value="123"></span>
+                        <span class="port-name">Longitude</span>
+                        <span class="port-value"><input type="text" id="longitude" value="120.1"></span>
+                        <span class="port-must">必填</span>
+                        <span class="port-type">float</span>
                         <span class="port-explain">说明</span>
-                        <span class="explain-txt"><input type="text" value="用户系统将作为联盟接口数据返回"></span>
+                        <span class="explain-txt">经度（114.5-120）</span>
+                    </div>
+                    <div class="port-des clearfix">
+                        <span class="port-name">ForecastLevel</span>
+                        <span class="port-value"><input type="text" id="forecast-level" value="0"></span>
+                        <span class="port-must">必填</span>
+                        <span class="port-type">int</span>
+                        <span class="port-explain">说明</span>
+                        <span class="explain-txt">预报层次</span>
+                    </div>
+                    <div class="port-des clearfix">
+                        <span class="port-name">ForecastTime</span>
+                        <span class="port-value"><input type="text" id="forecast-time" value="201904162000"></span>
+                        <span class="port-must">必填</span>
+                        <span class="port-type">DateTime</span>
+                        <span class="port-explain">说明</span>
+                        <span class="explain-txt">预报时间(格式yyyyMMddHHmm)</span>
+                    </div>
+                    <div class="port-des clearfix">
+                        <span class="port-name">InitialTime</span>
+                        <span class="port-value"><input type="text" id="initial" value=""></span>
+                        <span class="port-must">可不填</span>
+                        <span class="port-type">String</span>
+                        <span class="port-explain">说明</span>
+                        <span class="explain-txt">起报时间(格式yyyyMMddHHmm)</span>
                     </div>
                 </div>
             </div>

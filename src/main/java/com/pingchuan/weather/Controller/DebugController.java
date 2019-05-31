@@ -38,13 +38,13 @@ public class DebugController {
         map.put("ForecastTime", forecastTime);
 
         String params;
-        if (initialTime != null)
+        if (!"".equals(initialTime))
         {
             map.put("InitialTime", initialTime);
-            params = String.format("ModeCode={0}&ElementCode={1}&Latitude={2}&Longitude={3}&ForecastLevel={4}&ForecastTime={5}&InitialTime={6}&CallerCode={7}&SecretKey={8}", modeCode, elementCode, latitude, longitude, forecastLevel, forecastTime, initialTime, "SC002", "1495fe15a4994bc58c42124a3ab8e7d9");
+            params = String.format("ModeCode=%s&ElementCode=%s&Latitude=%s&Longitude=%s&ForecastLevel=%s&ForecastTime=%s&InitialTime=%s&CallerCode=%s&SecretKey=%s", modeCode, elementCode, latitude, longitude, forecastLevel, forecastTime, initialTime, "SC002", "1495fe15a4994bc58c42124a3ab8e7d9");
 
         }else {
-            params = String.format("ModeCode={0}&ElementCode={1}&Latitude={2}&Longitude={3}&ForecastLevel={4}&ForecastTime={5}&CallerCode={6}&SecretKey={7}", modeCode, elementCode, latitude, longitude, forecastLevel, forecastTime, "SC002", "1495fe15a4994bc58c42124a3ab8e7d9");
+            params = String.format("ModeCode=%s&ElementCode=%s&Latitude=%s&Longitude=%s&ForecastLevel=%s&ForecastTime=%s&CallerCode=%s&SecretKey=%s", modeCode, elementCode, latitude, longitude, forecastLevel, forecastTime, "SC002", "1495fe15a4994bc58c42124a3ab8e7d9");
         }
 
         String signCode = MD5Util.MD5(params);

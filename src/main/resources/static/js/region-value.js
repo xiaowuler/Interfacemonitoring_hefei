@@ -15,6 +15,20 @@ var App = function () {
         $('.return-content li, .describe').height(windowHeight - 611);
     };
 
+    this.GetParams = function () {
+        return {
+            value1: $('#mode').val(),
+            value2: $('#element').val(),
+            value3: $('#min-lat').val(),
+            value4: $('#max-lat').val(),
+            value5: $('#min-lon').val(),
+            value6: $('#max-lon').val(),
+            value7: $('#forecast-level').val(),
+            value8: $('#forecast-time').val(),
+            value9: $('#initial').val(),
+        }
+    };
+
     this.BindInputEvent = function () {
         $('.port-detail').find('.port-des').each(function () {
             $(this).find('span').children('input').hover(function () {

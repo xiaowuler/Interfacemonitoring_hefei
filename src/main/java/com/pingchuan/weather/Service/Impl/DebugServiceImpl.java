@@ -27,6 +27,7 @@ public class DebugServiceImpl implements DebugService {
 
             if (!StringUtils.isEmpty(result)){
                 SearchResultInfo searchResultInfo = JSONObject.parseObject(result, SearchResultInfo.class);
+                System.out.println(searchResultInfo);
             }
         }
 

@@ -22,6 +22,11 @@
     width: 100%;
 }
 
+.port-detail{
+    height: 184px;
+    overflow-y: auto;
+}
+
 .port-des{
     margin-top: 10px;
     position: relative;
@@ -30,25 +35,31 @@
 .port-des span{
     width: 150px;
     float: left;
-    margin-right: 10px;
+    margin-right: 2px;
     display: block;
     line-height: 36px;
     text-align: center;
     background: #2f3144;
 }
 
-.port-des span.port-name{
-    margin-right: 2px;
+.port-des span.port-must{
+    width: 80px;
+}
+
+.port-des span.port-type{
+    width: 90px;
+    margin-right: 10px;
 }
 
 .port-des span.port-explain{
     width: 50px;
-    margin-right: 2px;
 }
 
 .port-des span.explain-txt{
-    width: calc(100% - 364px);
+    width: calc(100% - 538px);
     margin-right: 0;
+    padding-left: 10px;
+    text-align: left;
     position: absolute;
     top: 0;
     right: 0;

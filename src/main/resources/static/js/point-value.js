@@ -3,6 +3,9 @@ var App = function () {
     this.Startup = function () {
         this.ReLayout();
         this.BindInputEvent();
+
+        $('#run').on('click', this.OnRunButtonClick.bind(this));
+        $('.port-method button').on('click', this.SelectType.bind(this));
         $('.return-title ul li').on('click', this.PortCallTab.bind(this));
         window.onresize = this.ReLayout.bind(this);
 
@@ -13,6 +16,42 @@ var App = function () {
         var windowHeight = $(window).height();
         $('.aside').height(windowHeight - 70);
         $('.return-content li, .describe').height(windowHeight - 611);
+    };
+
+    this.ReloadData = function () {
+        var params = this.GetParams();
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            data: params,
+            url: 'debug/GetPointValue',
+            success: function (result) {
+                this.ReloadData();
+            }.bind(this)
+        });
+    };
+
+    this.GetParams = function () {
+        return {
+            URL: 'http://10.129.4.202:9535/Search/GetPointValue',
+            RequestMode: $('.port-method button.active').text(),
+            modeCode: $('#mode').val(),
+            elementCode: $('#element').val(),
+            latitude: $('#latitude').val(),
+            longitude: $('#longitude').val(),
+            forecastLevel: $('#forecast-level').val(),
+            forecastTime: $('#forecast-time').val(),
+            initialTime: $('#initial').val()
+        }
+    };
+
+    this.OnRunButtonClick = function () {
+        this.ReloadData();
+    };
+
+    this.SelectType = function (event) {
+        $('.port-method button').removeClass("active");
+        $(event.target).addClass("active");
     };
 
     this.BindInputEvent = function () {
