@@ -27,7 +27,9 @@ public class CallerController{
     }
     
     @RequestMapping("/delete")
-    public void delete(Caller caller){
+    public void delete(String code){
+        Caller caller = new Caller();
+        caller.setCode(code);
         callerService.delete(caller);
     }
     

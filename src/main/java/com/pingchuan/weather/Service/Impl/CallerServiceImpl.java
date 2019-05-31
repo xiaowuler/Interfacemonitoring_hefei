@@ -27,7 +27,7 @@ public class CallerServiceImpl implements CallerService{
 
     @Override
     public void delete(Caller caller) {
-
+        callerMapper.delete(caller);
     }
 
     public void delete(String code){

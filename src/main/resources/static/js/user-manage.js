@@ -114,11 +114,11 @@ var App = function () {
 
         var selected = this.table.datagrid('getSelected');
         $('#edit-name').attr("value",selected.name);
-        $('#edit-password').attr("value",selected.value);
+        $('#edit-password').attr("value",selected.password);
         if (selected.enabled === 1)
             $('#edit-switch').addClass('switch-on');
         else
-            $('#edit-switch').addClass('switch-on');
+            $('#edit-switch').removeClass('switch-on');
     };
 
     this.EditDialogHide = function () {

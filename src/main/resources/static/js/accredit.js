@@ -93,7 +93,7 @@ var App = function () {
     this.OnAddButtonClick = function () {
         $('.dialog-add').show();
         $('.dialog-bg').show();
-        //var uuid = this.createUUID();
+        $('.option input').val("")
     };
 
     this.AddDialogHide = function () {
@@ -141,10 +141,7 @@ var App = function () {
         if (selected.enabled === 1)
             $('#edit-switch').addClass('switch-on');
         else
-            $('#edit-switch').addClass('switch-on');
-
-        var index = this.table.datagrid('getRowIndex',selected.id);
-        this.table.datagrid('beginEdit',index);
+            $('#edit-switch').removeClass('switch-on');
     };
 
     this.EditDialogHide = function () {
