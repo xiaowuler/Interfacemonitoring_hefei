@@ -14,7 +14,7 @@ public class MD5Util {
         String result = "";//通过result返回结果值
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");//1.初始化MessageDigest信息摘要对象,并指定为MD5不分大小写都可以
-            md.update(sourceStr.getBytes());//2.传入需要计算的字符串更新摘要信息，传入的为字节数组byte[],将字符串转换为字节数组使用getBytes()方法完成
+            md.update(sourceStr.getBytes("UTF-8"));//2.传入需要计算的字符串更新摘要信息，传入的为字节数组byte[],将字符串转换为字节数组使用getBytes()方法完成
             byte b[] = md.digest();//3.计算信息摘要digest()方法,返回值为字节数组
 
             int i;//定义整型
@@ -29,9 +29,9 @@ public class MD5Util {
                 buf.append(Integer.toHexString(i));//转换成16进制编码
             }
             result = buf.toString();//转换成字符串
-            System.out.println("MD5(" + sourceStr + ",32) = " + result);//输出32位16进制字符串
-            System.out.println("MD5(" + sourceStr + ",16) = " + buf.toString().substring(8, 24));//输出16位16进制字符串
-        } catch (NoSuchAlgorithmException e) {
+            //System.out.println("MD5(" + sourceStr + ",32) = " + result);//输出32位16进制字符串
+            //System.out.println("MD5(" + sourceStr + ",16) = " + buf.toString().substring(8, 24));//输出16位16进制字符串
+        } catch (Exception e) {
             System.out.println(e);
         }
         return result;//返回结果
