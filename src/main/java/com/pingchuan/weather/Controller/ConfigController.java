@@ -21,8 +21,8 @@ public class ConfigController{
     public void insert(String name, String value, String description){
         Config config = new Config();
         config.setName(name);
-        config.setName(value);
-        config.setName(description);
+        config.setValue(value);
+        config.setDescription(description);
         configService.insert(config);
     }
     
@@ -38,8 +38,8 @@ public class ConfigController{
     public void updateById(String name, String value, String description){
         Config config = new Config();
         config.setName(name);
-        config.setName(value);
-        config.setName(description);
+        config.setValue(value);
+        config.setDescription(description);
         configService.updateById(config);
     }
     

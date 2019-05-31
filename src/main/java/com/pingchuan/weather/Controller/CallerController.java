@@ -3,6 +3,7 @@ package com.pingchuan.weather.Controller;
 
 import cn.hutool.http.HttpRequest;
 import com.pingchuan.weather.Model.PageResult;
+import com.pingchuan.weather.Util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.http.*;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,8 +59,7 @@ public class CallerController{
     @RequestMapping("/sendRequest")
     public List<Caller> sendRequest(){
 
-        String post = HttpRequest.post("http://10.129.4.202:9535/Search/GetRegionValues")
-                .form(SetParams()).timeout(20000).execute().body();
+        //MD5Util.MD5()
 
         return null;
     }
