@@ -12,6 +12,7 @@ import com.pingchuan.weather.Dao.CallerMapper;
 import com.pingchuan.weather.Dao.ConfigMapper;
 import com.pingchuan.weather.Model.Caller;
 import com.pingchuan.weather.Model.Config;
+import com.pingchuan.weather.Model.PageResult;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,10 +46,16 @@ public class LogServiceImpl implements LogService{
         logMapper.updateById(log);
     }
     
-    public PageInfo<Log> findAllByPage(int pageNum, int pageSize){
-        PageHelper.startPage(pageNum, pageSize);
+    public PageResult<Log> findAllByPage(int pageNum, int pageSize){
         List<Log> logs = logMapper.findAll();
-        return new PageInfo<>(logs);
+        long count = logs.size();
+        List<Log> logList = new ArrayList<>();
+        for (int x = pageNum-1, len = x + pageSize; x < len; x++){
+            if (x == len)
+                break;
+            logList.add(logs.get(x));
+        }
+        return new PageResult<>(count, logList);
     }
 
     @Override
@@ -77,9 +84,9 @@ public class LogServiceImpl implements LogService{
     }
 
     @Override
-    public PageInfo<LogDTO> findAllByState(int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
+    public PageResult<LogDTO> findAllByState(int pageNum, int pageSize) {
 
+        //PageHelper.startPage(pageNum, pageSize);
         List<LogDTO> logDTOS = new ArrayList<>();
         //准备参数
         long startTime = getTimeByDays(-7);
@@ -89,12 +96,16 @@ public class LogServiceImpl implements LogService{
         Config successConsumingAvgConfig = configMapper.findOneById(6);
         Config failureConsumingAvgConfig = configMapper.findOneById(6);
 
+
         List<Log> logs = logMapper.findAllLogName(startTime, endTime);
+        Long count = (long)logs.size();
         LogDTO logDTO = null;
-        for (Log log : logs){
+        for (int x = pageNum-1, len = x + pageSize; x < len; x++ ){
+            if (x == count)
+                break;
             logDTO = new LogDTO();
-            logDTO.setLog(log);
-            logDTO.setName(log.getName());
+            logDTO.setLog(logs.get(x));
+            logDTO.setName(logs.get(x).getName());
             logDTO.setCallNumberDay(getTodayCallNumber(logDTO.getLog().getName(), startTime, lastTime));
             logDTO.setSuccessRate(getOneSuccessRate(successRateConfig, logDTO.getLog().getName()));
             logDTO.setSuccessConsumingAvg(getOneConsumingAvg(1, logDTO.getLog().getName(), Integer.parseInt(successConsumingAvgConfig.getValue())));
@@ -102,7 +113,8 @@ public class LogServiceImpl implements LogService{
             logDTOS.add(logDTO);
         }
 
-        return new PageInfo<>(logDTOS);
+
+        return new PageResult<>(count,logDTOS);
     }
 
     @Override
@@ -115,29 +127,30 @@ public class LogServiceImpl implements LogService{
     }
 
     @Override
-    public PageInfo<LogDTO> findAllByCallerAndNameAndStateAndTime(String name, String callerId, Date startTime, Date endTime, int state, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-
+    public PageResult<LogDTO> findAllByCallerAndNameAndStateAndTime(String name, String callerId, Date startTime, Date endTime, int state, int pageNum, int pageSize) {
         List<Log> logs = logMapper.findAllByCallerAndNameAndStateAndTime(name, callerId, startTime.getTime(), endTime.getTime(), state);
+        long total = logs.size();
         List<LogDTO> logDTOS = new ArrayList<>();
 
-        for (Log log:
-             logs) {
+        for (int x = pageNum -1, len = x + pageSize; x < len;
+             x++) {
+            if (x == len)
+                break;
             LogDTO logDTO = new LogDTO();
-            Long count = log.getEndTime() - log.getStartTime();
+            Long count = logs.get(x).getEndTime() - logs.get(x).getStartTime();
             count = count == 0 ? 500 : count;
             logDTO.setConsumingTime(count);
-            Caller caller = callerMapper.findOneById(log.getCaller());
+            Caller caller = callerMapper.findOneById(logs.get(x).getCaller());
             logDTO.setCallerName(caller.getName());
-            logDTO.setLog(log);
-            logDTO.setName(log.getName());
-            logDTO.setStartTime(new Date(log.getStartTime()));
-            logDTO.setEndTime(new Date(log.getEndTime()));
-            logDTO.setState(log.getIsSuccess() == 1 ? "成功" : "失败");
+            logDTO.setLog(logs.get(x));
+            logDTO.setName(logs.get(x).getName());
+            logDTO.setStartTime(new Date(logs.get(x).getStartTime()));
+            logDTO.setEndTime(new Date(logs.get(x).getEndTime()));
+            logDTO.setState(logs.get(x).getIsSuccess() == 1 ? "成功" : "失败");
             logDTOS.add(logDTO);
         }
 
-        return new PageInfo<>(logDTOS);
+        return new PageResult<>(total, logDTOS);
     }
 
     private float getOneConsumingAvg(int flag, String name, int size) {
@@ -176,6 +189,7 @@ public class LogServiceImpl implements LogService{
     private long getLastTime(){
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
         calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
         return calendar.getTimeInMillis();
     }
 

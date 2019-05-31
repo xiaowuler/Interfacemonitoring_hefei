@@ -2,6 +2,7 @@ package com.pingchuan.weather.Service;
 
 import com.pingchuan.weather.Model.Config;
 import com.github.pagehelper.PageInfo;
+import com.pingchuan.weather.Model.PageResult;
 
 
 public interface ConfigService{
@@ -11,6 +12,6 @@ public interface ConfigService{
     void delete(Config config);
     
     void updateById(Config config);
-    
-    PageInfo<Config> findAllByPage(int pageNum, int pageSize);
+
+    PageResult<Config> findAllByPage(int pageNum, int pageSize);
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.PageHelper;
 
+import com.pingchuan.weather.Model.PageResult;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,9 +32,11 @@ public class ConfigServiceImpl implements ConfigService{
         configMapper.updateById(config);
     }
     
-    public PageInfo<Config> findAllByPage(int pageNum, int pageSize){
-        PageHelper.startPage(pageNum, pageSize);
+    public PageResult<Config> findAllByPage(int pageNum, int pageSize){
         List<Config> configs = configMapper.findAll();
-        return new PageInfo<>(configs);
+        long count = configs.size();
+        int startIndex = pageNum - 1;
+        int endIndex = (pageSize + pageNum - 1) >= count ? configs.size() : (pageSize + pageNum - 1);
+        return new PageResult<>(count, configs.subList(startIndex, endIndex));
     }
 }

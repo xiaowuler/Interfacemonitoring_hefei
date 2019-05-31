@@ -3,6 +3,7 @@ package com.pingchuan.weather.Controller;
 import com.github.pagehelper.PageInfo;
 
 import com.pingchuan.weather.DTO.LogDTO;
+import com.pingchuan.weather.Model.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,7 +38,7 @@ public class LogController{
 
     //首页接口信息分页
     @RequestMapping("/findAllByPage")
-    public PageInfo<Log> findAllByPage(int pageNum, int pageSize){
+    public PageResult<Log> findAllByPage(int pageNum, int pageSize){
         return logService.findAllByPage(pageNum, pageSize);
     }
 
@@ -48,7 +49,7 @@ public class LogController{
     }
 
     @RequestMapping("/findAllByState")
-    public PageInfo<LogDTO> findAllByState(int pageNum, int pageSize){
+    public PageResult<LogDTO> findAllByState(int pageNum, int pageSize){
         return logService.findAllByState(pageNum, pageSize);
     }
 
@@ -58,7 +59,7 @@ public class LogController{
     }
 
     @RequestMapping("/findAllByCallerAndNameAndStateAndTime")
-    public PageInfo<LogDTO> findAllByCallerAndNameAndStateAndTime(String name, String callerCode, Date startTime, Date endTime, int state, int pageNum, int pageSize){
+    public PageResult<LogDTO> findAllByCallerAndNameAndStateAndTime(String name, String callerCode, Date startTime, Date endTime, int state, int pageNum, int pageSize){
         return logService.findAllByCallerAndNameAndStateAndTime(name, callerCode, startTime, endTime, state, pageNum, pageSize);
     }
 

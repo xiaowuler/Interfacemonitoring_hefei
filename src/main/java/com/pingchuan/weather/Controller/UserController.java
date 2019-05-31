@@ -2,6 +2,7 @@ package com.pingchuan.weather.Controller;
 
 import com.github.pagehelper.PageInfo;
 
+import com.pingchuan.weather.Model.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +33,7 @@ public class UserController{
     }
     
     @RequestMapping("/findAllByPage")
-    public PageInfo<User> findAllByPage(int pageNum, int pageSize){
+    public PageResult<User> findAllByPage(int pageNum, int pageSize){
         return userService.findAllByPage(pageNum, pageSize);
     }
 }

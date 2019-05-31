@@ -5,6 +5,7 @@ import java.util.List;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.PageHelper;
 
+import com.pingchuan.weather.Model.PageResult;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,10 +33,13 @@ public class CallerServiceImpl implements CallerService{
         callerMapper.updateById(caller);
     }
     
-    public PageInfo<Caller> findAllByPage(int pageNum, int pageSize){
-        PageHelper.startPage(pageNum, pageSize);
+    public PageResult<Caller> findAllByPage(int pageNum, int pageSize){
         List<Caller> callers = callerMapper.findAll();
-        return new PageInfo<>(callers);
+        long count = callers.size();
+        int startIndex = pageNum - 1;
+        int endIndex = (pageSize + pageNum - 1) >= count ? callers.size() : (pageSize + pageNum - 1);
+
+        return new PageResult<>(count, callers.subList(startIndex, endIndex));
     }
 
     @Override
