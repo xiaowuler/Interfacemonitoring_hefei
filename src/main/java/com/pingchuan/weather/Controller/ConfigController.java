@@ -18,17 +18,28 @@ public class ConfigController{
     private ConfigService configService;
     
     @RequestMapping("/insert")
-    public void insert(Config config){
+    public void insert(String name, String value, String description){
+        Config config = new Config();
+        config.setName(name);
+        config.setName(value);
+        config.setName(description);
         configService.insert(config);
     }
     
     @RequestMapping("/delete")
-    public void delete(Config config){
+    public void delete(String name){
+        Config config = configService.findOneByName(name);
+        if (config == null)
+            return;
         configService.delete(config);
     }
     
     @RequestMapping("/updateById")
-    public void updateById(Config config){
+    public void updateById(String name, String value, String description){
+        Config config = new Config();
+        config.setName(name);
+        config.setName(value);
+        config.setName(description);
         configService.updateById(config);
     }
     

@@ -16,4 +16,6 @@ public interface ConfigMapper {
     List<Config> findAll();
 
     Config findOneById(int id);
+
+    Config findOneByName(String name);
 }

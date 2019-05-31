@@ -39,4 +39,9 @@ public class ConfigServiceImpl implements ConfigService{
         int endIndex = (pageSize + pageNum - 1) >= count ? configs.size() : (pageSize + pageNum - 1);
         return new PageResult<>(count, configs.subList(startIndex, endIndex));
     }
+
+    @Override
+    public Config findOneByName(String name) {
+        return configMapper.findOneByName(name);
+    }
 }

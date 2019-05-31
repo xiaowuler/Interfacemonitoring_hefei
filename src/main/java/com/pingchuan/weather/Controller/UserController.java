@@ -18,17 +18,29 @@ public class UserController{
     private UserService userService;
     
     @RequestMapping("/insert")
-    public void insert(User user){
+    public void insert(String name, String password, Byte enabled){
+        User user = new User();
+        user.setEnabled(enabled);
+        user.setName(name);
+        user.setPassword(password);
         userService.insert(user);
     }
     
     @RequestMapping("/delete")
-    public void delete(User user){
+    public void delete(int id){
+        User user = userService.findOneById(id);
+        if (user == null)
+            return;
         userService.delete(user);
     }
     
     @RequestMapping("/updateById")
-    public void updateById(User user){
+    public void updateById(int id, String name, String password, Byte enabled){
+        User user = new User();
+        user.setId(id);
+        user.setEnabled(enabled);
+        user.setName(name);
+        user.setPassword(password);
         userService.updateById(user);
     }
     

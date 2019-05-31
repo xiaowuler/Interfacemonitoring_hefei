@@ -14,4 +14,6 @@ public interface UserMapper {
     void updateById(User user);
     
     List<User> findAll();
+
+    User findOneById(int id);
 }

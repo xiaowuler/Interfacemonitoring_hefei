@@ -39,4 +39,9 @@ public class UserServiceImpl implements UserService{
         int endIndex = (pageSize + pageNum - 1) >= count ? users.size() : (pageSize + pageNum - 1);
         return new PageResult<>(count, users.subList(startIndex, endIndex));
     }
+
+    @Override
+    public User findOneById(int id) {
+        return userMapper.findOneById(id);
+    }
 }

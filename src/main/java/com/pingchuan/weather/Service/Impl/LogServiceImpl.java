@@ -103,6 +103,9 @@ public class LogServiceImpl implements LogService{
         for (int x = pageNum-1, len = x + pageSize; x < len; x++ ){
             if (x == count)
                 break;
+            if (logs.get(x) == null)
+                continue;
+
             logDTO = new LogDTO();
             logDTO.setLog(logs.get(x));
             logDTO.setName(logs.get(x).getName());
@@ -136,6 +139,10 @@ public class LogServiceImpl implements LogService{
              x++) {
             if (x == total)
                 break;
+
+            if (logs.get(x) == null)
+                continue;
+
             LogDTO logDTO = new LogDTO();
             Long count = logs.get(x).getEndTime() - logs.get(x).getStartTime();
             count = count == 0 ? 500 : count;

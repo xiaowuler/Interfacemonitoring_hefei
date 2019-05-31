@@ -14,4 +14,6 @@ public interface ConfigService{
     void updateById(Config config);
 
     PageResult<Config> findAllByPage(int pageNum, int pageSize);
+
+    Config findOneByName(String name);
 }

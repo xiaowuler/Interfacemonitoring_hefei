@@ -25,7 +25,10 @@ public class CallerServiceImpl implements CallerService{
         callerMapper.insert(caller);
     }
     
-    public void delete(Caller caller){
+    public void delete(String code){
+        Caller caller = callerMapper.findOneById(code);
+        if (caller == null)
+            return;
         callerMapper.delete(caller);
     }
     

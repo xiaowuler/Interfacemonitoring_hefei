@@ -14,4 +14,6 @@ public interface UserService{
     void updateById(User user);
 
     PageResult<User> findAllByPage(int pageNum, int pageSize);
+
+    User findOneById(int id);
 }

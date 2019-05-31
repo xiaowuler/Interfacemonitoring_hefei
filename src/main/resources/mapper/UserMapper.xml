@@ -47,6 +47,18 @@
         FROM
             `users`
     </select>
+
+    <select id="findOneById" resultType="com.pingchuan.weather.Model.User">
+        SELECT
+             `id` `id`,
+             `name` `name`,
+             `password` `password`,
+             `enabled` `enabled`
+        FROM
+            `users`
+        WHERE
+              `id` = #{0}
+    </select>
     
 </mapper>
 

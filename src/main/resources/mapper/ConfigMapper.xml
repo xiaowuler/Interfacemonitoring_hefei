@@ -53,6 +53,17 @@
         WHERE
             id = #{0}
     </select>
+
+    <select id="findOneByName" resultType="com.pingchuan.weather.Model.Config">
+        SELECT
+            `name` `name`,
+            `value` `value`,
+            `description` `description`
+        FROM
+            `configs`
+        WHERE
+            `name` = #{0}
+    </select>
     
 </mapper>
 
