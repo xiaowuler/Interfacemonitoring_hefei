@@ -211,9 +211,11 @@ var App = function () {
         var width = $(window).width();
         $('#port-table').datagrid({
             columns: [[
-                { field: 'name', title: '分类', align: 'center', width: width * 0.12},
-                { field: 'callNumberDay', title: '本天内调用次数', align: 'center', width: width * 0.2},
-                { field: 'successRate', title: '成功率（%）', align: 'center', width: width * 0.2},
+                { field: 'name', title: '名称', align: 'center', width: width * 0.12},
+                { field: 'callNumberDay', title: '前天调用次数', align: 'center', width: width * 0.2},
+                { field: 'callNumberDay', title: '今天调用次数', align: 'center', width: width * 0.2},
+                { field: 'callNumberDay', title: '昨天调用次数', align: 'center', width: width * 0.2},
+                { field: 'successRate', title: '成功率（%）', align: 'center', width: width * 0.2, formatter: this.SuccessRateFormatter.bind(this) },
                 { field: 'successConsumingAvg', title: '成功平均耗时（s）', align: 'center', width: width * 0.2, formatter: this.TimeFormatter.bind(this) },
                 { field: 'failureConsumingAvg', title: '失败平均耗时（s）', align: 'center', width: width * 0.2, formatter: this.TimeFormatter.bind(this) }
             ]],
@@ -232,8 +234,12 @@ var App = function () {
         });
     };
 
+    this.SuccessRateFormatter = function (value, row) {
+        return value * 100;
+    };
+
     this.TimeFormatter = function (value, row) {
-        var item = value === 0 ? value : (value * 0.001).toFixed(4);
+        var item = value === 0 ? value : (value * 0.001).toFixed(2);
         return item;
     };
 

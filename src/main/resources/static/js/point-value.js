@@ -1,10 +1,10 @@
 var App = function () {
-
     this.Startup = function () {
         this.ReLayout();
         this.BindInputEvent();
 
         $('#run').on('click', this.OnRunButtonClick.bind(this));
+        $('#run').trigger("click");
         $('.port-method button').on('click', this.SelectType.bind(this));
         $('.return-title ul li').on('click', this.PortCallTab.bind(this));
         window.onresize = this.ReLayout.bind(this);
@@ -26,7 +26,8 @@ var App = function () {
             data: params,
             url: 'debug/GetPointValue',
             success: function (result) {
-                this.ReloadData();
+                //this.ReloadData();
+                this.SetReturnData(result);
             }.bind(this)
         });
     };
@@ -47,6 +48,10 @@ var App = function () {
 
     this.OnRunButtonClick = function () {
         this.ReloadData();
+    };
+
+    this.SetReturnData = function (data) {
+        $('#data').text(data.resutl);
     };
 
     this.SelectType = function (event) {

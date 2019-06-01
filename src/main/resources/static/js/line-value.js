@@ -2,6 +2,7 @@ var App = function () {
 
     this.Startup = function () {
         this.ReLayout();
+        this.ReloadData();
         this.BindInputEvent();
         this.ReloadChart();
         $('.return-title ul li').on('click', this.PortCallTab.bind(this));
@@ -16,16 +17,32 @@ var App = function () {
         $('.return-content li, .describe').height(windowHeight - 611);
     };
 
+    this.ReloadData = function () {
+        var params = this.GetParams();
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            data: params,
+            url: 'debug/GetLineValues',
+            success: function (result) {
+                console.log(result)
+                //this.SetReturnData(result);
+            }.bind(this)
+        });
+    };
+
     this.GetParams = function () {
         return {
-            value1: $('#mode').val(),
-            value2: $('#element').val(),
-            value3: $('#latitude').val(),
-            value4: $('#longitude').val(),
-            value5: $('#forecast').val(),
-            value6: $('#start-time').val(),
-            value7: $('#end-time').val(),
-            value8: $('#initial').val()
+            URL: 'http://10.129.4.202:9535/Search/GetLineValues',
+            requestMode: $('.port-method button.active').text(),
+            modeCode: $('#mode').val(),
+            elementCode: $('#element').val(),
+            latitude: $('#latitude').val(),
+            longitude: $('#longitude').val(),
+            forecastLevel: $('#forecast').val(),
+            startTime: $('#start-time').val(),
+            endTime: $('#end-time').val(),
+            initialTime: $('#initial').val()
         }
     };
 

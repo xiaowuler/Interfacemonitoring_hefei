@@ -238,3 +238,7 @@
     padding: 5px 10px 0 10px;
     display: none;
 }
+
+.return-content .describe{
+    overflow-y: auto;
+}
