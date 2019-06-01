@@ -211,18 +211,19 @@ var App = function () {
         var width = $(window).width();
         $('#port-table').datagrid({
             columns: [[
-                { field: 'name', title: '名称', align: 'center', width: width * 0.12},
-                { field: 'callNumberDay', title: '前天调用次数', align: 'center', width: width * 0.2},
-                { field: 'callNumberDay', title: '今天调用次数', align: 'center', width: width * 0.2},
-                { field: 'callNumberDay', title: '昨天调用次数', align: 'center', width: width * 0.2},
-                { field: 'successRate', title: '成功率（%）', align: 'center', width: width * 0.2, formatter: this.SuccessRateFormatter.bind(this) },
-                { field: 'successConsumingAvg', title: '成功平均耗时（s）', align: 'center', width: width * 0.2, formatter: this.TimeFormatter.bind(this) },
-                { field: 'failureConsumingAvg', title: '失败平均耗时（s）', align: 'center', width: width * 0.2, formatter: this.TimeFormatter.bind(this) }
+                { field: 'name', title: '名称', align: 'center',},
+                { field: 'name', title: '说明', align: 'center', width: width * 0.15},
+                { field: 'callNumberDay', title: '前天调用次数', align: 'center', width: width * 0.15},
+                { field: 'callNumberDay', title: '今天调用次数', align: 'center', width: width * 0.15},
+                { field: 'callNumberDay', title: '昨天调用次数', align: 'center', width: width * 0.15},
+                { field: 'successRate', title: '成功率（%）', align: 'center', width: width * 0.15, formatter: this.SuccessRateFormatter.bind(this) },
+                { field: 'successConsumingAvg', title: '成功平均耗时（s）', align: 'center', width: width * 0.15, formatter: this.TimeFormatter.bind(this) },
+                { field: 'failureConsumingAvg', title: '失败平均耗时（s）', align: 'center', width: width * 0.15, formatter: this.TimeFormatter.bind(this) }
             ]],
             striped: true,
             singleSelect: true,
             fitColumns: true,
-            fit: true,
+            //fit: true,
             scrollbarSize: 0,
             pagination: true,
             pageNumber: 1,

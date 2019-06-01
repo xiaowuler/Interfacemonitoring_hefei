@@ -3,6 +3,9 @@ var App = function () {
     this.Startup = function () {
         this.ReLayout();
         this.BindInputEvent();
+        $('#run').on('click', this.OnRunButtonClick.bind(this));
+        $('#run').trigger("click");
+        $('.port-method button').on('click', this.SelectType.bind(this));
         $('.return-title ul li').on('click', this.PortCallTab.bind(this));
         window.onresize = this.ReLayout.bind(this);
 
@@ -15,18 +18,48 @@ var App = function () {
         $('.return-content li, .describe').height(windowHeight - 611);
     };
 
+    this.ReloadData = function () {
+        var params = this.GetParams();
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            data: params,
+            url: 'debug/GetRegionValues',
+            success: function (result) {
+                console.log(result)
+                //this.ReloadData();
+                this.SetReturnData(result);
+            }.bind(this)
+        });
+    };
+
     this.GetParams = function () {
         return {
-            value1: $('#mode').val(),
-            value2: $('#element').val(),
-            value3: $('#min-lat').val(),
-            value4: $('#max-lat').val(),
-            value5: $('#min-lon').val(),
-            value6: $('#max-lon').val(),
-            value7: $('#forecast-level').val(),
-            value8: $('#forecast-time').val(),
-            value9: $('#initial').val(),
+            URL: 'http://10.129.4.202:9535/Search/GetRegionValues',
+            requestMode: $('.port-method button.active').text(),
+            modeCode: $('#mode').val(),
+            elementCode: $('#element').val(),
+            minLat: $('#min-lat').val(),
+            maxLat: $('#max-lat').val(),
+            minLon: $('#min-lon').val(),
+            maxLon: $('#max-lon').val(),
+            forecastLevel: $('#forecast-level').val(),
+            forecastTime: $('#forecast-time').val(),
+            initialTime: $('#initial').val()
         }
+    };
+
+    this.OnRunButtonClick = function () {
+        this.ReloadData();
+    };
+
+    this.SetReturnData = function (data) {
+        $('#data').text(data.resutl);
+    };
+
+    this.SelectType = function (event) {
+        $('.port-method button').removeClass("active");
+        $(event.target).addClass("active");
     };
 
     this.BindInputEvent = function () {
