@@ -138,7 +138,7 @@ public class LogServiceImpl implements LogService{
         long total = logs.size();
         List<LogDTO> logDTOS = new ArrayList<>();
 
-        for (int x = pageNum -1, len = x + pageSize; x < len;
+        for (int x = (pageNum -1) * pageSize, len = pageNum * pageSize; x < len;
              x++) {
             if (x == total)
                 break;

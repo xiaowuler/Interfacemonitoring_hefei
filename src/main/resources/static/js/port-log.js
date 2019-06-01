@@ -55,20 +55,26 @@ var App = function () {
 
     this.ReLoadTableData = function () {
         var params = this.GetParams();
-        $.ajax({
-            type: "POST",
-            dataType: 'json',
-            data: params,
+        // $.ajax({
+        //     type: "POST",
+        //     dataType: 'json',
+        //     data: params,
+        //     url: 'log/findAllByCallerAndNameAndStateAndTime',
+        //     success: function (result) {
+        //         $('#log-table').datagrid('loadData', result);
+        //     }.bind(this)
+        // });
+
+        $('#log-table').datagrid({
+            method: "POST",
             url: 'log/findAllByCallerAndNameAndStateAndTime',
-            success: function (result) {
-                $('#log-table').datagrid('loadData', result);
-            }.bind(this)
+            queryParams: params
         });
     };
 
     this.GetParams = function () {
-        var options = $('#log-table').datagrid("getPager" ).data("pagination" ).options;
-        var size = options.pageSize;
+        // var options = $('#log-table').datagrid("getPager" ).data("pagination" ).options;
+        // var size = options.pageSize;
         var name = $('#name').combobox('getValue');
         var caller = $('#caller').combobox('getValue');
         var state = $('#state').combobox('getValue');
@@ -78,8 +84,8 @@ var App = function () {
             startTime: $('#start-date').datebox('getValue'),
             endTime: $('#end-date').datebox('getValue'),
             state: state === '全部' || state === '' ? -1 : state === '成功' ? 1 : 0,
-            pageNum: 1,
-            pageSize: size
+            //pageNum: 1,
+            //pageSize: size
         }
     };
 
