@@ -4,6 +4,7 @@ var App = function () {
 
     this.Startup = function () {
         this.ReLayout();
+        this.SetDate();
         this.BindInputEvent();
         $('#run').on('click', this.OnRunButtonClick.bind(this));
         $('#run').trigger("click");
@@ -30,8 +31,7 @@ var App = function () {
             data: params,
             url: 'debug/GetRegionValues',
             success: function (result) {
-                console.log(result)
-                //this.ReloadData();
+                console.log(result);
                 this.SetReturnData(result);
                 this.MapInfo.CreateSpotLayer(result.contourResult.spotPolygons, result.contourResult.legendLevels);
             }.bind(this)
@@ -39,6 +39,11 @@ var App = function () {
     };
 
     this.GetParams = function () {
+        var forecastTime = $("#forecast-time").datetimebox("getValue");
+        var forecastFormat = moment(forecastTime).format('YYYYMMDDHHmm');
+        var initialTime = $("#initial").datetimebox("getValue");
+        var initialFormat = moment(initialTime).format('YYYYMMDDHHmm');
+
         return {
             URL: 'http://10.129.4.202:9535/Search/GetRegionValues',
             requestMode: $('.port-method button.active').text(),
@@ -49,8 +54,8 @@ var App = function () {
             minLon: $('#min-lon').val(),
             maxLon: $('#max-lon').val(),
             forecastLevel: $('#forecast-level').val(),
-            forecastTime: $('#forecast-time').val(),
-            initialTime: $('#initial').val()
+            forecastTime: forecastFormat,
+            initialTime: initialFormat
         }
     };
 
@@ -69,7 +74,7 @@ var App = function () {
 
     this.BindInputEvent = function () {
         $('.port-detail').find('.port-des').each(function () {
-            $(this).find('span').children('input').hover(function () {
+            $(this).find('div').children('input.focus').hover(function () {
                 $(this).focus();
             })
         });
@@ -81,7 +86,18 @@ var App = function () {
 
         var index = $(event.target).index();
         $(".return-content li").eq(index).css("display","block").siblings().css("display","none");
+    };
 
+    this.SetDate = function () {
+        $('#forecast-time').datetimebox({
+            panelWidth: 200,
+            panelHeight: 260
+        });
+
+        $('#initial').datetimebox({
+            panelWidth: 200,
+            panelHeight: 260
+        });
     };
 };
 

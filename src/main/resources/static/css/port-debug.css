@@ -32,7 +32,7 @@
     position: relative;
 }
 
-.port-des span{
+.port-des .port-label{
     width: 150px;
     float: left;
     margin-right: 2px;
@@ -42,21 +42,25 @@
     background: #2f3144;
 }
 
-.port-des span.port-must{
+.port-des div.port-must{
     width: 80px;
 }
 
-.port-des span.port-type{
+.port-des div.port-type{
     width: 90px;
     margin-right: 10px;
 }
 
-.port-des span.port-explain{
+.port-des div.port-value{
+    width: 200px;
+}
+
+.port-des div.port-explain{
     width: 50px;
 }
 
-.port-des span.explain-txt{
-    width: calc(100% - 538px);
+.port-des div.explain-txt{
+    width: calc(100% - 588px);
     margin-right: 0;
     padding-left: 10px;
     text-align: left;
@@ -65,7 +69,7 @@
     right: 0;
 }
 
-.port-des span.explain-txt input{
+.port-des div.explain-txt input{
     text-align: left;
     padding-left: 10px;
 }
@@ -138,52 +142,6 @@
     line-height: 55px;
 }
 
-.panel-body{
-    height: 100%!important;
-    padding: 20px;
-    background: transparent;
-}
-
-.panel-htop{
-    height: 100%;
-}
-
-.tabs{
-    padding-left: 15px;
-    border-color: #3b3d51;
-}
-
-.tabs-header{
-    border: 0;
-    background: transparent;
-}
-
-.tabs li a.tabs-inner{
-    padding: 0 15px;
-    border: 0;
-    color: #9e9e9e;
-    background: transparent;
-}
-
-.tabs li.tabs-selected a.tabs-inner {
-    color: #ffffff;
-    border: 1px solid #3b3d51;
-    border-top: 2px solid #59bbd9;
-    border-bottom: 1px solid #27293d;
-    background: transparent;
-}
-
-.tabs-panels{
-    height: 270px;
-    border: 0;
-}
-
-.tabs-panels p{
-    line-height: 25px;
-    color: #dbdbdb;
-    font-size: 16px;
-}
-
 .return-title{
     border-bottom: 1px solid #3b3d51;
 }
@@ -241,4 +199,36 @@
 
 .return-content .describe{
     overflow-y: auto;
+}
+
+.textbox{
+    height: 32px;
+    width: 190px!important;
+    margin: 0 auto;
+    top: -2px;
+}
+
+.textbox-addon,
+.datebox .combo-arrow,
+.spinner-button-updown{
+    height: 30px!important;
+}
+
+.datebox .combo-arrow {
+    background: url('../images/calendar.png') no-repeat 5px center;
+}
+
+.textbox .textbox-text{
+    color: #ffffff;
+    background: transparent;
+}
+
+#_easyui_textbox_input1{
+    color: #ffffff;
+    background: transparent;
+}
+
+.textbox .textbox-text{
+    height: 30px!important;
+    line-height: 30px!important;
 }

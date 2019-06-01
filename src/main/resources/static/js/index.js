@@ -33,18 +33,6 @@ var App = function () {
     };
 
     this.ReLoadTableData = function () {
-        // var params = this.GetParams();
-        // $.ajax({
-        //     type: "POST",
-        //     dataType: 'json',
-        //     data: params,
-        //     url: 'log/findAllByState',
-        //     success: function (result) {
-        //         console.log(result);
-        //         $('#port-table').datagrid('loadData', result);
-        //     }.bind(this)
-        // });
-
         $('#port-table').datagrid({
             method: "POST",
             url: 'log/findAllByState'
@@ -215,10 +203,9 @@ var App = function () {
         $('#port-table').datagrid({
             columns: [[
                 { field: 'name', title: '名称', align: 'center', width: width * 0.15},
-                { field: 'name', title: '说明', align: 'center', width: width * 0.15 },
-                { field: 'callNumberDay', title: '前天调用次数', align: 'center', width: width * 0.15},
+                { field: 'callNumberBeforeDay', title: '前天调用次数', align: 'center', width: width * 0.15},
+                { field: 'callNumberLastDay', title: '昨天调用次数', align: 'center', width: width * 0.15},
                 { field: 'callNumberDay', title: '今天调用次数', align: 'center', width: width * 0.15},
-                { field: 'callNumberDay', title: '昨天调用次数', align: 'center', width: width * 0.15},
                 { field: 'successRate', title: '成功率（%）', align: 'center', width: width * 0.15, formatter: this.SuccessRateFormatter.bind(this) },
                 { field: 'successConsumingAvg', title: '成功平均耗时（s）', align: 'center', width: width * 0.15, formatter: this.TimeFormatter.bind(this) },
                 { field: 'failureConsumingAvg', title: '失败平均耗时（s）', align: 'center', width: width * 0.15, formatter: this.TimeFormatter.bind(this) }

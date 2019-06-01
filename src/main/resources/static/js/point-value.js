@@ -33,6 +33,11 @@ var App = function () {
     };
 
     this.GetParams = function () {
+        var forecastTime = $("#forecast-time").datetimebox("getValue");
+        var forecastFormat = moment(forecastTime).format('YYYYMMDDHHmm');
+        var initialTime = $("#initial").datetimebox("getValue");
+        var initialFormat = moment(initialTime).format('YYYYMMDDHHmm');
+
         return {
             URL: 'http://10.129.4.202:9535/Search/GetPointValue',
             RequestMode: $('.port-method button.active').text(),
@@ -41,8 +46,8 @@ var App = function () {
             latitude: $('#latitude').val(),
             longitude: $('#longitude').val(),
             forecastLevel: $('#forecast-level').val(),
-            forecastTime: $('#forecast-time').val(),
-            initialTime: $('#initial').val()
+            forecastTime: forecastFormat,
+            initialTime: initialFormat
         }
     };
 
@@ -61,7 +66,7 @@ var App = function () {
 
     this.BindInputEvent = function () {
         $('.port-detail').find('.port-des').each(function () {
-            $(this).find('span').children('input').hover(function () {
+            $(this).find('div').children('input.focus').hover(function () {
                 $(this).focus();
             })
         });
@@ -76,8 +81,18 @@ var App = function () {
     };
 
     this.SetDate = function () {
+        $('#forecast-time').datetimebox({
+            panelWidth: 200,
+            panelHeight: 260,
+            showSeconds: false
+        });
 
-    }
+        $('#initial').datetimebox({
+            panelWidth: 200,
+            panelHeight: 260,
+            showSeconds: false
+        });
+    };
 };
 
 $(document).ready(function () {

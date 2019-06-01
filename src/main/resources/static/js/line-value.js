@@ -2,6 +2,7 @@ var App = function () {
 
     this.Startup = function () {
         this.ReLayout();
+        this.SetDate();
         this.ReloadData();
         this.BindInputEvent();
         this.ReloadChart();
@@ -37,6 +38,13 @@ var App = function () {
     };
 
     this.GetParams = function () {
+        var startTime = $("#start-time").datetimebox("getValue");
+        var startFormat = moment(startTime).format('YYYYMMDDHHmm');
+        var endTime = $("#end-time").datetimebox("getValue");
+        var endFormat = moment(endTime).format('YYYYMMDDHHmm');
+        var initialTime = $("#initial").datetimebox("getValue");
+        var initialFormat = moment(initialTime).format('YYYYMMDDHHmm');
+
         return {
             URL: 'http://10.129.4.202:9535/Search/GetLineValues',
             requestMode: $('.port-method button.active').text(),
@@ -45,9 +53,9 @@ var App = function () {
             latitude: $('#latitude').val(),
             longitude: $('#longitude').val(),
             forecastLevel: $('#forecast').val(),
-            startTime: $('#start-time').val(),
-            endTime: $('#end-time').val(),
-            initialTime: $('#initial').val()
+            startTime: startFormat,
+            endTime: endFormat,
+            initialTime: initialFormat
         }
     };
 
@@ -66,7 +74,7 @@ var App = function () {
 
     this.BindInputEvent = function () {
         $('.port-detail').find('.port-des').each(function () {
-            $(this).find('span').children('input').hover(function () {
+            $(this).find('div').children('input.focus').hover(function () {
                 $(this).focus();
             })
         });
@@ -189,6 +197,23 @@ var App = function () {
                 }
             },
             series: elementSeries
+        });
+    };
+
+    this.SetDate = function () {
+        $('#start-time').datetimebox({
+            panelWidth: 200,
+            panelHeight: 260
+        });
+
+        $('#end-time').datetimebox({
+            panelWidth: 200,
+            panelHeight: 260
+        });
+
+        $('#initial').datetimebox({
+            panelWidth: 200,
+            panelHeight: 260
         });
     };
 };
