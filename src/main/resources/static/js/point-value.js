@@ -26,7 +26,6 @@ var App = function () {
             data: params,
             url: 'debug/GetPointValue',
             success: function (result) {
-                //this.ReloadData();
                 this.SetReturnData(result);
             }.bind(this)
         });
