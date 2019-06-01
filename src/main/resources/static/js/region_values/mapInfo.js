@@ -17,7 +17,7 @@ var MapInfo = function () {
 
     this.CreateEasyMap = function () {
         this.Map = L.map("map", {
-            center: [31.70666, 113.40758],
+            center: [26.70666, 117.40758],
             zoom: 6,
             zoomControl: false
         });
@@ -25,6 +25,7 @@ var MapInfo = function () {
             maxZoom: 18,
             minZoom: 5
         });
+        this.Map.invalidateSize(true);
         this.Map.addLayer(layer);
     }
 

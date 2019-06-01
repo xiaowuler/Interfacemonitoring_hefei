@@ -4,6 +4,7 @@ var App = function () {
     this.ColorContorl = new ColorContorl();
 
     this.Startup = function () {
+
         this.ReLayout();
         this.SetDate();
         this.BindInputEvent();
@@ -15,12 +16,12 @@ var App = function () {
 
         window.onresize = this.ReLayout.bind(this);
         $(".return-content li").eq(0).show();
+        this.MapInfo.CreateEasyMap();
 
     };
 
     this.ReLayout = function () {
         var windowHeight = $(window).height();
-        this.MapInfo.CreateEasyMap();
         $('.aside').height(windowHeight - 70);
         $('.return-content li, .describe').height(windowHeight - 611);
     };
@@ -115,6 +116,8 @@ var App = function () {
 
         var index = $(event.target).index();
         $(".return-content li").eq(index).css("display","block").siblings().css("display","none");
+
+        L.Util.requestAnimFrame(this.MapInfo.Map.invalidateSize,this.MapInfo.Map,!1,this.MapInfo.Map._container);
     };
 
     this.SetDate = function () {
