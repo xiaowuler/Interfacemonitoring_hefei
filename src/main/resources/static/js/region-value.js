@@ -1,5 +1,7 @@
 var App = function () {
 
+    this.BottomPanel = new BottomPanel();
+
     this.Startup = function () {
         this.ReLayout();
         this.BindInputEvent();
@@ -10,6 +12,7 @@ var App = function () {
         window.onresize = this.ReLayout.bind(this);
 
         $(".return-content li").eq(0).show();
+        //this.BottomPanel.Startup();
     };
 
     this.ReLayout = function () {

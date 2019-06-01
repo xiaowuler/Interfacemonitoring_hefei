@@ -1,0 +1,32 @@
+[
+  {
+    "Name": "六合",
+    "Latitude": 32.44257,
+    "Longitude": 118.83087
+  },
+  {
+    "Name": "栖霞",
+    "Latitude": 32.14539,
+    "Longitude": 118.77045
+  },
+  {
+    "Name": "浦口",
+    "Latitude": 32.02671,
+    "Longitude": 118.52325
+  },
+  {
+    "Name": "江宁",
+    "Latitude": 31.86123,
+    "Longitude": 118.82538
+  },
+  {
+    "Name": "溧水",
+    "Latitude": 31.59959,
+    "Longitude": 119.02863
+  },
+  {
+    "Name": "高淳",
+    "Latitude": 31.32549,
+    "Longitude": 118.93524
+  }
+]

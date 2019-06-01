@@ -1,0 +1,9 @@
+.map-wrapper {
+    width: 100%;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: url("../images/map.jpg") no-repeat center/cover;
+}
