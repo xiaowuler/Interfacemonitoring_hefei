@@ -23,10 +23,10 @@ import java.util.List;
  * @create: 2019-06-01 15:08
  **/
 public class ContourUtil {
-    public static double MinX = 116.686691;
-    public static double MaxX = 117.879807;
-    public static double MinY = 31.505648;
-    public static double MaxY = 32.619091;
+    public static double MinX = 114.875145;
+    public static double MaxX = 119.644440;
+    public static double MinY = 29.395222;
+    public static double MaxY = 34.655106;
     List<List<PointD>> _clipLines = new ArrayList<>();
 
     public ContourUtil(String boundFile) {

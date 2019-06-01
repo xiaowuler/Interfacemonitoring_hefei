@@ -1,0 +1,89 @@
+.color-control{
+    width: 160px;
+    position: absolute;
+    bottom: 10px;;
+    right: 20px;
+    z-index: 100;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none; user-select:none;
+}
+
+.color-info{
+    /*position: absolute;
+    bottom: 0px !important;*/
+    position: absolute;
+    bottom: 10px;
+}
+
+.color-unit{
+    margin-right: -20px;
+    float: left;
+    display: table;
+}
+
+.color-unit p{
+    text-align: center;
+    color: #333333;
+    font-size: 14px;
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    transform: rotate(270deg);
+}
+
+.color-unit .color-align{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.color-gradient{
+    float: left;
+    border: 1px solid #333333;
+}
+
+.color-gradient span{
+    width: 20px;
+    height: 18px;
+    display: block;
+    border-bottom: 1px dotted #333333;
+    position: relative;
+}
+
+.color-gradient span:after{
+    content: '';
+    width: 3px;
+    height: 1px;
+    position: absolute;
+    top: -1px;
+    right: -4px;
+    background: #333333;
+}
+
+.color-gradient span:last-child{
+    border-bottom: 0;
+}
+.color-gradient span:last-child:before{
+    content: '';
+    width: 3px;
+    height: 1px;
+    position: absolute;
+    bottom: -1px;
+    right: -4px;
+    background: #333333;
+}
+
+.color-value{
+    margin-left: 8px;
+    float: left;
+}
+
+.color-value span{
+    height: 18px;
+    display: block;
+    position: relative;
+    top: -10px;
+    color: #333333;
+    font-size: 14px;
+}

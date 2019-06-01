@@ -36,7 +36,7 @@ var App = function () {
         var forecastTime = $("#forecast-time").datetimebox("getValue");
         var forecastFormat = moment(forecastTime).format('YYYYMMDDHHmm');
         var initialTime = $("#initial").datetimebox("getValue");
-        var initialFormat = moment(initialTime).format('YYYYMMDDHHmm');
+        var initialFormat = moment(initialTime).format('YYYYMMDDHHmm') == 'Invalid date' ? '' : moment(initialTime).format('YYYYMMDDHHmm');
 
         return {
             URL: 'http://10.129.4.202:9535/Search/GetPointValue',

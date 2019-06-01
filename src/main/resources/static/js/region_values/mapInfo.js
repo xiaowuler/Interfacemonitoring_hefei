@@ -10,14 +10,15 @@ var MapInfo = function () {
     this.encryPlotValueValue = null;
 
     this.Startup = function () {
+        this.CreateEasyMap();
         this.GetProBorder();
         //this.GetRegionName();
     }
 
     this.CreateEasyMap = function () {
         this.Map = L.map("map", {
-            center: [31.70666, 118.40758],
-            zoom: 8,
+            center: [31.70666, 113.40758],
+            zoom: 6,
             zoomControl: false
         });
         var layer = L.tileLayer.chinaProvider('Google.Normal.Map', {

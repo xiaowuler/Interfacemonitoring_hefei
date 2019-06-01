@@ -43,7 +43,7 @@ var App = function () {
         var endTime = $("#end-time").datetimebox("getValue");
         var endFormat = moment(endTime).format('YYYYMMDDHHmm');
         var initialTime = $("#initial").datetimebox("getValue");
-        var initialFormat = moment(initialTime).format('YYYYMMDDHHmm');
+        var initialFormat = moment(initialTime).format('YYYYMMDDHHmm') == 'Invalid date' ? '' : moment(initialTime).format('YYYYMMDDHHmm');
 
         return {
             URL: 'http://10.129.4.202:9535/Search/GetLineValues',
