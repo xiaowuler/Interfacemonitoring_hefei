@@ -29,6 +29,12 @@ public class LogDTO {
     //本天调用次数
     private int callNumberDay;
 
+    //昨天调用次数
+    private int callNumberLastDay;
+
+    //前天调用次数
+    private int callNumberBeforeDay;
+
     //成功率
     private float successRate;
 

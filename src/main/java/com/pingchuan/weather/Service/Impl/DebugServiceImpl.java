@@ -40,13 +40,16 @@ public class DebugServiceImpl implements DebugService {
     }
 
     @Override
-    public SearchResultInfos GetLineValues(String url, String requestMode, Map<String, Object> map) {
+    public SearchResultDTO GetLineValues(String url, String requestMode, Map<String, Object> map) {
+        SearchResultDTO searchResultDTO = new SearchResultDTO();
+
         if (requestMode.equals("POST")){
             String result = WebUtil.Post(url, map);
 
             if (!StringUtils.isEmpty(result)){
                 SearchResultInfos searchResultInfos = JSONObject.parseObject(result, SearchResultInfos.class);
-                System.out.println(searchResultInfos);
+                searchResultDTO.setResutl(result);
+                searchResultDTO.setSearchResultInfos(searchResultInfos);
             }
         }
         return null;

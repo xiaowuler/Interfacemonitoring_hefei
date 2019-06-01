@@ -31,8 +31,8 @@ public class DebugController {
     }
 
     @RequestMapping("/GetLineValues")
-    public void GetLineValues(String URL, String requestMode, String modeCode, String elementCode, float latitude, float longitude, int forecastLevel, String startTime, String endTime, String initialTime){
-        SearchResultInfos searchResultInfo = debugService.GetLineValues(URL, requestMode, GetLineValuesParam(modeCode, elementCode, latitude, longitude, forecastLevel, startTime, endTime, initialTime));
+    public SearchResultDTO GetLineValues(String URL, String requestMode, String modeCode, String elementCode, float latitude, float longitude, int forecastLevel, String startTime, String endTime, String initialTime){
+        return debugService.GetLineValues(URL, requestMode, GetLineValuesParam(modeCode, elementCode, latitude, longitude, forecastLevel, startTime, endTime, initialTime));
     }
 
     @RequestMapping("/GetRegionValues")

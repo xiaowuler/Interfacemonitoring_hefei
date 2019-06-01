@@ -10,7 +10,7 @@ public interface DebugService {
 
     SearchResultDTO GetPointValue(String URL, String requestMode, Map<String, Object> map);
 
-    SearchResultInfos GetLineValues(String url, String requestMode, Map<String,Object> stringObjectMap);
+    SearchResultDTO GetLineValues(String url, String requestMode, Map<String,Object> stringObjectMap);
 
     SearchResultInfo GetRegionValues(String url, String requestMode, Map<String,Object> stringObjectMap);
 }
