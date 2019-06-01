@@ -18,4 +18,6 @@ public class SearchResultDTO {
     private SearchResultInfo searchResultInfo;
 
     private SearchResultInfos searchResultInfos;
+
+    private ContourResult contourResult;
 }

@@ -12,5 +12,5 @@ public interface DebugService {
 
     SearchResultDTO GetLineValues(String url, String requestMode, Map<String,Object> stringObjectMap);
 
-    SearchResultInfo GetRegionValues(String url, String requestMode, Map<String,Object> stringObjectMap);
+    SearchResultDTO GetRegionValues(String url, String requestMode, Map<String,Object> stringObjectMap);
 }

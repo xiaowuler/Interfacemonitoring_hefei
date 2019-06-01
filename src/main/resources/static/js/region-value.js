@@ -1,6 +1,6 @@
 var App = function () {
 
-    this.BottomPanel = new BottomPanel();
+    this.MapInfo = new MapInfo();
 
     this.Startup = function () {
         this.ReLayout();
@@ -9,10 +9,11 @@ var App = function () {
         $('#run').trigger("click");
         $('.port-method button').on('click', this.SelectType.bind(this));
         $('.return-title ul li').on('click', this.PortCallTab.bind(this));
+        //this.BottomPanel.Startup();
+        this.MapInfo.CreateEasyMap();
         window.onresize = this.ReLayout.bind(this);
-
         $(".return-content li").eq(0).show();
-        this.BottomPanel.Startup();
+
     };
 
     this.ReLayout = function () {
@@ -32,6 +33,7 @@ var App = function () {
                 console.log(result)
                 //this.ReloadData();
                 this.SetReturnData(result);
+                this.MapInfo.CreateSpotLayer(result.contourResult.spotPolygons, result.contourResult.legendLevels);
             }.bind(this)
         });
     };

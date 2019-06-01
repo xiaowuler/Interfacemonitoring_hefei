@@ -11,16 +11,16 @@ var MapInfo = function () {
 
     this.Startup = function () {
         this.GetProBorder();
-        this.GetRegionName();
+        //this.GetRegionName();
     }
 
     this.CreateEasyMap = function () {
         this.Map = L.map("map", {
             center: [31.70666, 118.40758],
-            zoom: 7,
+            zoom: 8,
             zoomControl: false
         });
-        var layer = L.tileLayer.chinaProvider('Geoq.Normal.Gray', {
+        var layer = L.tileLayer.chinaProvider('Google.Normal.Map', {
             maxZoom: 18,
             minZoom: 5
         });
@@ -28,7 +28,7 @@ var MapInfo = function () {
     }
 
     this.GetProBorder = function () {
-        $.getJSON("json/nanjing-districts.json", function (data) {
+        $.getJSON("json/ah.json", function (data) {
             this.borders = L.geoJson(data, {
                 style: {
                     weight: 1,
