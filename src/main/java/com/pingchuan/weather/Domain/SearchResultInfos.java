@@ -1,5 +1,7 @@
 package com.pingchuan.weather.Domain;
 
+import lombok.Data;
+
 import java.util.List;
 
 /**
@@ -7,6 +9,8 @@ import java.util.List;
  * @author: XW
  * @create: 2019-05-31 20:17
  **/
+
+@Data
 public class SearchResultInfos {
     private int Error;
     private String Message;

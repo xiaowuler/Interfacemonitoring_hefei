@@ -91,7 +91,7 @@ public class LogServiceImpl implements LogService{
         //准备参数
         long startTime = getTimeByDays(-7);
         long endTime = getTimeByDays(1);
-        long lastTime = getLastTime();
+        //long lastTime = addTimeByDays(1);
         Config successRateConfig = configMapper.findOneById(5);
         Config successConsumingAvgConfig = configMapper.findOneById(6);
         Config failureConsumingAvgConfig = configMapper.findOneById(6);
@@ -109,7 +109,9 @@ public class LogServiceImpl implements LogService{
             logDTO = new LogDTO();
             logDTO.setLog(logs.get(x));
             logDTO.setName(logs.get(x).getName());
-            logDTO.setCallNumberDay(getTodayCallNumber(logDTO.getLog().getName(), startTime, lastTime));
+            logDTO.setCallNumberDay(getTodayCallNumber(logDTO.getLog().getName(), addTimeByDays(0), addTimeByDays(1)));
+            logDTO.setCallNumberLastDay(getTodayCallNumber(logDTO.getLog().getName(), addTimeByDays(-1), addTimeByDays(0)));
+            logDTO.setCallNumberBeforeDay(getTodayCallNumber(logDTO.getLog().getName(), addTimeByDays(-2), addTimeByDays(-1)));
             logDTO.setSuccessRate(getOneSuccessRate(successRateConfig, logDTO.getLog().getName()));
             logDTO.setSuccessConsumingAvg(getOneConsumingAvg(1, logDTO.getLog().getName(), Integer.parseInt(successConsumingAvgConfig.getValue())));
             logDTO.setFailureConsumingAvg(getOneConsumingAvg(0, logDTO.getLog().getName(), Integer.parseInt(failureConsumingAvgConfig.getValue())));
@@ -197,10 +199,10 @@ public class LogServiceImpl implements LogService{
         return logMapper.findOneByToday(name, startTime, endTime);
     }
 
-    private long getLastTime(){
+    private long addTimeByDays(int days){
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
         calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
-        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        calendar.add(Calendar.DAY_OF_MONTH, days);
         return calendar.getTimeInMillis();
     }
 
