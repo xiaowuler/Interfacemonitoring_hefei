@@ -1,5 +1,6 @@
 package com.pingchuan.weather.Controller;
 
+import com.pingchuan.weather.DTO.SearchResultDTO;
 import com.pingchuan.weather.Domain.SearchResultInfo;
 import com.pingchuan.weather.Domain.SearchResultInfos;
 import com.pingchuan.weather.Service.DebugService;
@@ -25,8 +26,8 @@ public class DebugController {
     private DebugService debugService;
 
     @RequestMapping("/GetPointValue")
-    public SearchResultInfo GetPointValue(String URL, String requestMode, String modeCode, String elementCode, float latitude, float longitude, int forecastLevel, String forecastTime, String initialTime){
-        return debugService.GetPointValue(URL, requestMode, GetPointValueParam(modeCode, elementCode, latitude, longitude, forecastLevel, forecastTime, initialTime));
+    public SearchResultDTO GetPointValue(String URL, String RequestMode, String modeCode, String elementCode, float latitude, float longitude, int forecastLevel, String forecastTime, String initialTime){
+        return debugService.GetPointValue(URL, RequestMode, GetPointValueParam(modeCode, elementCode, latitude, longitude, forecastLevel, forecastTime, initialTime));
     }
 
     @RequestMapping("/GetLineValues")

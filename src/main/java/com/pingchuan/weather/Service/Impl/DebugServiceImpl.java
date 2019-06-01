@@ -1,6 +1,7 @@
 package com.pingchuan.weather.Service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.pingchuan.weather.DTO.SearchResultDTO;
 import com.pingchuan.weather.Domain.SearchResultInfo;
 import com.pingchuan.weather.Domain.SearchResultInfos;
 import com.pingchuan.weather.Service.DebugService;
@@ -22,17 +23,20 @@ import java.util.Map;
 public class DebugServiceImpl implements DebugService {
 
     @Override
-    public SearchResultInfo GetPointValue(String URL, String requestMode, Map<String, Object> map) {
+    public SearchResultDTO GetPointValue(String URL, String requestMode, Map<String, Object> map) {
+        SearchResultDTO searchResultDTO = new SearchResultDTO();
         if (requestMode.equals("POST")){
             String result = WebUtil.Post(URL, map);
 
             if (!StringUtils.isEmpty(result)){
                 SearchResultInfo searchResultInfo = JSONObject.parseObject(result, SearchResultInfo.class);
-                System.out.println(searchResultInfo);
+                searchResultDTO.setResutl(result);
+                searchResultDTO.setSearchResultInfo(searchResultInfo);
+                //System.out.println(searchResultInfo);
             }
         }
 
-        return null;
+        return searchResultDTO;
     }
 
     @Override
