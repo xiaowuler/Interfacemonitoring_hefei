@@ -12,7 +12,7 @@ var App = function () {
         window.onresize = this.ReLayout.bind(this);
 
         $(".return-content li").eq(0).show();
-        //this.BottomPanel.Startup();
+        this.BottomPanel.Startup();
     };
 
     this.ReLayout = function () {

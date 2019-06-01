@@ -3,7 +3,7 @@ var App = function () {
 
     this.Startup = function () {
         this.ReLayout();
-        this.ReloadPortTable();
+        this.InitUserGrid();
         this.ReloadData();
 
         $('#add').on('click', this.OnAddButtonClick.bind(this));
@@ -31,29 +31,13 @@ var App = function () {
     };
 
     this.ReloadData = function () {
-        var params = this.GetParams();
-        $.ajax({
-            type: "POST",
-            dataType: 'json',
-            data: params,
-            url: 'user/findAllByPage',
-            success: function (result) {
-                console.log(result);
-                this.table.datagrid('loadData', result);
-            }.bind(this)
+        this.table.datagrid({
+            method: "POST",
+            url: 'user/findAllByPage'
         });
     };
 
-    this.GetParams = function () {
-        var options = this.table.datagrid("getPager" ).data("pagination" ).options;
-        var size = options.pageSize;
-        return{
-            pageNum: 1,
-            pageSize: size
-        }
-    };
-
-    this.ReloadPortTable = function () {
+    this.InitUserGrid = function () {
         var width = $(window).width() - 214;
         this.table.datagrid({
             columns: [[

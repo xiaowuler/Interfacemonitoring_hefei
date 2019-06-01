@@ -73,8 +73,6 @@ var App = function () {
     };
 
     this.GetParams = function () {
-        // var options = $('#log-table').datagrid("getPager" ).data("pagination" ).options;
-        // var size = options.pageSize;
         var name = $('#name').combobox('getValue');
         var caller = $('#caller').combobox('getValue');
         var state = $('#state').combobox('getValue');
@@ -83,9 +81,7 @@ var App = function () {
             callerCode: caller === '全部' || caller === '' ? '-1' : caller,
             startTime: $('#start-date').datebox('getValue'),
             endTime: $('#end-date').datebox('getValue'),
-            state: state === '全部' || state === '' ? -1 : state === '成功' ? 1 : 0,
-            //pageNum: 1,
-            //pageSize: size
+            state: state === '全部' || state === '' ? -1 : state === '成功' ? 1 : 0
         }
     };
 

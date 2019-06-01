@@ -3,7 +3,7 @@ var App = function () {
 
     this.Startup = function () {
         this.ReLayout();
-        this.ReloadPortTable();
+        this.InitPortGrid();
         this.ReloadData();
         $('#add').on('click', this.OnAddButtonClick.bind(this));
         $('#add-close').on('click', this.AddDialogHide.bind(this));
@@ -32,29 +32,13 @@ var App = function () {
     };
 
     this.ReloadData = function () {
-        var params = this.GetParams();
-        $.ajax({
-            type: "POST",
-            dataType: 'json',
-            data: params,
-            url: 'caller/findAllByPage',
-            success: function (result) {
-                console.log(result);
-                this.table.datagrid('loadData', result);
-            }.bind(this)
+        this.table.datagrid({
+            method: "POST",
+            url: 'caller/findAllByPage'
         });
     };
 
-    this.GetParams = function () {
-        var options = this.table.datagrid("getPager" ).data("pagination" ).options;
-        var size = options.pageSize;
-        return{
-            pageNum: 1,
-            pageSize: size
-        }
-    };
-
-    this.ReloadPortTable = function () {
+    this.InitPortGrid = function () {
         var width = $(window).width() - 214;
         this.table.datagrid({
             columns: [[
@@ -73,7 +57,7 @@ var App = function () {
             pageSize: 10,
             pageList: [10, 30, 50],
             loadMsg: '正在加载数据，请稍后...',
-            //onBeforeLoad: this.OnTableGridBeforeLoad.bind(this),
+            onBeforeLoad: this.OnTableGridBeforeLoad.bind(this),
             onLoadSuccess: this.OnTableGridLoaded.bind(this)
         });
     };
@@ -88,6 +72,15 @@ var App = function () {
         } else {
             return '<span class="disable">已禁用</span>';
         }
+    };
+
+    this.OnTableGridBeforeLoad = function () {
+        this.table.datagrid('getPager').pagination({
+            beforePageText: '第',
+            afterPageText: '页&nbsp;&nbsp;&nbsp;共{pages}页',
+            displayMsg: '当前显示{from}-{to}条记录&nbsp;&nbsp;&nbsp;共{total}条记录',
+            layout: ['list', 'sep', 'first', 'prev', 'sep', 'manual', 'sep', 'next', 'last', 'sep', 'refresh', 'info']
+        });
     };
 
     this.OnAddButtonClick = function () {

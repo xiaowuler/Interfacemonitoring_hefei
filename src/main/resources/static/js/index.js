@@ -230,8 +230,8 @@ var App = function () {
             scrollbarSize: 0,
             pagination: true,
             pageNumber: 1,
-            pageSize: 2,
-            pageList: [1, 2, 3],
+            pageSize: 10,
+            pageList: [10, 20, 30],
             loadMsg: '正在加载数据，请稍后...',
             onBeforeLoad: this.OnTableGridBeforeLoad.bind(this),
             onLoadSuccess: this.OnTableGridLoaded.bind(this)

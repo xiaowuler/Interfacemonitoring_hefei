@@ -59,7 +59,8 @@ button {
 }
 
 button,
-input{
+input,
+pre{
     font-family: "Microsoft YaHei";
 }
 

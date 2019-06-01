@@ -1,6 +1,7 @@
 var App = function () {
     this.Startup = function () {
         this.ReLayout();
+        this.SetDate();
         this.BindInputEvent();
 
         $('#run').on('click', this.OnRunButtonClick.bind(this));
@@ -72,8 +73,11 @@ var App = function () {
 
         var index = $(event.target).index();
         $(".return-content li").eq(index).css("display","block").siblings().css("display","none");
-
     };
+
+    this.SetDate = function () {
+
+    }
 };
 
 $(document).ready(function () {
