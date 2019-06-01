@@ -81,6 +81,9 @@
              `reserved3` `reserved3`
         FROM
             `logs`
+        <if test="total != 0">
+            limit #{startIndex},#{total}
+        </if>
     </select>
 
     <select id="findAllLogName" resultType="com.pingchuan.weather.Model.Log">
@@ -102,6 +105,10 @@
               start_time between #{startTime} and #{endTime}
         GROUP BY
               `name`
+
+        <if test="total != 0">
+            limit #{startIndex},#{total}
+        </if>
     </select>
 
     <select id="findAllLogNames" resultType="com.pingchuan.weather.Model.Log">
@@ -197,6 +204,27 @@
                   and is_success = #{state}
               </if>
               order by startTime desc
+    </select>
+
+    <select id="findAllLogNameByCount" resultType="com.pingchuan.weather.Model.Log">
+        SELECT
+             `id` `id`,
+             `name` `name`,
+             `params` `params`,
+             `caller` `caller`,
+             `is_success` `isSuccess`,
+             `error_message` `errorMessage`,
+             `start_time` `startTime`,
+             `end_time` `endTime`,
+             `reserved1` `reserved1`,
+             `reserved2` `reserved2`,
+             `reserved3` `reserved3`
+        FROM
+              `logs`
+        WHERE
+              start_time <![CDATA[ >= ]]> #{startTime} and start_time <![CDATA[ <= ]]> #{endTime}
+        GROUP BY
+              `name`
     </select>
 
 

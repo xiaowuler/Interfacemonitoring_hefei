@@ -34,9 +34,9 @@ public class UserServiceImpl implements UserService{
     
     public PageResult<User> findAllByPage(int pageNum, int pageSize){
         List<User> users = userMapper.findAll();
-        long count = users.size();
-        int startIndex = pageNum - 1;
-        int endIndex = (pageSize + pageNum - 1) >= count ? users.size() : (pageSize + pageNum - 1);
+        int count = users.size();
+        int startIndex = (pageNum - 1) * pageSize;
+        int endIndex = pageSize * pageNum >= count ? count : pageSize * pageNum;
         return new PageResult<>(count, users.subList(startIndex, endIndex));
     }
 

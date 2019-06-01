@@ -45,7 +45,7 @@ public class UserController{
     }
     
     @RequestMapping("/findAllByPage")
-    public PageResult<User> findAllByPage(int pageNum, int pageSize){
-        return userService.findAllByPage(pageNum, pageSize);
+    public PageResult<User> findAllByPage(int page, int rows){
+        return userService.findAllByPage(page, rows);
     }
 }

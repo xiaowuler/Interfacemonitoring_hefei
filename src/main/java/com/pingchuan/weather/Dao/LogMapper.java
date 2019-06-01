@@ -15,9 +15,9 @@ public interface LogMapper {
     
     void updateById(Log log);
     
-    List<Log> findAll();
+    List<Log> findAll(@Param("startIndex") int startInde, @Param("total") int total);
 
-    List<Log> findAllLogName(@Param("startTime") long startTime, @Param("endTime") long endTime);
+    List<Log> findAllLogName(@Param("startTime") long startTime, @Param("endTime") long endTime, @Param("startIndex") int startInde, @Param("total") int total);
 
     List<Log> getInfoOfWeekByInterface(@Param("name") String name, @Param("startTime") long startTime, @Param("endTime") long endTime);
 
@@ -28,4 +28,6 @@ public interface LogMapper {
     List<Log> findAllLogNames();
 
     List<Log> findAllByCallerAndNameAndStateAndTime(@Param("name") String name, @Param("callerCode") String callerCode, @Param("startTime") long startTime, @Param("endTime") long endTime, @Param("state") int state);
+
+    List<Log> findAllLogNameByCount(@Param("startTime") long startTime, @Param("endTime") long endTime);
 }

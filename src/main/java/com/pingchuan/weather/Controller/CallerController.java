@@ -44,8 +44,8 @@ public class CallerController{
     }
     
     @RequestMapping("/findAllByPage")
-    public PageResult<Caller> findAllByPage(int pageNum, int pageSize){
-        return callerService.findAllByPage(pageNum, pageSize);
+    public PageResult<Caller> findAllByPage(int page, int rows){
+        return callerService.findAllByPage(page, rows);
     }
 
     @RequestMapping("/insertOne")

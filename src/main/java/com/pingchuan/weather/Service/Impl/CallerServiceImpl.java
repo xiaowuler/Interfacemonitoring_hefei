@@ -42,17 +42,14 @@ public class CallerServiceImpl implements CallerService{
     }
     
     public PageResult<Caller> findAllByPage(int pageNum, int pageSize){
-        List<Caller> callers = callerMapper.findAll();
-        long count = callers.size();
-        int startIndex = pageNum - 1;
-        int endIndex = (pageSize + pageNum - 1) >= count ? callers.size() : (pageSize + pageNum - 1);
-
-        return new PageResult<>(count, callers.subList(startIndex, endIndex));
+        int count = callerMapper.findAll(0, 0).size();
+        List<Caller> callers = callerMapper.findAll((pageNum - 1) * pageSize, pageSize);
+        return new PageResult<>(count, callers);
     }
 
     @Override
     public List<Caller> findAllByEnable() {
-        ArrayList<Caller> callers =  (ArrayList<Caller>) callerMapper.findAll();
+        ArrayList<Caller> callers =  (ArrayList<Caller>) callerMapper.findAll(0, 0);
         Caller caller = new Caller();
         caller.setName("全部");
         caller.setCode("-1");

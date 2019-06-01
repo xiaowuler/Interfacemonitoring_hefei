@@ -47,10 +47,10 @@ public class LogServiceImpl implements LogService{
     }
     
     public PageResult<Log> findAllByPage(int pageNum, int pageSize){
-        List<Log> logs = logMapper.findAll();
-        long count = logs.size();
+        int count = logMapper.findAll(0, 0).size();
+        List<Log> logs = logMapper.findAll((pageNum - 1) * pageSize, pageSize);
         List<Log> logList = new ArrayList<>();
-        for (int x = pageNum-1, len = x + pageSize; x < len; x++){
+        for (int x = 0, len = logs.size(); x < len; x++){
             if (x == len)
                 break;
             logList.add(logs.get(x));
@@ -70,7 +70,7 @@ public class LogServiceImpl implements LogService{
         //Config healthStatusConfig = configMapper.findOneById(4);
 
 
-        List<Log> logs = logMapper.findAllLogName(startTime, endTime);
+        List<Log> logs = logMapper.findAllLogName(startTime, endTime, 0, 0);
         LogDTO logDTO ;
         for (Log log : logs){
             logDTO = new LogDTO();
@@ -97,11 +97,12 @@ public class LogServiceImpl implements LogService{
         Config failureConsumingAvgConfig = configMapper.findOneById(6);
 
 
-        List<Log> logs = logMapper.findAllLogName(startTime, endTime);
-        Long count = (long)logs.size();
+        List<Log> logs = logMapper.findAllLogName(startTime, endTime, (pageNum - 1) * pageSize, pageSize);
+        int total = logMapper.findAllLogNameByCount(startTime, endTime).size();
+        //Long count = (long)logs.size();
         LogDTO logDTO = null;
-        for (int x = pageNum-1, len = x + pageSize; x < len; x++ ){
-            if (x == count)
+        for (int x = 0, len = logs.size(); x < len; x++ ){
+            if (x == total)
                 break;
             if (logs.get(x) == null)
                 continue;
@@ -119,7 +120,7 @@ public class LogServiceImpl implements LogService{
         }
 
 
-        return new PageResult<>(count,logDTOS);
+        return new PageResult<>(total,logDTOS);
     }
 
     @Override

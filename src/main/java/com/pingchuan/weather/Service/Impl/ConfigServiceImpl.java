@@ -33,11 +33,9 @@ public class ConfigServiceImpl implements ConfigService{
     }
     
     public PageResult<Config> findAllByPage(int pageNum, int pageSize){
-        List<Config> configs = configMapper.findAll();
-        long count = configs.size();
-        int startIndex = pageNum - 1;
-        int endIndex = (pageSize + pageNum - 1) >= count ? configs.size() : (pageSize + pageNum - 1);
-        return new PageResult<>(count, configs.subList(startIndex, endIndex));
+        int count = configMapper.findAll(0, 0).size();
+        List<Config> configs = configMapper.findAll((pageNum - 1) * pageSize, pageSize);
+        return new PageResult<>(count, configs);
     }
 
     @Override

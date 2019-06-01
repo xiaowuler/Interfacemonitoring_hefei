@@ -38,8 +38,8 @@ public class LogController{
 
     //首页接口信息分页
     @RequestMapping("/findAllByPage")
-    public PageResult<Log> findAllByPage(int pageNum, int pageSize){
-        return logService.findAllByPage(pageNum, pageSize);
+    public PageResult<Log> findAllByPage(int page, int rows){
+        return logService.findAllByPage(page, rows);
     }
 
     //首页折线图

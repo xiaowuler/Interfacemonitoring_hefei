@@ -45,7 +45,7 @@ public class ConfigController{
     }
     
     @RequestMapping("/findAllByPage")
-    public PageResult<Config> findAllByPage(int pageNum, int pageSize){
-        return configService.findAllByPage(pageNum, pageSize);
+    public PageResult<Config> findAllByPage(int page, int rows){
+        return configService.findAllByPage(page, rows);
     }
 }

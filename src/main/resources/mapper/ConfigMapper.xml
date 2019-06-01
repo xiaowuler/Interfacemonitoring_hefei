@@ -43,6 +43,9 @@
             `description` `description`
         FROM
             `configs`
+        <if test="total != 0">
+            limit #{startIndex},#{total}
+        </if>
     </select>
 
     <select id="findOneById" resultType="com.pingchuan.weather.Model.Config">

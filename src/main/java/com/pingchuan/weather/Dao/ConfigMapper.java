@@ -3,6 +3,7 @@ package com.pingchuan.weather.Dao;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import com.pingchuan.weather.Model.Config;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface ConfigMapper {
@@ -13,7 +14,7 @@ public interface ConfigMapper {
     
     void updateById(Config config);
     
-    List<Config> findAll();
+    List<Config> findAll(@Param("startIndex") int startInde, @Param("total") int total);
 
     Config findOneById(int id);
 

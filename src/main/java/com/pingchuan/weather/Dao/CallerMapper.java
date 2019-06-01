@@ -14,7 +14,7 @@ public interface CallerMapper {
     
     void updateById(Caller caller);
     
-    List<Caller> findAll();
+    List<Caller> findAll(@Param("startIndex") int startInde, @Param("total") int total);
 
     Caller findOneById(@Param("code") String code);
 }
