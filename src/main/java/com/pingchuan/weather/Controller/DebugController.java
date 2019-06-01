@@ -25,8 +25,8 @@ public class DebugController {
     private DebugService debugService;
 
     @RequestMapping("/GetPointValue")
-    public void GetPointValue(String URL, String requestMode, String modeCode, String elementCode, float latitude, float longitude, int forecastLevel, String forecastTime, String initialTime){
-        SearchResultInfo searchResultInfo = debugService.GetPointValue(URL, requestMode, GetPointValueParam(modeCode, elementCode, latitude, longitude, forecastLevel, forecastTime, initialTime));
+    public SearchResultInfo GetPointValue(String URL, String requestMode, String modeCode, String elementCode, float latitude, float longitude, int forecastLevel, String forecastTime, String initialTime){
+        return debugService.GetPointValue(URL, requestMode, GetPointValueParam(modeCode, elementCode, latitude, longitude, forecastLevel, forecastTime, initialTime));
     }
 
     @RequestMapping("/GetLineValues")
