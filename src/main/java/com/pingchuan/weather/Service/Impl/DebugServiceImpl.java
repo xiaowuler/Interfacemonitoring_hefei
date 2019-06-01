@@ -52,7 +52,7 @@ public class DebugServiceImpl implements DebugService {
                 searchResultDTO.setSearchResultInfos(searchResultInfos);
             }
         }
-        return null;
+        return searchResultDTO;
     }
 
     @Override
