@@ -4,7 +4,7 @@ var App = function () {
     this.Startup = function () {
         this.ReLayout();
         this.ReLoadChartData();
-        this.ReloadPortTable();
+        this.InitPortGrid();
         this.ReLoadTableData();
         this.ReloadPortChart();
 
@@ -26,7 +26,6 @@ var App = function () {
             dataType: 'json',
             url: 'log/findAllByDate',
             success: function (result) {
-                console.log(result);
                 this.result = result;
                 this.SetChartData(this.result)
             }.bind(this)
@@ -34,17 +33,21 @@ var App = function () {
     };
 
     this.ReLoadTableData = function () {
-        var params = this.GetParams();
+        // var params = this.GetParams();
+        // $.ajax({
+        //     type: "POST",
+        //     dataType: 'json',
+        //     data: params,
+        //     url: 'log/findAllByState',
+        //     success: function (result) {
+        //         console.log(result);
+        //         $('#port-table').datagrid('loadData', result);
+        //     }.bind(this)
+        // });
 
-        $.ajax({
-            type: "POST",
-            dataType: 'json',
-            data: params,
-            url: 'log/findAllByState',
-            success: function (result) {
-                console.log(result);
-                $('#port-table').datagrid('loadData', result);
-            }.bind(this)
+        $('#port-table').datagrid({
+            method: "POST",
+            url: 'log/findAllByState'
         });
     };
 
@@ -207,12 +210,12 @@ var App = function () {
         });
     };
 
-    this.ReloadPortTable = function () {
+    this.InitPortGrid = function () {
         var width = $(window).width();
         $('#port-table').datagrid({
             columns: [[
-                { field: 'name', title: '名称', align: 'center',},
-                { field: 'name', title: '说明', align: 'center', width: width * 0.15},
+                { field: 'name', title: '名称', align: 'center', width: width * 0.15},
+                { field: 'name', title: '说明', align: 'center', width: width * 0.15 },
                 { field: 'callNumberDay', title: '前天调用次数', align: 'center', width: width * 0.15},
                 { field: 'callNumberDay', title: '今天调用次数', align: 'center', width: width * 0.15},
                 { field: 'callNumberDay', title: '昨天调用次数', align: 'center', width: width * 0.15},
@@ -223,7 +226,7 @@ var App = function () {
             striped: true,
             singleSelect: true,
             fitColumns: true,
-            //fit: true,
+            fit: true,
             scrollbarSize: 0,
             pagination: true,
             pageNumber: 1,

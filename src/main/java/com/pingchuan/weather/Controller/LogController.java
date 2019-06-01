@@ -49,8 +49,8 @@ public class LogController{
     }
 
     @RequestMapping("/findAllByState")
-    public PageResult<LogDTO> findAllByState(int pageNum, int pageSize){
-        return logService.findAllByState(pageNum, pageSize);
+    public PageResult<LogDTO> findAllByState(int page, int rows){
+        return logService.findAllByState(page, rows);
     }
 
     @RequestMapping("/findAllCheckInfo")
