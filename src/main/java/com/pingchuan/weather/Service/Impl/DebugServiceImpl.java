@@ -101,8 +101,11 @@ public class DebugServiceImpl implements DebugService {
                 return searchResultDTO;
 
             SearchResultInfo searchResultInfo = JSONObject.parseObject(result, SearchResultInfo.class);
-            if (searchResultInfo == null)
+            if (searchResultInfo.getMessage() != null || searchResultInfo == null)
+            {
+                searchResultDTO.setSearchResultInfo(searchResultInfo);
                 return searchResultDTO;
+            }
 
             searchResultDTO.setResutl(result);
             searchResultDTO.setSearchResultInfo(searchResultInfo);

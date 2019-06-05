@@ -41,6 +41,7 @@ public class DebugController {
     }
 
     private Map<String,Object> GetRegionValuesParam(String modeCode, String elementCode, float minLat, float maxLat, float minLon, float maxLon, int forecastLevel, String forecastTime, String initialTime) {
+
         Map<String, Object> map = new HashMap<>();
         map.put("ModeCode", modeCode);
         map.put("ElementCode", elementCode);
@@ -66,6 +67,14 @@ public class DebugController {
         map.put("SignCode", signCode);
 
         return map;
+    }
+
+    private String GetFloatRemoveZero(float num){
+        try{
+            return String.format("%s", (int)num);
+        }catch (Exception e){
+            return String.format("%s", num);
+        }
     }
 
     private Map<String, Object> GetLineValuesParam(String modeCode, String elementCode, float latitude, float longitude, int forecastLevel, String startTime, String endTime, String initialTime){

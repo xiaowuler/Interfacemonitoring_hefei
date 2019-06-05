@@ -144,9 +144,7 @@ public class ContourUtil {
 
             ContourResult contourResult = new ContourResult();
             contourResult.setSpotPolygons(_clipContourPolygons);
-            //contourResult.setContourPolylines(_clipContourLines);
             contourResult.setLegendLevels(levels);
-            //contourResult.setValuePoints(points);
             return contourResult;
         } catch (Exception e) {
             e.printStackTrace();
