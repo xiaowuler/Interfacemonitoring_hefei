@@ -1,10 +1,11 @@
 .return-content .describe{
     position: relative;
-    overflow: hidden;
+
 }
 
 #map-height{
     margin-right: 10px;
+    overflow: hidden;
 }
 
 .map-wrapper {
