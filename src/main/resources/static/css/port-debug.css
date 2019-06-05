@@ -43,7 +43,7 @@
 }
 
 .port-des div.port-name{
-    width: 120px;
+    width: 225px;
 }
 
 .port-des div.port-type{
@@ -53,6 +53,8 @@
 
 .port-des div.port-value{
     width: 180px;
+    margin-right: 10px;
+    background: #3b3d54;
 }
 
 .port-des div.port-explain{
@@ -60,7 +62,7 @@
 }
 
 .port-des div.explain-txt{
-    width: calc(100% - 456px);
+    width: calc(100% - 469px);
     margin-right: 0;
     padding-left: 10px;
     text-align: left;
