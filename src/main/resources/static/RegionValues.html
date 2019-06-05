@@ -61,77 +61,68 @@
                 <p>对每一个输入项的特性，包括名称、标识、数据的类型和格式、数据值的有效范围、输入的方式。 数量和频度、输入媒体、输入数据的来源和安全保密条件等等。对每一个输入项的特性，包括名称、标识、数据的类型和格式、数据值的有效范围、输入的方式。</p>
             </div>
             <div class="port-param bg">
-                <h2 class="port-title">接口参数</h2>
+                <h2 class="port-title">接口参数（*号表示必填）</h2>
                 <div class="port-detail">
                     <div class="port-des clearfix">
-                        <div class="port-label port-name">ModeCode</div>
+                        <div class="port-label port-type">String</div>
+                        <div class="port-label port-name">*&nbsp;ModeCode</div>
                         <div class="port-label port-value"><input type="text" class="focus" id="mode" value="SPCC"></div>
-                        <div class="port-label port-must">必填</div>
-                        <div class="port-label port-type">String</div>
                         <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">要素产品模式名（例如：‘SPCC’，必须大写）</div>
+                        <div class="port-label explain-txt">要素产品模式名（例如:'SPCC',必须大写）</div>
                     </div>
                     <div class="port-des clearfix">
-                        <div class="port-label port-name">ElementCode</div>
+                        <div class="port-label port-type">String</div>
+                        <div class="port-label port-name">*&nbsp;ElementCode</div>
                         <div class="port-label port-value"><input type="text" class="focus" id="element" value="ER03"></div>
-                        <div class="port-label port-must">必填</div>
-                        <div class="port-label port-type">String</div>
                         <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">预报要素（例如：‘ER03’）</div>
+                        <div class="port-label explain-txt">预报要素（例如:'ER03'）</div>
                     </div>
                     <div class="port-des clearfix">
-                        <div class="port-label port-name">MinLat</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="min-lat" value="1.1"></div>
-                        <div class="port-label port-must">必填</div>
                         <div class="port-label port-type">float</div>
+                        <div class="port-label port-name">*&nbsp;MinLat</div>
+                        <div class="port-label port-value"><input type="text" class="focus" id="min-lat" value="1.1"></div>
                         <div class="port-label port-explain">说明</div>
                         <div class="port-label explain-txt">起始纬度</div>
                     </div>
                     <div class="port-des clearfix">
-                        <div class="port-label port-name">MaxLat</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="max-lat" value="34.5"></div>
-                        <div class="port-label port-must">必填</div>
                         <div class="port-label port-type">float</div>
+                        <div class="port-label port-name">*&nbsp;MaxLat</div>
+                        <div class="port-label port-value"><input type="text" class="focus" id="max-lat" value="34.5"></div>
                         <div class="port-label port-explain">说明</div>
                         <div class="port-label explain-txt">结束纬度</div>
                     </div>
                     <div class="port-des clearfix">
-                        <div class="port-label port-name">MinLon</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="min-lon" value="114.9"></div>
-                        <div class="port-label port-must">必填</div>
                         <div class="port-label port-type">float</div>
+                        <div class="port-label port-name">*&nbsp;MinLon</div>
+                        <div class="port-label port-value"><input type="text" class="focus" id="min-lon" value="114.9"></div>
                         <div class="port-label port-explain">说明</div>
                         <div class="port-label explain-txt">起始经度</div>
                     </div>
                     <div class="port-des clearfix">
-                        <div class="port-label port-name">MaxLon</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="max-lon" value="115.1"></div>
-                        <div class="port-label port-must">必填</div>
                         <div class="port-label port-type">float</div>
+                        <div class="port-label port-name">*&nbsp;MaxLon</div>
+                        <div class="port-label port-value"><input type="text" class="focus" id="max-lon" value="115.1"></div>
                         <div class="port-label port-explain">说明</div>
                         <div class="port-label explain-txt">结束经度（114.5-120）</div>
                     </div>
                     <div class="port-des clearfix">
-                        <div class="port-label port-name">ForecastLevel</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="forecast-level" value="0"></div>
-                        <div class="port-label port-must">必填</div>
                         <div class="port-label port-type">int</div>
+                        <div class="port-label port-name">*&nbsp;ForecastLevel</div>
+                        <div class="port-label port-value"><input type="text" class="focus" id="forecast-level" value="0"></div>
                         <div class="port-label port-explain">说明</div>
                         <div class="port-label explain-txt">预报层次</div>
                     </div>
                     <div class="port-des clearfix">
-                        <div class="port-label port-name">ForecastTime</div>
-                        <div class="port-label port-value"><input type="text"  class="easyui-datetimebox" id="forecast-time" value="2019/04/18 07:36"></div>
-                        <div class="port-label port-must">必填</div>
                         <div class="port-label port-type">String</div>
+                        <div class="port-label port-name">*&nbsp;ForecastTime</div>
+                        <div class="port-label port-value"><input type="text"  class="easyui-datetimebox" id="forecast-time" value="2019/04/18 07:36"></div>
                         <div class="port-label port-explain">说明</div>
                         <div class="port-label explain-txt">预报时间(格式yyyyMMddHHmm)</div>
                     </div>
                     <div class="port-des clearfix">
+                        <div class="port-label port-type">String</div>
                         <div class="port-label port-name">InitialTime</div>
                         <div class="port-label port-value"><input type="text" class="easyui-datetimebox" id="initial" value=""></div>
-                        <div class="port-label port-must">可不填</div>
-                        <div class="port-label port-type">String</div>
                         <div class="port-label port-explain">说明</div>
                         <div class="port-label explain-txt">起报时间(格式yyyyMMddHHmm)</div>
                     </div>
@@ -145,36 +136,38 @@
                 </div>
                 <button class="run-btn fl" id="run">执行</button>
             </div>
-            <div class="port-return bg">
-                <h2>接口返回</h2>
-                <div class="return-title">
-                    <ul class="clearfix">
-                        <li class="active">数据</li>
-                        <li>图片</li>
-                    </ul>
-                </div>
-                <ul class="return-content">
-                    <li>
-                        <div class="describe">
-                            <pre id="data"></pre>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="describe">
-                            <div class="map-wrapper" id="map-wrapper">
-                                <div class="map" id="map">
-                                </div>
-                            </div>
-                            <div class="color-control" id="drag">
-                                <div class="color-content clearfix">
-                                    <div class="color-gradient" id="color-gradient"></div>
-                                    <div class="color-value" id="color-value"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
+        </div>
+    </div>
+    <div class="right-panel">
+        <div class="port-return bg">
+            <h2>接口返回</h2>
+            <div class="return-title">
+                <ul class="clearfix">
+                    <li class="active">数据</li>
+                    <li>等值面图</li>
                 </ul>
             </div>
+            <ul class="return-content">
+                <li>
+                    <div class="describe" id="describe">
+                        <pre id="data"></pre>
+                    </div>
+                </li>
+                <li>
+                    <div class="describe" id="map-height">
+                        <div class="map-wrapper" id="map-wrapper">
+                            <div class="map" id="map">
+                            </div>
+                        </div>
+                        <div class="color-control" id="drag">
+                            <div class="color-content clearfix">
+                                <div class="color-gradient" id="color-gradient"></div>
+                                <div class="color-value" id="color-value"></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

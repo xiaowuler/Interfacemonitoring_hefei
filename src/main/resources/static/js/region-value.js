@@ -21,9 +21,12 @@ var App = function () {
     };
 
     this.ReLayout = function () {
+        var windowWidth = $(window).width();
         var windowHeight = $(window).height();
         $('.aside').height(windowHeight - 70);
-        $('.return-content li, .describe').height(windowHeight - 611);
+        $('.content').width(windowWidth - 724);
+        $('.return-content li,#map-height').height(windowHeight - 163);
+        $('#describe').height(windowHeight - 168);
     };
 
     this.ReloadData = function () {
@@ -123,12 +126,14 @@ var App = function () {
     this.SetDate = function () {
         $('#forecast-time').datetimebox({
             panelWidth: 200,
-            panelHeight: 260
+            panelHeight: 260,
+            showSeconds: false
         });
 
         $('#initial').datetimebox({
             panelWidth: 200,
-            panelHeight: 260
+            panelHeight: 260,
+            showSeconds: false
         });
     };
 };

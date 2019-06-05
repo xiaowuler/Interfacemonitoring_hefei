@@ -16,9 +16,12 @@ var App = function () {
     };
 
     this.ReLayout = function () {
+        var windowWidth = $(window).width();
         var windowHeight = $(window).height();
         $('.aside').height(windowHeight - 70);
-        $('.return-content li, .describe').height(windowHeight - 611);
+        $('.content').width(windowWidth - 724);
+        $('.return-content li').height(windowHeight - 163);
+        $('.describe').height(windowHeight - 168);
     };
 
     this.ReloadData = function () {
@@ -30,7 +33,6 @@ var App = function () {
             url: 'debug/GetLineValues',
             success: function (result) {
                 this.result = result;
-                console.log(this.result);
                 this.SetReturnData(result);
                 this.SetChartData(this.result)
             }.bind(this)
@@ -107,7 +109,7 @@ var App = function () {
 
         this.result.searchResultInfos.data.forEach(function (item, index) {
             var time = item.forecastTime;
-            marks.push(time)
+            marks.push(moment(time).format('MM-DD HH:ss'));
         }.bind(this));
 
         return marks;
@@ -117,7 +119,6 @@ var App = function () {
         var values = [];
 
         this.result.searchResultInfos.data.forEach(function (item, index) {
-            console.log(item.grids[0].value);
             if (item.elementCode === 'EDA10')
                 values.push(item.grids[0].value);
             else
@@ -203,17 +204,20 @@ var App = function () {
     this.SetDate = function () {
         $('#start-time').datetimebox({
             panelWidth: 200,
-            panelHeight: 260
+            panelHeight: 260,
+            showSeconds: false
         });
 
         $('#end-time').datetimebox({
             panelWidth: 200,
-            panelHeight: 260
+            panelHeight: 260,
+            showSeconds: false
         });
 
         $('#initial').datetimebox({
             panelWidth: 200,
-            panelHeight: 260
+            panelHeight: 260,
+            showSeconds: false
         });
     };
 };
