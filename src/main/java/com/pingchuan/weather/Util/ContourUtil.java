@@ -111,7 +111,7 @@ public class ContourUtil {
                 _discreteData[2][i] = points.get(i).getValue();
             }
 
-            List<double[]> list = CreateGridXY_Delt(MinX, MinY, MaxX, MaxY, 0.01, 0.01, _X, _Y);
+            List<double[]> list = CreateGridXY_Delt(MinX, MinY, MaxX, MaxY, 0.1, 0.1, _X, _Y);
 
             _X = list.get(0);
             _Y = list.get(1);

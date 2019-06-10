@@ -48,7 +48,6 @@ public class DebugServiceImpl implements DebugService {
                 SearchResultInfo searchResultInfo = JSONObject.parseObject(result, SearchResultInfo.class);
                 searchResultDTO.setResutl(result);
                 searchResultDTO.setSearchResultInfo(searchResultInfo);
-                //System.out.println(searchResultInfo);
             }
         }
 

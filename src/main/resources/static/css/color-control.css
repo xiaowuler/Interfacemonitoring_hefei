@@ -2,7 +2,7 @@
     width: 160px;
     position: absolute;
     bottom: 10px;;
-    right: 20px;
+    right: -100px;
     z-index: 100;
     -webkit-user-select:none;
     -moz-user-select:none;
