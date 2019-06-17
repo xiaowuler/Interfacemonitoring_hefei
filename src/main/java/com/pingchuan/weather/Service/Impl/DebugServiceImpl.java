@@ -6,13 +6,11 @@ import com.pingchuan.weather.DTO.LegendLevel;
 import com.pingchuan.weather.DTO.SearchResultDTO;
 import com.pingchuan.weather.DTO.ValuePoint;
 import com.pingchuan.weather.Dao.LegendLevelMapper;
-import com.pingchuan.weather.Domain.Element;
-import com.pingchuan.weather.Domain.Grid;
-import com.pingchuan.weather.Domain.SearchResultInfo;
-import com.pingchuan.weather.Domain.SearchResultInfos;
+import com.pingchuan.weather.Domain.*;
 import com.pingchuan.weather.Service.DebugService;
 import com.pingchuan.weather.Util.ContourUtil;
 import com.pingchuan.weather.Util.WebUtil;
+import com.sun.org.apache.bcel.internal.generic.RET;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,7 +62,10 @@ public class DebugServiceImpl implements DebugService {
             if (!StringUtils.isEmpty(result)){
                 SearchResultInfos searchResultInfos = JSONObject.parseObject(result, SearchResultInfos.class);
                 searchResultDTO.setResutl(result);
-                Collections.sort(searchResultInfos.getData(), new Comparator<Element>() {
+                List<Element> elements = GetAllElementForecastTime(searchResultInfos.getData());
+                if (StringUtils.isEmpty(elements))
+                    return searchResultDTO;
+                Collections.sort(elements, new Comparator<Element>() {
                     @Override
                     public int compare(Element o1, Element o2) {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -84,10 +85,33 @@ public class DebugServiceImpl implements DebugService {
                         return false;
                     }
                 });
+
                 searchResultDTO.setSearchResultInfos(searchResultInfos);
             }
         }
         return searchResultDTO;
+    }
+
+    private List<Element> GetAllElementForecastTime(List<Element> elements){
+        List<Element> resElems = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (Element element : elements){
+            try {
+                Date reportTime = sdf.parse(element.getInitialTime());
+                element.setForecastTime(GetForecastTimeByReportTime(sdf, reportTime, (int)element.getForecastTimeLength()));
+                resElems.add(element);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return resElems;
+    }
+
+    private String GetForecastTimeByReportTime(SimpleDateFormat sdf, Date reportTime, int addTimes){
+        Calendar calendar =Calendar.getInstance();
+        calendar.setTime(reportTime);
+        calendar.add(Calendar.MINUTE, addTimes);
+        return sdf.format(calendar.getTime());
     }
 
     @Override
@@ -100,7 +124,7 @@ public class DebugServiceImpl implements DebugService {
                 return searchResultDTO;
 
             SearchResultInfo searchResultInfo = JSONObject.parseObject(result, SearchResultInfo.class);
-            if (searchResultInfo.getMessage() != null || searchResultInfo == null)
+            if (!StringUtils.isEmpty(searchResultInfo.getMessage()) || searchResultInfo == null)
             {
                 searchResultDTO.setSearchResultInfo(searchResultInfo);
                 return searchResultDTO;
@@ -123,6 +147,32 @@ public class DebugServiceImpl implements DebugService {
         }
 
         return searchResultDTO;
+    }
+
+    @Override
+    public Map<String, List<ProductType>> GetElementCodeByModeCode() {
+        Map<String, List<ProductType>> map = new HashMap<>();
+        String result = WebUtil.Post("10.129.4.202:9535/Search/GetElemetCodeByModeCode", GetElementCodeByModeCodeParms("SPCC"));
+        if (!StringUtils.isEmpty(result)) {
+            ProductTypeResult productTypeResult = JSONObject.parseObject(result, ProductTypeResult.class);
+            if (productTypeResult.getError() != 1)
+                map.put("SPCC", productTypeResult.getData());
+        }
+
+        String resultOther = WebUtil.Post("10.129.4.202:9535/Search/GetElemetCodeByModeCode", GetElementCodeByModeCodeParms("SCMOC"));
+        if (!StringUtils.isEmpty(result)) {
+            ProductTypeResult productTypeResult = JSONObject.parseObject(resultOther, ProductTypeResult.class);
+            if (productTypeResult.getError() != 1)
+                map.put("SCMOC", productTypeResult.getData());
+        }
+
+        return map;
+    }
+
+    private Map<String, Object> GetElementCodeByModeCodeParms(String modeCode){
+        Map<String, Object> map = new HashMap<>();
+        map.put("ModeCode", modeCode);
+        return map;
     }
 
     private List<ValuePoint> GetPoint(Element element){

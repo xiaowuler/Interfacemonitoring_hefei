@@ -1,6 +1,7 @@
 package com.pingchuan.weather.Controller;
 
 import com.pingchuan.weather.DTO.SearchResultDTO;
+import com.pingchuan.weather.Domain.ProductType;
 import com.pingchuan.weather.Domain.SearchResultInfo;
 import com.pingchuan.weather.Domain.SearchResultInfos;
 import com.pingchuan.weather.Service.DebugService;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,6 +40,11 @@ public class DebugController {
     @RequestMapping("/GetRegionValues")
     public SearchResultDTO GetRegionValues(String URL, String requestMode, String modeCode, String elementCode, float minLat, float maxLat, float minLon, float maxLon, int forecastLevel, String forecastTime, String initialTime){
         return debugService.GetRegionValues(URL, requestMode, GetRegionValuesParam(modeCode, elementCode, minLat, maxLat, minLon, maxLon, forecastLevel, forecastTime, initialTime));
+    }
+
+    @RequestMapping("/GetElementCodeByModeCode")
+    public Map<String, List<ProductType>> GetElementCodeByModeCode(){
+        return debugService.GetElementCodeByModeCode();
     }
 
     private Map<String,Object> GetRegionValuesParam(String modeCode, String elementCode, float minLat, float maxLat, float minLon, float maxLon, int forecastLevel, String forecastTime, String initialTime) {
