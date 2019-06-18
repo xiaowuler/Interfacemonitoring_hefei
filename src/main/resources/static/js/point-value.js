@@ -3,6 +3,8 @@ var App = function () {
         this.ReLayout();
         this.SetDate();
         this.BindInputEvent();
+        this.SetModeCode();
+        this.SetElementCode();
 
         $('#run').on('click', this.OnRunButtonClick.bind(this));
         $('#run').trigger("click");
@@ -44,7 +46,7 @@ var App = function () {
         return {
             URL: 'http://10.129.4.202:9535/Search/GetPointValue',
             RequestMode: $('.port-method button.active').text(),
-            modeCode: $('#mode').val(),
+            modeCode: $('#ModeCode').combobox('getValue'),
             elementCode: $('#element').val(),
             latitude: $('#latitude').val(),
             longitude: $('#longitude').val(),
@@ -96,6 +98,54 @@ var App = function () {
             showSeconds: false
         });
     };
+
+    this.SetModeCode = function () {
+        $('#ModeCode').combobox({
+            panelHeight: 'auto'
+        });
+    };
+
+    this.SetElementCode = function () {
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            url: 'debug/GetElementCodeByModeCode',
+            success: function (result) {
+                console.log(result);
+                this.SetSecondMenu(result);
+            }.bind(this)
+        });
+
+        // $('#element').combotree({
+        //     editable: false,
+        //     required: true,
+        //     method: 'get',
+        //     url:"debug/GetElementCodeByModeCode",
+        //     onSelect: function (node) {
+        //         var tree = $(this).tree;
+        //         var isLeaf = tree('isLeaf', node.target);
+        //         if (!isLeaf) {
+        //             $('#element').combotree('clear');
+        //             return;
+        //         }
+        //     },
+        //     success: function (data) {
+        //         console.log(data);
+        //     }
+        // });
+    };
+
+    this.SetSecondMenu = function (data) {
+        console.log(data)
+        var list = $('#list');
+        list.empty();
+        data.SCMOC.forEach(function (item) {
+            console.log(item)
+            var pattern = '<li><span class="port-menu-title">SCMOC</span><ul class="port-menu-content"><li>{0}</li></ul></li>';
+            list.append(pattern.format(item.elementCode))
+        }.bind(this));
+
+    }
 };
 
 $(document).ready(function () {

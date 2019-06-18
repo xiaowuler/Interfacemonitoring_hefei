@@ -8,6 +8,7 @@ var App = function () {
         this.ReLayout();
         this.SetDate();
         this.BindInputEvent();
+        this.SetModeCode();
         $('#run').on('click', this.OnRunButtonClick.bind(this));
         $('#run').trigger("click");
         $('.port-method button').on('click', this.SelectType.bind(this));
@@ -80,7 +81,7 @@ var App = function () {
         return {
             URL: 'http://10.129.4.202:9535/Search/GetRegionValues',
             requestMode: $('.port-method button.active').text(),
-            modeCode: $('#mode').val(),
+            modeCode: $('#ModeCode').combobox('getValue'),
             elementCode: $('#element').val(),
             minLat: $('#min-lat').val(),
             maxLat: $('#max-lat').val(),
@@ -134,6 +135,12 @@ var App = function () {
             panelWidth: 200,
             panelHeight: 260,
             showSeconds: false
+        });
+    };
+
+    this.SetModeCode = function () {
+        $('#ModeCode').combobox({
+            panelHeight: 'auto'
         });
     };
 };

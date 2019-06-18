@@ -39,6 +39,7 @@
     display: block;
     line-height: 36px;
     text-align: center;
+    position: relative;
     background: #2f3144;
 }
 
@@ -55,6 +56,19 @@
     width: 180px;
     margin-right: 10px;
     background: #3b3d54;
+}
+
+.port-des .port-menu{
+    width: 100%;
+    position: absolute;
+    top: 36px;
+    left: 0;
+    z-index: 10;
+    background: #35374c;
+}
+
+.port-des div.port-value .combo-arrow{
+    background: url("../images/drop-down.png") no-repeat 8px center;
 }
 
 .port-des div.port-explain{
@@ -260,4 +274,8 @@
 .combo-panel .textbox .textbox-text{
     color: #000000;
     border-right: 0;
+}
+
+.combobox-item{
+    background: #35374c;
 }

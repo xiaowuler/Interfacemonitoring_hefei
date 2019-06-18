@@ -65,7 +65,12 @@
                 <div class="port-detail">
                     <div class="port-des clearfix">
                         <div class="port-label port-name">*&nbsp;ModeCode（String）</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="mode" value="SPCC"></div>
+                        <div class="port-label port-value">
+                            <select class="easyui-combobox" id="ModeCode" name="ModeCode" labelPosition="top" editable="false">
+                                <option value="SPCC">SPCC</option>
+                                <option value="SCMOC">SCMOC</option>
+                            </select>
+                        </div>
                         <div class="port-label port-explain">说明</div>
                         <div class="port-label explain-txt">要素产品模式名（例如:'SPCC',必须大写）</div>
                     </div>
