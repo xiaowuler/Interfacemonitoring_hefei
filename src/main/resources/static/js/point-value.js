@@ -47,7 +47,7 @@ var App = function () {
             URL: 'http://10.129.4.202:9535/Search/GetPointValue',
             RequestMode: $('.port-method button.active').text(),
             modeCode: $('#ModeCode').combobox('getValue'),
-            elementCode: $('#element').val(),
+            elementCode: $('#element').combotree('getText'),
             latitude: $('#latitude').val(),
             longitude: $('#longitude').val(),
             forecastLevel: $('#forecast-level').val(),
@@ -109,31 +109,32 @@ var App = function () {
         $.ajax({
             type: "POST",
             dataType: 'json',
+            async:false,
             url: 'debug/GetElementCodeByModeCode',
             success: function (result) {
-                console.log(result);
-                this.SetSecondMenu(result);
-            }.bind(this)
+                $('#element').combotree('loadData', this.HandlerReturnElementCode(result));
+            }.bind(this),
         });
 
-        // $('#element').combotree({
-        //     editable: false,
-        //     required: true,
-        //     method: 'get',
-        //     url:"debug/GetElementCodeByModeCode",
-        //     onSelect: function (node) {
-        //         var tree = $(this).tree;
-        //         var isLeaf = tree('isLeaf', node.target);
-        //         if (!isLeaf) {
-        //             $('#element').combotree('clear');
-        //             return;
-        //         }
-        //     },
-        //     success: function (data) {
-        //         console.log(data);
-        //     }
-        // });
-    };
+        $('#element').combotree({
+            onlyLeafCheck:true
+        })
+
+        $('#element').combotree('setValue', 'TMP');
+
+    }
+
+    this.HandlerReturnElementCode = function (results) {
+        var Array = [];
+        var combotreeData = new CombotreeData(0, 'SPCC');
+        combotreeData.initData(results['SPCC']);
+        Array.push(combotreeData);
+
+        var combotreeDatas = new CombotreeData(5, 'SCMOC');
+        combotreeDatas.initData(results['SCMOC']);
+        Array.push(combotreeDatas);
+        return Array;
+    }
 
     this.SetSecondMenu = function (data) {
         console.log(data)

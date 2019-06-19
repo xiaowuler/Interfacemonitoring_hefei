@@ -14,5 +14,5 @@ import java.util.List;
 public class SearchResultInfo {
     private int Error;
     private String Message;
-    private Element Data;
+    private List<Element> Data;
 }

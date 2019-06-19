@@ -142,7 +142,7 @@ public class DebugServiceImpl implements DebugService {
                 e.printStackTrace();
             }
             ContourUtil contourHelper = new ContourUtil(String.format("%s\\%s", productPath, "static/json/ah.json"));
-            ContourResult contourResult = contourHelper.Calc(GetPoint(searchResultInfo.getData()), legendLevels, 8, -9999);
+            ContourResult contourResult = contourHelper.Calc(GetPoint(searchResultInfo.getData().get(0)), legendLevels, 8, -9999);
             searchResultDTO.setContourResult(contourResult);
         }
 

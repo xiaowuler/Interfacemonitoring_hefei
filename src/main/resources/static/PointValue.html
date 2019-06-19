@@ -72,20 +72,9 @@
                     <div class="port-des clearfix">
                         <div class="port-label port-name">*&nbsp;ElementCode（String）</div>
                         <div class="port-label port-value">
-                            <input type="text" class="focus" id="element" value="TMP">
-                            <div class="port-menu" style="display: none">
-                                <ul id="list">
-                                    <li>
-                                        <span class="port-menu-title">1</span>
-                                        <ul class="port-menu-content">
-                                            <li>2</li>
-                                            <li>2</li>
-                                            <li>2</li>
-                                            <li>2</li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
+                            <select id="element" class="easyui-combotree" style="width:200px;"
+                                    data-options="url:'get_data.php',required:true">
+                            </select>
                         </div>
                         <div class="port-label port-explain">说明</div>
                         <div class="port-label explain-txt">预报要素（例如:'ER03'）</div>
@@ -157,4 +146,6 @@
 <script type="text/javascript" src="plug/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="plug/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="js/point-value.js"></script>
+<script type="text/javascript" src="js/combotree_datas/CombotreeData.js"></script>
+<script type="text/javascript" src="js/combotree_datas/CombotreeChildData.js"></script>
 </html>
