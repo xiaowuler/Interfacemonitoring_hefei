@@ -117,12 +117,19 @@ var App = function () {
         });
 
         $('#element').combotree({
-            onlyLeafCheck:true
-        })
+            //onlyLeafCheck:true,
+            onSelect : function(node) {
+                var tree = $(this).tree;
+                var isLeaf = tree('isLeaf', node.target);
+                if (!isLeaf) {
+                    $('#element').treegrid("unselect");
+                }
+            }
+        });
 
         $('#element').combotree('setValue', 'TMP');
 
-    }
+    };
 
     this.HandlerReturnElementCode = function (results) {
         var Array = [];
@@ -134,19 +141,7 @@ var App = function () {
         combotreeDatas.initData(results['SCMOC']);
         Array.push(combotreeDatas);
         return Array;
-    }
-
-    this.SetSecondMenu = function (data) {
-        console.log(data)
-        var list = $('#list');
-        list.empty();
-        data.SCMOC.forEach(function (item) {
-            console.log(item)
-            var pattern = '<li><span class="port-menu-title">SCMOC</span><ul class="port-menu-content"><li>{0}</li></ul></li>';
-            list.append(pattern.format(item.elementCode))
-        }.bind(this));
-
-    }
+    };
 };
 
 $(document).ready(function () {

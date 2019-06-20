@@ -71,7 +71,11 @@
                     </div>
                     <div class="port-des clearfix">
                         <div class="port-label port-name">*&nbsp;ElementCode（String）</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="element" value="TMP"></div>
+                        <div class="port-label port-value">
+                            <select id="element" class="easyui-combotree" style="width:200px;"
+                                    data-options="url:'get_data.php',required:true">
+                            </select>
+                        </div>
                         <div class="port-label port-explain">说明</div>
                         <div class="port-label explain-txt">预报要素（例如:'ER03'）</div>
                     </div>
@@ -153,4 +157,6 @@
 <script type="text/javascript" src="plug/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="plug/highcharts.js"></script>
 <script type="text/javascript" src="js/line-value.js"></script>
+<script type="text/javascript" src="js/combotree_datas/CombotreeData.js"></script>
+<script type="text/javascript" src="js/combotree_datas/CombotreeChildData.js"></script>
 </html>

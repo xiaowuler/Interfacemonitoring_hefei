@@ -9,6 +9,7 @@ var App = function () {
         this.SetDate();
         this.BindInputEvent();
         this.SetModeCode();
+        this.SetElementCode();
         $('#run').on('click', this.OnRunButtonClick.bind(this));
         $('#run').trigger("click");
         $('.port-method button').on('click', this.SelectType.bind(this));
@@ -82,7 +83,7 @@ var App = function () {
             URL: 'http://10.129.4.202:9535/Search/GetRegionValues',
             requestMode: $('.port-method button.active').text(),
             modeCode: $('#ModeCode').combobox('getValue'),
-            elementCode: $('#element').val(),
+            elementCode: $('#element').combotree('getText'),
             minLat: $('#min-lat').val(),
             maxLat: $('#max-lat').val(),
             minLon: $('#min-lon').val(),
@@ -142,6 +143,44 @@ var App = function () {
         $('#ModeCode').combobox({
             panelHeight: 'auto'
         });
+    };
+
+    this.SetElementCode = function () {
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            async:false,
+            url: 'debug/GetElementCodeByModeCode',
+            success: function (result) {
+                $('#element').combotree('loadData', this.HandlerReturnElementCode(result));
+            }.bind(this),
+        });
+
+        $('#element').combotree({
+            //onlyLeafCheck:true,
+            onSelect : function(node) {
+                var tree = $(this).tree;
+                var isLeaf = tree('isLeaf', node.target);
+                if (!isLeaf) {
+                    $('#element').treegrid("unselect");
+                }
+            }
+        });
+
+        $('#element').combotree('setValue', 'TMP');
+
+    };
+
+    this.HandlerReturnElementCode = function (results) {
+        var Array = [];
+        var combotreeData = new CombotreeData(0, 'SPCC');
+        combotreeData.initData(results['SPCC']);
+        Array.push(combotreeData);
+
+        var combotreeDatas = new CombotreeData(5, 'SCMOC');
+        combotreeDatas.initData(results['SCMOC']);
+        Array.push(combotreeDatas);
+        return Array;
     };
 };
 

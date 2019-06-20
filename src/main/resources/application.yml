@@ -1,6 +1,5 @@
 server:
   port: 8085
-  url: www.nanjing.com
 # ���ݿ��������Ϣ
 spring:
   datasource:

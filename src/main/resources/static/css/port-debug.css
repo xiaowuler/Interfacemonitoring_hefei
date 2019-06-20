@@ -276,6 +276,29 @@
     border-right: 0;
 }
 
-.combobox-item{
+.combobox-item,
+.tree li{
+    color: #ffffff;
     background: #35374c;
+}
+
+.tree-node{
+    height: 34px;
+    line-height: 34px;
+}
+
+.tree li{
+    border-bottom: 1px solid #53556c;
+}
+
+.tree li:last-child{
+    border-bottom: 0;
+}
+
+.tree-node-selected{
+    background: none;
+    color: #dbdbdb;
+}
+.tree-folder-open+span{
+    font-weight: bold;
 }
