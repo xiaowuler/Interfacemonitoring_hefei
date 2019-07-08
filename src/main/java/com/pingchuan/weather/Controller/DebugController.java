@@ -29,12 +29,12 @@ public class DebugController {
     private DebugService debugService;
 
     @RequestMapping("/GetElementCodeByModeCode")
-    public List<ProductType> GetElementCodeByModeCode(HttpServletRequest request, String modeCode){
+    public String GetElementCodeByModeCode(HttpServletRequest request, String modeCode){
         return debugService.GetElementCodeByModeCode(modeCode, request.getMethod());
     }
 
     @RequestMapping("/GetPointValue")
-    public SearchResultDTO GetPointValue(HttpServletRequest request, String URL, String RequestMode, String modeCode, String elementCode, float latitude, float longitude, int forecastLevel, String forecastTime, String initialTime){
+    public SearchResultDTO GetPointValue(String URL, String RequestMode, String modeCode, String elementCode, float latitude, float longitude, int forecastLevel, String forecastTime, String initialTime){
         return debugService.GetPointValue(URL, RequestMode, GetPointValueParam(modeCode, elementCode, latitude, longitude, forecastLevel, forecastTime, initialTime));
     }
 
@@ -46,6 +46,11 @@ public class DebugController {
     @RequestMapping("/GetRegionValues")
     public SearchResultDTO GetRegionValues(String URL, String requestMode, String modeCode, String elementCode, float minLat, float maxLat, float minLon, float maxLon, int forecastLevel, String forecastTime, String initialTime){
         return debugService.GetRegionValues(URL, requestMode, GetRegionValuesParam(modeCode, elementCode, minLat, maxLat, minLon, maxLon, forecastLevel, forecastTime, initialTime));
+    }
+
+    @RequestMapping("/GetRegionValuesToArray")
+    public SearchResultDTO GetRegionValuesToArray(String URL, String requestMode, String modeCode, String elementCode, float minLat, float maxLat, float minLon, float maxLon, int forecastLevel, String forecastTime, String initialTime){
+        return  debugService.GetRegionValuesToArray(URL, requestMode, GetRegionValuesParam(modeCode, elementCode, minLat, maxLat, minLon, maxLon, forecastLevel, forecastTime, initialTime));
     }
 
     @RequestMapping("/GetElementCodesByModeCode")

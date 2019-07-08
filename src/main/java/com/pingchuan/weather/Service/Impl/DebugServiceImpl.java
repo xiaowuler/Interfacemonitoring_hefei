@@ -175,19 +175,51 @@ public class DebugServiceImpl implements DebugService {
     }
 
     @Override
-    public List<ProductType> GetElementCodeByModeCode(String modeCode, String method) {
+    public String GetElementCodeByModeCode(String modeCode, String method) {
         String result;
         if ("GET".equals(method))
             result = WebUtil.Get("10.129.4.202:9535/Search/GetElementCodeByModeCode", GetElementCodeByModeCodeParms(modeCode));
         else
             result = WebUtil.Post("10.129.4.202:9535/Search/GetElementCodeByModeCode", GetElementCodeByModeCodeParms(modeCode));
 
-        if (!StringUtils.isEmpty(result)) {
-            ProductTypeResult productTypeResult = JSONObject.parseObject(result, ProductTypeResult.class);
-            if (productTypeResult.getError() != 1)
-                return productTypeResult.getData();
+        return result;
+    }
+
+    @Override
+    public SearchResultDTO GetRegionValuesToArray(String url, String requestMode, Map<String, Object> map) {
+        SearchResultDTO searchResultDTO = new SearchResultDTO();
+        String result;
+        if (requestMode.equals("POST"))
+            result = WebUtil.Post(url, map);
+        else
+            result = WebUtil.Get(url, map);
+
+        if (StringUtils.isEmpty(result))
+            return searchResultDTO;
+
+        SearchArrayResultInfo searchResultInfo = JSONObject.parseObject(result, SearchArrayResultInfo.class);
+        /*if (!StringUtils.isEmpty(searchResultInfo.getMessage()) || searchResultInfo == null)
+        {
+            searchResultDTO.setSearchResultInfo(searchResultInfo);
+            return searchResultDTO;
         }
-        return new ArrayList<>();
+
+        searchResultDTO.setResutl(result);
+        searchResultDTO.setSearchResultInfo(searchResultInfo);
+
+        List<LegendLevel> legendLevels = legendLevelMapper.findAll("temperatures");
+
+        String productPath = ClassUtils.getDefaultClassLoader().getResource("").getPath();
+        try {
+            productPath = URLDecoder.decode(productPath, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        ContourUtil contourHelper = new ContourUtil(String.format("%s\\%s", productPath, "static/json/ah.json"));
+        ContourResult contourResult = contourHelper.Calc(GetPoint(searchResultInfo.getData().get(0)), legendLevels, 8, -9999);
+        searchResultDTO.setContourResult(contourResult);
+*/
+        return searchResultDTO;
     }
 
     private Map<String, Object> GetElementCodeByModeCodeParms(String modeCode){
