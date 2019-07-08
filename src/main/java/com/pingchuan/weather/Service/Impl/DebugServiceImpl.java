@@ -10,7 +10,7 @@ import com.pingchuan.weather.Domain.*;
 import com.pingchuan.weather.Service.DebugService;
 import com.pingchuan.weather.Util.ContourUtil;
 import com.pingchuan.weather.Util.WebUtil;
-import com.sun.org.apache.bcel.internal.generic.RET;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,14 +39,16 @@ public class DebugServiceImpl implements DebugService {
     @Override
     public SearchResultDTO GetPointValue(String URL, String requestMode, Map<String, Object> map) {
         SearchResultDTO searchResultDTO = new SearchResultDTO();
-        if (requestMode.equals("POST")){
-            String result = WebUtil.Post(URL, map);
+        String result;
+        if (requestMode.equals("POST"))
+            result = WebUtil.Post(URL, map);
+        else
+            result = WebUtil.Get(URL, map);
 
-            if (!StringUtils.isEmpty(result)){
-                SearchResultInfo searchResultInfo = JSONObject.parseObject(result, SearchResultInfo.class);
-                searchResultDTO.setResutl(result);
-                searchResultDTO.setSearchResultInfo(searchResultInfo);
-            }
+        if (!StringUtils.isEmpty(result)){
+            SearchResultInfo searchResultInfo = JSONObject.parseObject(result, SearchResultInfo.class);
+            searchResultDTO.setResutl(result);
+            searchResultDTO.setSearchResultInfo(searchResultInfo);
         }
 
         return searchResultDTO;
@@ -55,39 +57,40 @@ public class DebugServiceImpl implements DebugService {
     @Override
     public SearchResultDTO GetLineValues(String url, String requestMode, Map<String, Object> map) {
         SearchResultDTO searchResultDTO = new SearchResultDTO();
+        String result;
+        if (requestMode.equals("POST"))
+            result = WebUtil.Post(url, map);
+        else
+            result = WebUtil.Get(url, map);
 
-        if (requestMode.equals("POST")){
-            String result = WebUtil.Post(url, map);
-
-            if (!StringUtils.isEmpty(result)){
-                SearchResultInfos searchResultInfos = JSONObject.parseObject(result, SearchResultInfos.class);
-                searchResultDTO.setResutl(result);
-                List<Element> elements = GetAllElementForecastTime(searchResultInfos.getData());
-                if (StringUtils.isEmpty(elements))
-                    return searchResultDTO;
-                Collections.sort(elements, new Comparator<Element>() {
-                    @Override
-                    public int compare(Element o1, Element o2) {
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        try {
-                            Date o1Time = sdf.parse(o1.getForecastTime());
-                            Date o2Time = sdf.parse(o2.getForecastTime());
-                            return o1Time.compareTo(o2Time);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-
-                        return 1;
+        if (!StringUtils.isEmpty(result)){
+            SearchResultInfos searchResultInfos = JSONObject.parseObject(result, SearchResultInfos.class);
+            searchResultDTO.setResutl(result);
+            List<Element> elements = GetAllElementForecastTime(searchResultInfos.getData());
+            if (StringUtils.isEmpty(elements))
+                return searchResultDTO;
+            Collections.sort(elements, new Comparator<Element>() {
+                @Override
+                public int compare(Element o1, Element o2) {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    try {
+                        Date o1Time = sdf.parse(o1.getForecastTime());
+                        Date o2Time = sdf.parse(o2.getForecastTime());
+                        return o1Time.compareTo(o2Time);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
 
-                    @Override
-                    public boolean equals(Object obj) {
-                        return false;
-                    }
-                });
+                    return 1;
+                }
 
-                searchResultDTO.setSearchResultInfos(searchResultInfos);
-            }
+                @Override
+                public boolean equals(Object obj) {
+                    return false;
+                }
+            });
+
+            searchResultDTO.setSearchResultInfos(searchResultInfos);
         }
         return searchResultDTO;
     }
@@ -117,56 +120,74 @@ public class DebugServiceImpl implements DebugService {
     @Override
     public SearchResultDTO GetRegionValues(String url, String requestMode, Map<String, Object> stringObjectMap) {
         SearchResultDTO searchResultDTO = new SearchResultDTO();
-        if (requestMode.equals("POST")){
-            String result = WebUtil.Post(url, stringObjectMap);
+        String result;
+        if (requestMode.equals("POST"))
+            result = WebUtil.Post(url, stringObjectMap);
+        else
+            result = WebUtil.Get(url, stringObjectMap);
 
-            if (StringUtils.isEmpty(result))
-                return searchResultDTO;
+        if (StringUtils.isEmpty(result))
+            return searchResultDTO;
 
-            SearchResultInfo searchResultInfo = JSONObject.parseObject(result, SearchResultInfo.class);
-            if (!StringUtils.isEmpty(searchResultInfo.getMessage()) || searchResultInfo == null)
-            {
-                searchResultDTO.setSearchResultInfo(searchResultInfo);
-                return searchResultDTO;
-            }
-
-            searchResultDTO.setResutl(result);
+        SearchResultInfo searchResultInfo = JSONObject.parseObject(result, SearchResultInfo.class);
+        if (!StringUtils.isEmpty(searchResultInfo.getMessage()) || searchResultInfo == null)
+        {
             searchResultDTO.setSearchResultInfo(searchResultInfo);
-
-            List<LegendLevel> legendLevels = legendLevelMapper.findAll("temperatures");
-
-            String productPath = ClassUtils.getDefaultClassLoader().getResource("").getPath();
-            try {
-                productPath = URLDecoder.decode(productPath, "utf-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            ContourUtil contourHelper = new ContourUtil(String.format("%s\\%s", productPath, "static/json/ah.json"));
-            ContourResult contourResult = contourHelper.Calc(GetPoint(searchResultInfo.getData().get(0)), legendLevels, 8, -9999);
-            searchResultDTO.setContourResult(contourResult);
+            return searchResultDTO;
         }
+
+        searchResultDTO.setResutl(result);
+        searchResultDTO.setSearchResultInfo(searchResultInfo);
+
+        List<LegendLevel> legendLevels = legendLevelMapper.findAll("temperatures");
+
+        String productPath = ClassUtils.getDefaultClassLoader().getResource("").getPath();
+        try {
+            productPath = URLDecoder.decode(productPath, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        ContourUtil contourHelper = new ContourUtil(String.format("%s\\%s", productPath, "static/json/ah.json"));
+        ContourResult contourResult = contourHelper.Calc(GetPoint(searchResultInfo.getData().get(0)), legendLevels, 8, -9999);
+        searchResultDTO.setContourResult(contourResult);
 
         return searchResultDTO;
     }
 
     @Override
-    public Map<String, List<ProductType>> GetElementCodeByModeCode() {
+    public Map<String, List<ProductType>> GetElementCodesByModeCode() {
         Map<String, List<ProductType>> map = new HashMap<>();
-        String result = WebUtil.Post("10.129.4.202:9535/Search/GetElemetCodeByModeCode", GetElementCodeByModeCodeParms("SPCC"));
+        String result = WebUtil.Post("10.129.4.202:9535/Search/GetElementCodeByModeCode", GetElementCodeByModeCodeParms("SPCC"));
         if (!StringUtils.isEmpty(result)) {
             ProductTypeResult productTypeResult = JSONObject.parseObject(result, ProductTypeResult.class);
             if (productTypeResult.getError() != 1)
                 map.put("SPCC", productTypeResult.getData());
         }
 
-        String resultOther = WebUtil.Post("10.129.4.202:9535/Search/GetElemetCodeByModeCode", GetElementCodeByModeCodeParms("SCMOC"));
-        if (!StringUtils.isEmpty(result)) {
+        String resultOther = WebUtil.Post("10.129.4.202:9535/Search/GetElementCodeByModeCode", GetElementCodeByModeCodeParms("SCMOC"));
+        if (!StringUtils.isEmpty(resultOther)) {
             ProductTypeResult productTypeResult = JSONObject.parseObject(resultOther, ProductTypeResult.class);
             if (productTypeResult.getError() != 1)
                 map.put("SCMOC", productTypeResult.getData());
         }
 
         return map;
+    }
+
+    @Override
+    public List<ProductType> GetElementCodeByModeCode(String modeCode, String method) {
+        String result;
+        if ("GET".equals(method))
+            result = WebUtil.Get("10.129.4.202:9535/Search/GetElementCodeByModeCode", GetElementCodeByModeCodeParms(modeCode));
+        else
+            result = WebUtil.Post("10.129.4.202:9535/Search/GetElementCodeByModeCode", GetElementCodeByModeCodeParms(modeCode));
+
+        if (!StringUtils.isEmpty(result)) {
+            ProductTypeResult productTypeResult = JSONObject.parseObject(result, ProductTypeResult.class);
+            if (productTypeResult.getError() != 1)
+                return productTypeResult.getData();
+        }
+        return new ArrayList<>();
     }
 
     private Map<String, Object> GetElementCodeByModeCodeParms(String modeCode){

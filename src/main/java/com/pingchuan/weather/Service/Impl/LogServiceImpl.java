@@ -152,10 +152,9 @@ public class LogServiceImpl implements LogService{
             logDTO.setConsumingTime(count);
             Caller caller = callerMapper.findOneById(logs.get(x).getCaller());
 
-            if (caller == null)
-                continue;
+            if (caller != null)
+                logDTO.setCallerName(caller.getName());
 
-            logDTO.setCallerName(caller.getName());
             logDTO.setLog(logs.get(x));
             logDTO.setName(logs.get(x).getName());
             logDTO.setStartTime(new Date(logs.get(x).getStartTime()));

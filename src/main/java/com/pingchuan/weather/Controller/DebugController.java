@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,8 +28,13 @@ public class DebugController {
     @Autowired
     private DebugService debugService;
 
+    @RequestMapping("/GetElementCodeByModeCode")
+    public List<ProductType> GetElementCodeByModeCode(HttpServletRequest request, String modeCode){
+        return debugService.GetElementCodeByModeCode(modeCode, request.getMethod());
+    }
+
     @RequestMapping("/GetPointValue")
-    public SearchResultDTO GetPointValue(String URL, String RequestMode, String modeCode, String elementCode, float latitude, float longitude, int forecastLevel, String forecastTime, String initialTime){
+    public SearchResultDTO GetPointValue(HttpServletRequest request, String URL, String RequestMode, String modeCode, String elementCode, float latitude, float longitude, int forecastLevel, String forecastTime, String initialTime){
         return debugService.GetPointValue(URL, RequestMode, GetPointValueParam(modeCode, elementCode, latitude, longitude, forecastLevel, forecastTime, initialTime));
     }
 
@@ -42,9 +48,9 @@ public class DebugController {
         return debugService.GetRegionValues(URL, requestMode, GetRegionValuesParam(modeCode, elementCode, minLat, maxLat, minLon, maxLon, forecastLevel, forecastTime, initialTime));
     }
 
-    @RequestMapping("/GetElementCodeByModeCode")
-    public Map<String, List<ProductType>> GetElementCodeByModeCode(){
-        return debugService.GetElementCodeByModeCode();
+    @RequestMapping("/GetElementCodesByModeCode")
+    public Map<String, List<ProductType>> GetElementCodesByModeCode(){
+        return debugService.GetElementCodesByModeCode();
     }
 
     private Map<String,Object> GetRegionValuesParam(String modeCode, String elementCode, float minLat, float maxLat, float minLon, float maxLon, int forecastLevel, String forecastTime, String initialTime) {

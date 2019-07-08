@@ -22,4 +22,15 @@ public class WebUtil {
 
     }
 
+    public static String Get(String URL, Map<String, Object> parameter){
+
+        try{
+            return HttpRequest.get(URL)
+                    .form(parameter).timeout(20000).execute().body();
+        }catch (Exception ex){
+            return String.format("异常：{0}", ex.getMessage());
+        }
+
+    }
+
 }
