@@ -1,6 +1,6 @@
 .content{
     width: calc(100% - 724px) !important;
-    margin: 10px 0 0 214px;
+    margin: 10px 0 0 314px;
 }
 
 .port-title{
@@ -154,8 +154,8 @@
 }
 
 .right-panel{
-    width: 500px;
-    height: 100%;
+    width: 400px;
+    /*height: 100%;*/
     position: absolute;
     top: 70px;
     right: 0;

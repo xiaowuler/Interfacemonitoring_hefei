@@ -1,8 +1,5 @@
 var App = function () {
 
-    this.MapInfo = new MapInfo();
-    this.ColorContorl = new ColorContorl();
-
     this.Startup = function () {
 
         this.ReLayout();
@@ -18,7 +15,6 @@ var App = function () {
 
         window.onresize = this.ReLayout.bind(this);
         $(".return-content li").eq(0).show();
-        this.MapInfo.CreateEasyMap();
 
     };
 
@@ -37,41 +33,12 @@ var App = function () {
             type: "POST",
             dataType: 'json',
             data: params,
-            url: 'debug/GetRegionValues',
+            url: 'debug/GetRegionValuesToArray',
             success: function (result) {
-                console.log(result);
                 this.SetReturnData(result);
-                this.MapInfo.CreateSpotLayer(result.contourResult.spotPolygons, result.contourResult.legendLevels);
-                this.ColorContorl.setColor(result.contourResult.legendLevels[0].type,this.returnColor(result.contourResult.legendLevels));
             }.bind(this)
         });
     };
-
-    this.returnColor = function (colors) {
-        var array = []
-        var arrayColor = [];
-        var arrayValue = [];
-        $(colors).each(function (index,color) {
-            if(index == 0){
-                //arrayColor.push(new Array(color.Color,color.Color));
-                arrayValue.push(color.BeginValue);
-                arrayValue.push(color.EndValue);
-            }else{
-                //arrayColor.push(new Array(colors[index-1].Color,color.Color));
-                arrayValue.push(color.EndValue);
-            }
-        }.bind(this));
-        for(var i = colors.length -1 ; i >= 0; i--){
-            if(i == 0){
-                arrayColor.push(new Array(colors[i].Color,colors[i].Color));
-            }else{
-                arrayColor.push(new Array(colors[i-1].Color,colors[i].Color));
-            }
-        }
-        array.push(arrayColor);
-        array.push(arrayValue);
-        return array;
-    }
 
     this.GetParams = function () {
         var forecastTime = $("#forecast-time").datetimebox("getValue");
@@ -80,7 +47,7 @@ var App = function () {
         var initialFormat = moment(initialTime).format('YYYYMMDDHHmm') == 'Invalid date' ? '' : moment(initialTime).format('YYYYMMDDHHmm');
 
         return {
-            URL: 'http://10.129.4.202:9535/Search/GetRegionValues',
+            URL: 'http://10.129.4.202:9535/Search/GetRegionValuesToArray',
             requestMode: $('.port-method button.active').text(),
             modeCode: $('#ModeCode').combobox('getValue'),
             elementCode: $('#element').combotree('getText'),
@@ -121,8 +88,6 @@ var App = function () {
 
         var index = $(event.target).index();
         $(".return-content li").eq(index).css("display","block").siblings().css("display","none");
-
-        L.Util.requestAnimFrame(this.MapInfo.Map.invalidateSize,this.MapInfo.Map,!1,this.MapInfo.Map._container);
     };
 
     this.SetDate = function () {

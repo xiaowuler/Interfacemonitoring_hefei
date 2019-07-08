@@ -242,6 +242,7 @@ var App = function () {
 
         $('#element').combotree({
             //onlyLeafCheck:true,
+            panelHeight: 'auto',
             onSelect : function(node) {
                 var tree = $(this).tree;
                 var isLeaf = tree('isLeaf', node.target);

@@ -32,6 +32,7 @@ var App = function () {
             data: params,
             url: 'debug/GetPointValue',
             success: function (result) {
+                console.log(result);
                 this.SetReturnData(result);
             }.bind(this)
         });
@@ -118,6 +119,7 @@ var App = function () {
 
         $('#element').combotree({
             //onlyLeafCheck:true,
+            panelHeight: 'auto',
             onSelect : function(node) {
                 var tree = $(this).tree;
                 var isLeaf = tree('isLeaf', node.target);

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>LineValues</title>
+    <title>ModeCode</title>
     <link rel="stylesheet" href="plug/easyui.css">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/common.css">
@@ -41,9 +41,9 @@
             <li class="level-first-menu">
                 <h2>接口调试</h2>
                 <ul>
-                    <li class="level-second-menu icon-debug"><a href="ModeCode.html">ElementCodeByModeCode</a></li>
+                    <li class="level-second-menu icon-debug active"><a href="ModeCode.html">ElementCodeByModeCode</a></li>
                     <li class="level-second-menu icon-debug"><a href="PointValue.html">PointValue</a></li>
-                    <li class="level-second-menu icon-debug active"><a href="LineValues.html">LineValues</a></li>
+                    <li class="level-second-menu icon-debug"><a href="LineValues.html">LineValues</a></li>
                     <li class="level-second-menu icon-debug"><a href="RegionValues.html">RegionValues</a></li>
                     <li class="level-second-menu icon-debug"><a href="RegionArray.html">RegionValuesToArray</a></li>
                 </ul>
@@ -71,52 +71,6 @@
                         <div class="port-label port-explain">说明</div>
                         <div class="port-label explain-txt">要素产品模式名（例如:'SPCC',必须大写）</div>
                     </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;ElementCode（String）</div>
-                        <div class="port-label port-value">
-                            <select id="element" class="easyui-combotree" style="width:200px;"
-                                    data-options="url:'get_data.php',required:true">
-                            </select>
-                        </div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">预报要素（例如:'ER03'）</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;Latitude（float）</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="latitude" value="34.5"></div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">纬度（29-35.1）</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;Longitude（float）</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="longitude" value="118.7"></div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">经度（114.5-120）</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;ForecastLevel（int）</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="forecast" value="0"></div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">预报层次</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;StartTime（DateTime）</div>
-                        <div class="port-label port-value"><input type="text" class="easyui-datetimebox" id="start-time" value="2019/05/16 00:00"></div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">起始预报时间(yyyyMMddHHmm)</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;EndTime（DateTime）</div>
-                        <div class="port-label port-value"><input type="text" class="easyui-datetimebox" id="end-time" value="2019/05/18 00:00"></div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">终止预报时间(yyyyMMddHHmm)</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">InitialTime（DateTime）</div>
-                        <div class="port-label port-value"><input type="text" class="easyui-datetimebox" id="initial" value=""></div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">起报时间(格式yyyyMMddHHmm)</div>
-                    </div>
                 </div>
             </div>
             <div class="port-call bg clearfix">
@@ -135,7 +89,6 @@
             <div class="return-title">
                 <ul class="clearfix">
                     <li class="active">数据</li>
-                    <li>时序图</li>
                 </ul>
             </div>
             <ul class="return-content">
@@ -143,9 +96,6 @@
                     <div class="describe">
                         <pre id="data"></pre>
                     </div>
-                </li>
-                <li>
-                    <div class="describe chart" id="chart"></div>
                 </li>
             </ul>
         </div>
@@ -157,8 +107,7 @@
 <script type="text/javascript" src="plug/helper.js"></script>
 <script type="text/javascript" src="plug/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="plug/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript" src="plug/highcharts.js"></script>
-<script type="text/javascript" src="js/line-value.js"></script>
+<script type="text/javascript" src="js/mode-code.js"></script>
 <script type="text/javascript" src="js/combotree_datas/CombotreeData.js"></script>
 <script type="text/javascript" src="js/combotree_datas/CombotreeChildData.js"></script>
 </html>
