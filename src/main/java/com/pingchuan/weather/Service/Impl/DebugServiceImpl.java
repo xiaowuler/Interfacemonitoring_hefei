@@ -175,14 +175,16 @@ public class DebugServiceImpl implements DebugService {
     }
 
     @Override
-    public String GetElementCodeByModeCode(String modeCode, String method) {
+    public SearchResultDTO GetElementCodeByModeCode(String modeCode, String method) {
+        SearchResultDTO searchResultDTO = new SearchResultDTO();
         String result;
         if ("GET".equals(method))
             result = WebUtil.Get("10.129.4.202:9535/Search/GetElementCodeByModeCode", GetElementCodeByModeCodeParms(modeCode));
         else
             result = WebUtil.Post("10.129.4.202:9535/Search/GetElementCodeByModeCode", GetElementCodeByModeCodeParms(modeCode));
 
-        return result;
+        searchResultDTO.setResutl(result);
+        return searchResultDTO;
     }
 
     @Override
@@ -196,8 +198,10 @@ public class DebugServiceImpl implements DebugService {
 
         if (StringUtils.isEmpty(result))
             return searchResultDTO;
+        else
+            searchResultDTO.setResutl(result);
 
-        SearchArrayResultInfo searchResultInfo = JSONObject.parseObject(result, SearchArrayResultInfo.class);
+        //SearchArrayResultInfo searchResultInfo = JSONObject.parseObject(result, SearchArrayResultInfo.class);
         /*if (!StringUtils.isEmpty(searchResultInfo.getMessage()) || searchResultInfo == null)
         {
             searchResultDTO.setSearchResultInfo(searchResultInfo);

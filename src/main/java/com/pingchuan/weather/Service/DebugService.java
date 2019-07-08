@@ -16,7 +16,7 @@ public interface DebugService {
 
     Map<String, List<ProductType>> GetElementCodesByModeCode();
 
-    String GetElementCodeByModeCode(String modeCode, String method);
+    SearchResultDTO GetElementCodeByModeCode(String modeCode, String method);
 
     SearchResultDTO GetRegionValuesToArray(String url, String requestMode, Map<String,Object> stringObjectMap);
 }

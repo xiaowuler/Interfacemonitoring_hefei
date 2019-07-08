@@ -29,7 +29,7 @@ public class DebugController {
     private DebugService debugService;
 
     @RequestMapping("/GetElementCodeByModeCode")
-    public String GetElementCodeByModeCode(HttpServletRequest request, String modeCode){
+    public SearchResultDTO GetElementCodeByModeCode(HttpServletRequest request, String modeCode){
         return debugService.GetElementCodeByModeCode(modeCode, request.getMethod());
     }
 
