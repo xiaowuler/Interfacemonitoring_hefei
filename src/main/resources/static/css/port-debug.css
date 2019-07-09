@@ -17,6 +17,8 @@
     padding: 10px 0;
     text-indent: 32px;
     line-height: 27px;
+    text-align: justify;
+    word-break: break-all;
 }
 
 .port-param {
@@ -164,6 +166,10 @@
 .port-return h2{
     padding: 0 10px;
     line-height: 55px;
+}
+
+.port-text{
+    display: none;
 }
 
 .return-title{

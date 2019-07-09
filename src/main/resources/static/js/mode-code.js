@@ -23,6 +23,12 @@ var App = function () {
 
     this.ReloadData = function () {
         var params = this.GetParams();
+        if ($('.port-method button.active').attr('value') === 'GET'){
+            this.ShowDetailUrl();
+            $('.port-text').show();
+        } else
+            $('.port-text').hide();
+
         $.ajax({
             type: "POST",
             dataType: 'json',
@@ -39,6 +45,15 @@ var App = function () {
         return {
             modeCode: $('#ModeCode').combobox('getValue')
         }
+    };
+
+    this.ShowDetailUrl = function () {
+        var params = this.GetParams();
+        var modeCode = params.modeCode;
+
+        var pattern = 'ModeCode={0}';
+        var label = pattern.format(modeCode);
+        $('#port-url').text(label);
     };
 
     this.OnRunButtonClick = function () {

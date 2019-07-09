@@ -26,6 +26,12 @@ var App = function () {
 
     this.ReloadData = function () {
         var params = this.GetParams();
+        if (params.RequestMode === 'GET'){
+            this.ShowDetailUrl();
+            $('.port-text').show();
+        } else
+            $('.port-text').hide();
+
         $.ajax({
             type: "POST",
             dataType: 'json',
@@ -46,7 +52,7 @@ var App = function () {
 
         return {
             URL: 'http://10.129.4.202:9535/Search/GetPointValue',
-            RequestMode: $('.port-method button.active').text(),
+            RequestMode: $('.port-method button.active').attr('value'),
             modeCode: $('#ModeCode').combobox('getValue'),
             elementCode: $('#element').combotree('getText'),
             latitude: $('#latitude').val(),
@@ -55,6 +61,28 @@ var App = function () {
             forecastTime: forecastFormat,
             initialTime: initialFormat
         }
+    };
+
+    this.ShowDetailUrl = function () {
+        var params = this.GetParams();
+        var url = params.URL;
+        var RequestMode = params.RequestMode;
+        var modeCode = params.modeCode;
+        var elementCode = params.elementCode;
+        var latitude = params.latitude;
+        var longitude = params.longitude;
+        var forecastLevel = params.forecastLevel;
+        var forecastTime = params.forecastTime;
+        var initialTime = params.initialTime;
+        var init;
+        if (params.initialTime === '' || params.initialTime === undefined || params.initialTime === null)
+            init = '';
+        else
+            init = '&InitialTime =' + initialTime;
+
+        var pattern = '{0}?RequestMode={1}&ModeCode={2}&ElementCode={3}&Latitude={4}&Longitude={5}&ForecastLevel={6}&ForecastTime={7}{8}';
+        var label = pattern.format(url, RequestMode, modeCode, elementCode, latitude, longitude, forecastLevel, forecastTime, init);
+        $('#port-url').text(label);
     };
 
     this.OnRunButtonClick = function () {
@@ -111,15 +139,16 @@ var App = function () {
             type: "POST",
             dataType: 'json',
             async:false,
-            url: 'debug/GetElementCodeByModeCode',
+            url: 'debug/GetElementCodesByModeCode',
             success: function (result) {
+                console.log(result);
                 $('#element').combotree('loadData', this.HandlerReturnElementCode(result));
             }.bind(this),
         });
 
         $('#element').combotree({
             //onlyLeafCheck:true,
-            panelHeight: 'auto',
+            panelHeight: 300,
             onSelect : function(node) {
                 var tree = $(this).tree;
                 var isLeaf = tree('isLeaf', node.target);

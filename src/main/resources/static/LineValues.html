@@ -55,7 +55,7 @@
         <div class="port-debug">
             <div class="port-instruct bg">
                 <h2 class="port-title">接口说明</h2>
-                <p>对每一个输入项的特性，包括名称、标识、数据的类型和格式、数据值的有效范围、输入的方式。 数量和频度、输入媒体、输入数据的来源和安全保密条件等等。对每一个输入项的特性，包括名称、标识、数据的类型和格式、数据值的有效范围、输入的方式。</p>
+                <p>获取经纬度时间段的值</p>
             </div>
             <div class="port-param bg">
                 <h2 class="port-title">接口参数（*号表示必填）</h2>
@@ -74,8 +74,7 @@
                     <div class="port-des clearfix">
                         <div class="port-label port-name">*&nbsp;ElementCode（String）</div>
                         <div class="port-label port-value">
-                            <select id="element" class="easyui-combotree" style="width:200px;"
-                                    data-options="url:'get_data.php',required:true">
+                            <select id="element" class="easyui-combotree" >
                             </select>
                         </div>
                         <div class="port-label port-explain">说明</div>
@@ -122,10 +121,14 @@
             <div class="port-call bg clearfix">
                 <span>调用方法</span>
                 <div class="port-method fl">
-                    <button class="post-btn active">POST</button>
-                    <button class="get-btn">GET</button>
+                    <button class="post-btn active" value="POST">POST</button>
+                    <button class="get-btn" value="GET">GET</button>
                 </div>
                 <button class="run-btn fl" id="run">执行</button>
+            </div>
+            <div class="port-instruct port-text bg">
+                <h2 class="port-title">详细信息</h2>
+                <p id="port-url"></p>
             </div>
         </div>
     </div>
