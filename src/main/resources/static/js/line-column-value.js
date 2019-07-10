@@ -42,7 +42,7 @@ var App = function () {
             success: function (result) {
                 this.result = result;
                 this.SetReturnData(result);
-                this.SetChartData(result)
+                //this.SetChartData(result)
             }.bind(this)
         });
     };
@@ -122,74 +122,7 @@ var App = function () {
 
     };
 
-    this.SetChartData = function (result) {
-        this.result = result;
-        var yMarks = [];
-        var elementSeries = [];
-        var yAxis = this.GetChartYAxis();
-        yMarks.push(yAxis);
-        var xMarks = this.GetChartXMarks();
-        var values = this.GetChartElementValues();
-        var series = this.GetChartElementSeries(values, yMarks.length - 1);
-        elementSeries.push(series);
-        this.ReloadChart(xMarks, yMarks, elementSeries);
-    };
-
-    this.GetChartXMarks = function () {
-        var marks = [];
-
-        this.result.searchResultInfos.data.forEach(function (item, index) {
-            var time = item.forecastTime;
-            marks.push(moment(time).format('MM-DD HH:ss'));
-        }.bind(this));
-
-        return marks;
-    };
-
-    this.GetChartElementValues = function () {
-        var values = [];
-
-        this.result.searchResultInfos.data.forEach(function (item, index) {
-            if (item.elementCode === 'EDA10')
-                values.push(item.grids[0].value);
-            else
-                values.push(item.grids[0].value);
-        }.bind(this));
-
-        return values;
-    };
-
-    this.GetChartYAxis = function () {
-        return {
-            title: {
-                text: '数据展示',
-                style: {
-                    fontFamily: '微软雅黑'
-                }
-            },
-            minPadding: 0,
-            maxPadding: 0,
-            labels: {
-                formatter: function () {
-                    return this.value;// + '%';
-                }
-            }
-        };
-    };
-
-    this.GetChartElementSeries = function (values, yAxisIndex) {
-        return {
-            yAxis: yAxisIndex,
-            data: values,
-            pointWidth: 7,
-            tooltip: {
-                headerFormat: '预报日期：{point.x}<br>',
-                pointFormat: '值：{point.y:.2f}'
-            }
-        };
-    };
-
-    this.ReloadChart = function (xMarks, yMarks, elementSeries) {
+    this.ReloadChart = function () {
         Highcharts.chart('chart', {
             chart: {
                 type: 'column',
@@ -208,14 +141,29 @@ var App = function () {
             credits: {
                 enabled: false
             },
-            //colors: ['#1c96d5', '#ff5ee0', '#f7a45c', '#00ffff', '#1c96d5'],
             xAxis: {
-                categories: xMarks,
-                lineColor: '#999999'
+                categories: ['05-11 00:00', '05-11 01:00', '05-11 02:00', '05-11 03:00', '05-11 04:00', '05-11 05:00', '05-11 06:00', '05-11 07:00', '05-11 08:00', '05-11 09:00', '05-11 10:00', '05-11 11:00', '05-11 12:00', '05-11 13:00', '05-11 14:00', '05-11 15:00', '05-11 16:00', '05-11 17:00', '05-11 18:00', '05-11 19:00', '05-11 20:00', '05-11 21:00', '05-11 22:00', '05-11 23:00'],
+                lineColor: '#999999',
+                tickmarkPlacement : 'on',
+                labels : {
+                    step:1,
+                    rotation: -45
+                }
             },
-            yAxis: yMarks,
+            yAxis: {
+                title: {
+                    text: '数据展示',
+                    style: {
+                        fontFamily: '微软雅黑'
+                    }
+                }
+            },
             legend: {
                 enabled: false
+            },
+            tooltip: {
+                headerFormat: '预报日期：{point.x}<br>',
+                pointFormat: '值：{point.y:.2f}'
             },
             plotOptions: {
                 spline: {
@@ -229,7 +177,9 @@ var App = function () {
                     borderWidth: 0
                 }
             },
-            series: elementSeries
+            series: [{
+                data: [291,151,311,231,291,261,301,211,242,251,303,232,291,213,291,335,261,311,291,250,311,242,291,360]
+            }]
         });
     };
 

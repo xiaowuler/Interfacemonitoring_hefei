@@ -48,8 +48,8 @@
                 <ul>
                     <li class="level-second-menu icon-debug"><a href="ModeCode.html">ElementCodeByModeCode</a></li>
                     <li class="level-second-menu icon-debug"><a href="PointValue.html">PointValue</a></li>
-                    <li class="level-second-menu icon-debug"><a href="LineValues.html">LineValues</a></li>
-                    <li class="level-second-menu icon-debug"><a href="LineColumnValues.html">LineColumnValues</a></li>
+                    <li class="level-second-menu icon-debug"><a href="LineValues.html">LineValues（SequenceChart）</a></li>
+                    <li class="level-second-menu icon-debug"><a href="LineColumnValues.html">LineValues（BarChart）</a></li>
                     <li class="level-second-menu icon-debug active"><a href="RegionValues.html">RegionValues</a></li>
                     <li class="level-second-menu icon-debug"><a href="RegionArray.html">RegionValuesToArray</a></li>
                 </ul>
@@ -149,16 +149,11 @@
             <h2>接口返回</h2>
             <div class="return-title">
                 <ul class="clearfix">
-                    <li class="active">数据</li>
-                    <li>等值面图</li>
+                    <li class="active">等值面图</li>
+                    <li>数据</li>
                 </ul>
             </div>
             <ul class="return-content">
-                <li>
-                    <div class="describe" id="describe">
-                        <pre id="data"></pre>
-                    </div>
-                </li>
                 <li>
                     <div class="describe" id="map-height">
                         <div class="map-wrapper" id="map-wrapper">
@@ -171,6 +166,11 @@
                                 <div class="color-value" id="color-value"></div>
                             </div>
                         </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="describe" id="describe">
+                        <pre id="data"></pre>
                     </div>
                 </li>
             </ul>
