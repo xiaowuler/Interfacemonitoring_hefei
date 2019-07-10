@@ -1,5 +1,5 @@
 .content{
-    width: calc(100% - 724px) !important;
+    width: calc(100% - 824px) !important;
     margin: 10px 0 0 314px;
 }
 
@@ -156,7 +156,7 @@
 }
 
 .right-panel{
-    width: 400px;
+    width: 500px;
     /*height: 100%;*/
     position: absolute;
     top: 70px;

@@ -60,6 +60,7 @@ var App = function () {
             yMarks.push(yAxis);
 
             var type = title === '成功率' ? 'column' : 'pareto';
+            //var type = title === '成功率' ? 'column' : 'spline';
             var values = this.GetChartElementValues(title);
             var series = this.GetChartElementSerie(type, title, values, yMarks.length - 1);
             elementSeries.push(series);
