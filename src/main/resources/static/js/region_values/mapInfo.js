@@ -21,7 +21,7 @@ var MapInfo = function () {
             zoom: 6,
             zoomControl: false
         });
-        var layer = L.tileLayer.chinaProvider('Google.Normal.Map', {
+        var layer = L.tileLayer.chinaProvider('Geoq.Normal.PurplishBlue', {
             maxZoom: 18,
             minZoom: 5
         });
