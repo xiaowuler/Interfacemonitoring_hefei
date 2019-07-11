@@ -89,12 +89,12 @@ var App = function () {
         var width = $(window).width();
         $('#log-table').datagrid({
             columns: [[
-                { field: 'name', title: '名称', align: 'center', width: width * 0.12},
+                { field: 'name', title: '名称', align: 'center', width: width * 0.2},
                 { field: 'state', title: '状态', align: 'center', width: width * 0.12, formatter: this.StateFormatter.bind(this)},
                 { field: 'callerName', title: '调用者', align: 'center', width: width * 0.2},
-                { field: 'startTime', title: '开发时间', align: 'center', width: width * 0.2, formatter: this.DateFormatter.bind(this)},
-                { field: 'endTime', title: '结束时间', align: 'center', width: width * 0.2, formatter: this.DateFormatter.bind(this)},
-                { field: 'consumingAvg', title: '耗时（s）', align: 'center', width: width * 0.2, formatter: this.TimeFormatter.bind(this)}
+                { field: 'startTime', title: '开发时间', align: 'center', width: width * 0.12, formatter: this.DateFormatter.bind(this)},
+                { field: 'endTime', title: '结束时间', align: 'center', width: width * 0.12, formatter: this.DateFormatter.bind(this)},
+                { field: 'consumingTime', title: '耗时（s）', align: 'center', width: width * 0.2, formatter: this.TimeFormatter.bind(this)}
             ]],
             striped: true,
             singleSelect: true,
@@ -112,12 +112,12 @@ var App = function () {
         });
     };
 
-    this.TimeFormatter = function (value, row) {
-        var item = value === 0 ? value : (value * 0.001).toFixed(4);
+    this.TimeFormatter = function (value) {
+        var item = value === 0 ? value : (value * 0.001).toFixed(2);
         return item;
     };
 
-    this.StateFormatter = function (value, row) {
+    this.StateFormatter = function (value) {
         if(value === '成功'){
             return '<span class="success">成功</span>';
         } else {
