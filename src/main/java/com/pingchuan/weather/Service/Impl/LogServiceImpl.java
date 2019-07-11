@@ -164,6 +164,8 @@ public class LogServiceImpl implements LogService{
 
             if (caller != null)
                 logDTO.setCallerName(caller.getName());
+            else
+                logDTO.setCallerName("接口调试客户端");
 
             logDTO.setLog(logs.get(x));
             logDTO.setName(logs.get(x).getName());
