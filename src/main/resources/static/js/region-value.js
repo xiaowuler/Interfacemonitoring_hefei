@@ -4,12 +4,12 @@ var App = function () {
     this.ColorContorl = new ColorContorl();
 
     this.Startup = function () {
-
+        this.SetElementCode();
         this.ReLayout();
         this.SetDate();
         this.BindInputEvent();
         this.SetModeCode();
-        this.SetElementCode();
+
         $('#run').on('click', this.OnRunButtonClick.bind(this));
         $('#run').trigger("click");
         $('.port-method button').on('click', this.SelectType.bind(this));
@@ -45,8 +45,7 @@ var App = function () {
             data: params,
             url: 'debug/GetRegionValues',
             success: function (result) {
-                console.log(result);
-                this.SetReturnData(result);
+                this.SetReturnData(result.searchResultInfos);
                 this.MapInfo.CreateSpotLayer(result.contourResult.spotPolygons, result.contourResult.legendLevels);
                 this.ColorContorl.setColor(result.contourResult.legendLevels[0].type,this.returnColor(result.contourResult.legendLevels));
             }.bind(this)
@@ -81,22 +80,22 @@ var App = function () {
 
     this.GetParams = function () {
         var forecastTime = $("#forecast-time").datetimebox("getValue");
-        var forecastFormat = moment(forecastTime).format('YYYYMMDDHHmm');
+       // var forecastFormat = moment(forecastTime).format('YYYYMMDDHHmm');
         var initialTime = $("#initial").datetimebox("getValue");
-        var initialFormat = moment(initialTime).format('YYYYMMDDHHmm') == 'Invalid date' ? '' : moment(initialTime).format('YYYYMMDDHHmm');
+       // var initialFormat = moment(initialTime).format('YYYYMMDDHHmm') == 'Invalid date' ? '' : moment(initialTime).format('YYYYMMDDHHmm');
 
         return {
-            URL: 'http://10.129.4.202:9535/Search/GetRegionValues',
+            URL: 'http://10.129.4.202:9535/weather/GetRegionValues',
             requestMode: $('.port-method button.active').attr('value'),
             modeCode: $('#ModeCode').combobox('getValue'),
             elementCode: $('#element').combotree('getText'),
-            minLat: $('#min-lat').val(),
-            maxLat: $('#max-lat').val(),
-            minLon: $('#min-lon').val(),
-            maxLon: $('#max-lon').val(),
-            forecastLevel: $('#forecast-level').val(),
-            forecastTime: forecastFormat,
-            initialTime: initialFormat
+            startLat: $('#min-lat').val(),
+            endLat: $('#max-lat').val(),
+            startLon : $('#min-lon').val(),
+            endLon: $('#max-lon').val(),
+            orgCode: $('#orgCode').val(),
+            forecastTime: forecastTime,
+            initialTime: initialTime
         }
     };
 
@@ -106,11 +105,11 @@ var App = function () {
         var requestMode = params.requestMode;
         var modeCode = params.modeCode;
         var elementCode = params.elementCode;
-        var minLat = params.minLat;
-        var maxLat = params.maxLat;
-        var minLon = params.minLon;
-        var maxLon = params.maxLon;
-        var forecastLevel = params.forecastLevel;
+        var endLat = params.endLat;
+        var startLat = params.startLat;
+        var endLon = params.endLon;
+        var startLon = params.startLon;
+        var orgCode = params.orgCode;
         var forecastTime = params.forecastTime;
         var initialTime = params.initialTime;
         var init;
@@ -120,7 +119,7 @@ var App = function () {
             init = '&initialTime =' + initialTime;
 
         var pattern = '{0}?RequestMode={1}&ModeCode={2}&ElementCode={3}&MinLat={4}&MaxLat={5}&MinLon={6}&MaxLon={7}&ForecastLevel={8}&ForecastTime={9}{10}';
-        var label = pattern.format(url, requestMode, modeCode, elementCode, minLat, maxLat, minLon, maxLon, forecastLevel, forecastTime, init);
+        var label = pattern.format(url, requestMode, modeCode, elementCode, endLat, startLat, endLon, startLon, orgCode, forecastTime, init);
         $('#port-url').text(label);
     };
 
@@ -129,7 +128,8 @@ var App = function () {
     };
 
     this.SetReturnData = function (data) {
-        $('#data').text(data.resutl);
+        $('#data').text(JSON.stringify(data, null, 4));
+     //   $('#data').text(data.searchResultInfos);
     };
 
     this.SelectType = function (event) {

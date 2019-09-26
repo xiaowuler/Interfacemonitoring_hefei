@@ -13,37 +13,12 @@ import java.util.List;
 
 @Data
 public class Element {
-    //模式
-    private String ModeCode ;
 
-    //制作地区
-    private String OrgCode ;
+    private ElementInfo elementInfo;
 
-    //元素代码
-    private String ElementCode ;
+    private ElementPointData elementPointData;
 
-    //作者
-    private String Author ;
+    private ElementLineData elementLineData;
 
-    //起报时间
-    private String InitialTime ;
-
-    //入库时间
-    private String CreateTime ;
-
-    //入库时间
-    private String StorageTime ;
-
-    private String ForecastTime ;
-
-    //预报间隔时次
-    private long ForecastTimeLength ;
-
-    //预报最大时效
-    private long ForecastPeriods ;
-
-    //预报层次
-    private int ForecastLevel ;
-
-    private List<Grid> grids;
+    private ElementRegionData elementRegionData;
 }

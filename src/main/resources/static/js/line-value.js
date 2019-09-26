@@ -2,12 +2,12 @@ var App = function () {
 
     this.Startup = function () {
         this.ReLayout();
+        this.SetElementCode();
         this.SetDate();
         this.ReloadData();
         this.BindInputEvent();
         this.ReloadChart();
         this.SetModeCode();
-        this.SetElementCode();
         $('#run').on('click', this.OnRunButtonClick.bind(this));
         $('#run').trigger("click");
         $('.port-method button').on('click', this.SelectType.bind(this));
@@ -41,31 +41,28 @@ var App = function () {
             url: 'debug/GetLineValues',
             success: function (result) {
                 this.result = result;
-                this.SetReturnData(result);
+                this.SetReturnData(result.searchResultInfos);
                 this.SetChartData(result)
             }.bind(this)
         });
     };
 
     this.GetParams = function () {
-        var startTime = $("#start-time").datetimebox("getValue");
-        var startFormat = moment(startTime).format('YYYYMMDDHHmm');
-        var endTime = $("#end-time").datetimebox("getValue");
-        var endFormat = moment(endTime).format('YYYYMMDDHHmm');
+        var startForecastTime = $("#start-time").datetimebox("getValue");
+        var endForecastTime = $("#end-time").datetimebox("getValue");
         var initialTime = $("#initial").datetimebox("getValue");
-        var initialFormat = moment(initialTime).format('YYYYMMDDHHmm') == 'Invalid date' ? '' : moment(initialTime).format('YYYYMMDDHHmm');
 
         return {
-            URL: 'http://10.129.4.202:9535/Search/GetLineValues',
+            URL: 'http://10.129.4.202:9535/weather/GetLineValues',
             requestMode: $('.port-method button.active').attr('value'),
             modeCode: $('#ModeCode').combobox('getValue'),
             elementCode: $('#element').combotree('getText'),
-            latitude: $('#latitude').val(),
-            longitude: $('#longitude').val(),
-            forecastLevel: $('#forecast').val(),
-            startTime: startFormat,
-            endTime: endFormat,
-            initialTime: initialFormat
+            lat: $('#latitude').val(),
+            lon: $('#longitude').val(),
+            orgCode: $('#orgCode').val(),
+            startForecastTime: startForecastTime,
+            endForecastTime: endForecastTime,
+            initialTime: initialTime
         }
     };
 
@@ -75,11 +72,11 @@ var App = function () {
         var requestMode = params.requestMode;
         var modeCode = params.modeCode;
         var elementCode = params.elementCode;
-        var latitude = params.latitude;
-        var longitude = params.longitude;
-        var forecastLevel = params.forecastLevel;
-        var startTime = params.startTime;
-        var endTime = params.endTime;
+        var latitude = params.lat;
+        var longitude = params.lon;
+        var orgCode = params.orgCode;
+        var startForecastTime = params.startForecastTime;
+        var endForecastTime = params.endForecastTime;
         var initialTime = params.initialTime;
         var init;
         if (initialTime === '' || initialTime === undefined || initialTime === null)
@@ -88,7 +85,7 @@ var App = function () {
             init = '&InitialTime =' + initialTime;
 
         var pattern = '{0}?RequestMode={1}&ModeCode={2}&ElementCode={3}&Latitude={4}&Longitude={5}&ForecastLevel={6}&StartTime={7}&EndTime={8}{9}';
-        var label = pattern.format(url, requestMode, modeCode, elementCode, latitude, longitude, forecastLevel, startTime, endTime, init);
+        var label = pattern.format(url, requestMode, modeCode, elementCode, latitude, longitude, orgCode, startForecastTime, endForecastTime, init);
         $('#port-url').text(label);
     };
 
@@ -96,8 +93,9 @@ var App = function () {
         this.ReloadData();
     };
 
-    this.SetReturnData = function (data) {
-        $('#data').text(data.resutl);
+    this.SetReturnData = function (result) {
+        $('#data').text(JSON.stringify(result, null, 4));
+       // $('#data').text(data.searchResultInfos);
     };
 
     this.SelectType = function (event) {
@@ -138,7 +136,7 @@ var App = function () {
     this.GetChartXMarks = function () {
         var marks = [];
 
-        this.result.searchResultInfos.data.forEach(function (item, index) {
+        this.result.searchResultInfos.data.elementLineData.values.forEach(function (item, index) {
             var time = item.forecastTime;
             marks.push(moment(time).format('MM-DD HH:ss'));
         }.bind(this));
@@ -149,11 +147,11 @@ var App = function () {
     this.GetChartElementValues = function () {
         var values = [];
 
-        this.result.searchResultInfos.data.forEach(function (item, index) {
+        this.result.searchResultInfos.data.elementLineData.values.forEach(function (item, index) {
             if (item.elementCode === 'EDA10')
-                values.push(item.grids[0].value);
+                values.push(item.value);
             else
-                values.push(item.grids[0].value);
+                values.push(item.value);
         }.bind(this));
 
         return values;

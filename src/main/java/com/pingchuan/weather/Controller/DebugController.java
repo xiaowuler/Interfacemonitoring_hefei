@@ -1,9 +1,7 @@
 package com.pingchuan.weather.Controller;
 
 import com.pingchuan.weather.DTO.SearchResultDTO;
-import com.pingchuan.weather.Domain.ProductType;
-import com.pingchuan.weather.Domain.SearchResultInfo;
-import com.pingchuan.weather.Domain.SearchResultInfos;
+import com.pingchuan.weather.Domain.ElementInfo;
 import com.pingchuan.weather.Service.DebugService;
 import com.pingchuan.weather.Util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.crypto.Data;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,56 +36,47 @@ public class DebugController {
     }
 
     @RequestMapping("/GetPointValue")
-    public SearchResultDTO GetPointValue(String URL, String RequestMode, String modeCode, String elementCode, float latitude, float longitude, int forecastLevel, String forecastTime, String initialTime){
-        return debugService.GetPointValue(URL, RequestMode, GetPointValueParam(modeCode, elementCode, latitude, longitude, forecastLevel, forecastTime, initialTime));
+    public SearchResultDTO GetPointValue(String URL, String requestMode, String modeCode, String elementCode, BigDecimal lat, BigDecimal lon, String orgCode, Date forecastTime, Date initialTime){
+        return debugService.GetPointValue(URL, requestMode, GetPointValueParam(modeCode, elementCode, lat, lon, orgCode, forecastTime, initialTime));
     }
 
     @RequestMapping("/GetLineValues")
-    public SearchResultDTO GetLineValues(String URL, String requestMode, String modeCode, String elementCode, float latitude, float longitude, int forecastLevel, String startTime, String endTime, String initialTime){
-        return debugService.GetLineValues(URL, requestMode, GetLineValuesParam(modeCode, elementCode, latitude, longitude, forecastLevel, startTime, endTime, initialTime));
+    public SearchResultDTO GetLineValues(String URL, String requestMode, String modeCode, String elementCode, BigDecimal lat, BigDecimal lon, String orgCode, Date startForecastTime, Date endForecastTime, Date initialTime){
+        return debugService.GetLineValues(URL, requestMode, GetLineValuesParam(modeCode, elementCode, lat, lon, orgCode, startForecastTime,endForecastTime, initialTime));
     }
 
     @RequestMapping("/GetRegionValues")
-    public SearchResultDTO GetRegionValues(String URL, String requestMode, String modeCode, String elementCode, float minLat, float maxLat, float minLon, float maxLon, int forecastLevel, String forecastTime, String initialTime){
-        return debugService.GetRegionValues(URL, requestMode, GetRegionValuesParam(modeCode, elementCode, minLat, maxLat, minLon, maxLon, forecastLevel, forecastTime, initialTime));
+    public SearchResultDTO GetRegionValues(String URL, String requestMode, String modeCode, String elementCode, BigDecimal startLon, BigDecimal endLon, BigDecimal startLat, BigDecimal endLat,String orgCode, Date forecastTime, Date initialTime){
+        return debugService.GetRegionValues(URL, requestMode, GetRegionValuesParam(modeCode, elementCode, startLon, endLon, startLat, endLat, orgCode, forecastTime, initialTime));
     }
 
-    @RequestMapping("/GetRegionValuesToArray")
+    @RequestMapping("/GetElementInfosByModeCode")
+    public Map<String, List<String>> GetRegionValues(String URL, String requestMode, String modeCode){
+                return debugService.GetElementInfosByModeCode(URL, requestMode, GetRegionModeCodeParam(modeCode));
+    }
+
+ /*   @RequestMapping("/GetRegionValuesToArray")
     public SearchResultDTO GetRegionValuesToArray(String URL, String requestMode, String modeCode, String elementCode, float minLat, float maxLat, float minLon, float maxLon, int forecastLevel, String forecastTime, String initialTime){
         return  debugService.GetRegionValuesToArray(URL, requestMode, GetRegionValuesParam(modeCode, elementCode, minLat, maxLat, minLon, maxLon, forecastLevel, forecastTime, initialTime));
-    }
+    }*/
 
-    @RequestMapping("/GetElementCodesByModeCode")
+    /*@RequestMapping("/GetElementCodesByModeCode")
     public Map<String, List<ProductType>> GetElementCodesByModeCode(){
         return debugService.GetElementCodesByModeCode();
-    }
+    }*/
 
-    private Map<String,Object> GetRegionValuesParam(String modeCode, String elementCode, float minLat, float maxLat, float minLon, float maxLon, int forecastLevel, String forecastTime, String initialTime) {
-
+    private Map<String,Object> GetRegionValuesParam(String modeCode, String elementCode, BigDecimal startLon, BigDecimal endLon, BigDecimal startLat, BigDecimal endLat, String orgCode, Date forecastTime, Date initialTime) {
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
         Map<String, Object> map = new HashMap<>();
-        map.put("ModeCode", modeCode);
-        map.put("ElementCode", elementCode);
-        map.put("MinLat", minLat);
-        map.put("MaxLat", maxLat);
-        map.put("MinLon", minLon);
-        map.put("MaxLon", maxLon);
-        map.put("ForecastLevel", forecastLevel);
-        map.put("ForecastTime", forecastTime);
-
-        String params;
-        if (!"".equals(initialTime))
-        {
-            map.put("InitialTime", initialTime);
-            params = String.format("ModeCode=%s&ElementCode=%s&MinLat=%s&MaxLat=%s&MinLon=%s&MaxLon=%s&ForecastLevel=%s&ForecastTime=%s&InitialTime=%s&CallerCode=%s&SecretKey=%s", modeCode, elementCode, minLat, maxLat, minLon, maxLon, forecastLevel, forecastTime, initialTime, "SC002", "1495fe15a4994bc58c42124a3ab8e7d9");
-
-        }else {
-            params = String.format("ModeCode=%s&ElementCode=%s&MinLat=%s&MaxLat=%s&MinLon=%s&MaxLon=%s&ForecastLevel=%s&ForecastTime=%s&CallerCode=%s&SecretKey=%s", modeCode, elementCode, minLat, maxLat, minLon, maxLon, forecastLevel, forecastTime, "SC002", "1495fe15a4994bc58c42124a3ab8e7d9");
-        }
-
-        String signCode = MD5Util.MD5(params);
-        map.put("CallerCode", "SC002");
-        map.put("SignCode", signCode);
-
+        map.put("modeCode", modeCode);
+        map.put("elementCode", elementCode);
+        map.put("startLat", startLat);
+        map.put("endLat", endLat);
+        map.put("startLon", startLon);
+        map.put("endLon", endLon);
+        map.put("orgCode", orgCode);
+        map.put("forecastTime", ft.format(forecastTime));
+        map.put("initialTime",ft.format(initialTime));
         return map;
     }
 
@@ -95,56 +88,36 @@ public class DebugController {
         }
     }
 
-    private Map<String, Object> GetLineValuesParam(String modeCode, String elementCode, float latitude, float longitude, int forecastLevel, String startTime, String endTime, String initialTime){
+    private Map<String, Object> GetLineValuesParam(String modeCode, String elementCode, BigDecimal lat, BigDecimal lon, String orgCode , Date startForecastTime , Date endForecastTime , Date initialTime){
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
         Map<String, Object> map = new HashMap<>();
-        map.put("ModeCode", modeCode);
-        map.put("ElementCode", elementCode);
-        map.put("Latitude", latitude);
-        map.put("Longitude", longitude);
-        map.put("ForecastLevel", forecastLevel);
-        map.put("StartTime", startTime);
-        map.put("EndTime", endTime);
-
-        String params;
-        if (!"".equals(initialTime))
-        {
-            map.put("InitialTime", initialTime);
-            params = String.format("ModeCode=%s&ElementCode=%s&Latitude=%s&Longitude=%s&ForecastLevel=%s&StartTime=%s&EndTime=%s&InitialTime=%s&CallerCode=%s&SecretKey=%s", modeCode, elementCode, latitude, longitude, forecastLevel, startTime, endTime, initialTime, "SC002", "1495fe15a4994bc58c42124a3ab8e7d9");
-
-        }else {
-            params = String.format("ModeCode=%s&ElementCode=%s&Latitude=%s&Longitude=%s&ForecastLevel=%s&StartTime=%s&EndTime=%s&CallerCode=%s&SecretKey=%s", modeCode, elementCode, latitude, longitude, forecastLevel, startTime, endTime, "SC002", "1495fe15a4994bc58c42124a3ab8e7d9");
-        }
-
-        String signCode = MD5Util.MD5(params);
-        map.put("CallerCode", "SC002");
-        map.put("SignCode", signCode);
-
+        map.put("modeCode", modeCode);
+        map.put("elementCode", elementCode);
+        map.put("lat", lat);
+        map.put("lon", lon);
+        map.put("orgCode", orgCode);
+        map.put("startForecastTime", ft.format(startForecastTime));
+        map.put("endForecastTime",ft.format(endForecastTime));
+        map.put("initialTime",ft.format(initialTime));
         return map;
     }
 
-    private Map<String, Object> GetPointValueParam(String modeCode, String elementCode, float latitude, float longitude, int forecastLevel, String forecastTime, String initialTime){
+    private Map<String, Object> GetPointValueParam(String modeCode, String elementCode, BigDecimal lat, BigDecimal lon, String orgCode, Date forecastTime, Date initialTime){
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
         Map<String, Object> map = new HashMap<>();
-        map.put("ModeCode", modeCode);
-        map.put("ElementCode", elementCode);
-        map.put("Latitude", latitude);
-        map.put("Longitude", longitude);
-        map.put("ForecastLevel", forecastLevel);
-        map.put("ForecastTime", forecastTime);
-
-        String params;
-        if (!"".equals(initialTime))
-        {
-            map.put("InitialTime", initialTime);
-            params = String.format("ModeCode=%s&ElementCode=%s&Latitude=%s&Longitude=%s&ForecastLevel=%s&ForecastTime=%s&InitialTime=%s&CallerCode=%s&SecretKey=%s", modeCode, elementCode, latitude, longitude, forecastLevel, forecastTime, initialTime, "SC002", "1495fe15a4994bc58c42124a3ab8e7d9");
-
-        }else {
-            params = String.format("ModeCode=%s&ElementCode=%s&Latitude=%s&Longitude=%s&ForecastLevel=%s&ForecastTime=%s&CallerCode=%s&SecretKey=%s", modeCode, elementCode, latitude, longitude, forecastLevel, forecastTime, "SC002", "1495fe15a4994bc58c42124a3ab8e7d9");
-        }
-
-        String signCode = MD5Util.MD5(params);
-        map.put("CallerCode", "SC002");
-        map.put("SignCode", signCode);
-
+        map.put("modeCode", modeCode);
+        map.put("elementCode", elementCode);
+        map.put("lat", lat);
+        map.put("lon", lon);
+        map.put("orgCode", orgCode);
+        map.put("forecastTime", ft.format(forecastTime));
+        map.put("initialTime",ft.format(initialTime));
         return map;
+    }
+
+    private Map<String,Object> GetRegionModeCodeParam(String modeCode) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("modeCode", modeCode);
+         return map;
     }
 }

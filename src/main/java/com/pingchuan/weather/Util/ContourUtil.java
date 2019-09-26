@@ -106,9 +106,9 @@ public class ContourUtil {
         try {
             _discreteData = new double[3][points.size()];
             for (int i = 0; i < points.size(); i++) {
-                _discreteData[0][i] = points.get(i).getLongitude();
-                _discreteData[1][i] = points.get(i).getLatitude();
-                _discreteData[2][i] = points.get(i).getValue();
+//                _discreteData[0][i] = points.get(i).getLongitude();
+//                _discreteData[1][i] = points.get(i).getLatitude();
+//                _discreteData[2][i] = points.get(i).getValue();
             }
 
             List<double[]> list = CreateGridXY_Delt(MinX, MinY, MaxX, MaxY, 0.1, 0.1, _X, _Y);

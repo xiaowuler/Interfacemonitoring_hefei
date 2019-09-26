@@ -46,6 +46,11 @@
             <artifactId>wContour</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <!--<dependency>
+            <groupId>com.baidu</groupId>
+            <artifactId>wContour</artifactId>
+            <version>1.0.0</version>
+        </dependency>-->
 
         <dependency>
             <groupId>commons-io</groupId>

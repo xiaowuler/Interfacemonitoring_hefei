@@ -1,7 +1,7 @@
 package com.pingchuan.weather.Service;
 
 import com.pingchuan.weather.DTO.SearchResultDTO;
-import com.pingchuan.weather.Domain.ProductType;
+import com.pingchuan.weather.Domain.ElementInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,9 @@ public interface DebugService {
 
     SearchResultDTO GetRegionValues(String url, String requestMode, Map<String,Object> stringObjectMap);
 
-    Map<String, List<ProductType>> GetElementCodesByModeCode();
+    Map<String, List<String>> GetElementInfosByModeCode(String url, String requestMode, Map<String,Object> stringObjectMap);
+
+    //Map<String, List<ProductType>> GetElementCodesByModeCode();
 
     SearchResultDTO GetElementCodeByModeCode(String modeCode, String method);
 

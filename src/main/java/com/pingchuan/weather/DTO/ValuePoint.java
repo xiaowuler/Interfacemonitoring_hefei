@@ -2,6 +2,8 @@ package com.pingchuan.weather.DTO;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 /**
  * @description: 点值
  * @author: XW
@@ -10,9 +12,9 @@ import lombok.Data;
 
 @Data
 public class ValuePoint {
-    private double Longitude;
-    private double Latitude;
-    private double Value;
+    private BigDecimal Longitude;
+    private BigDecimal Latitude;
+    private BigDecimal Value;
     private String name;
     private String id;
     private Double averageDirection;

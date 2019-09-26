@@ -13,11 +13,13 @@ import lombok.Data;
 @Data
 public class SearchResultDTO {
 
-    private String resutl;
+    private String result;
+
+    private SearchResultInfos searchResultInfos;
 
     private SearchResultInfo searchResultInfo;
 
-    private SearchResultInfos searchResultInfos;
+   /* private SearchResultInfos searchResultInfos;*/
 
     private ContourResult contourResult;
 }

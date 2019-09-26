@@ -12,7 +12,11 @@ import java.util.List;
 
 @Data
 public class SearchResultInfos {
-    private int Error;
-    private String Message;
-    private List<Element> Data;
+
+    private int error;
+
+    private String message;
+
+    private Element data;
+
 }

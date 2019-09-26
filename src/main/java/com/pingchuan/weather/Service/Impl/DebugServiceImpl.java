@@ -18,6 +18,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,7 +37,10 @@ public class DebugServiceImpl implements DebugService {
     @Autowired
     private LegendLevelMapper legendLevelMapper;
 
+
+
     @Override
+    //获取点的值
     public SearchResultDTO GetPointValue(String URL, String requestMode, Map<String, Object> map) {
         SearchResultDTO searchResultDTO = new SearchResultDTO();
         String result;
@@ -44,15 +48,21 @@ public class DebugServiceImpl implements DebugService {
             result = WebUtil.Post(URL, map);
         else
             result = WebUtil.Get(URL, map);
-
         if (!StringUtils.isEmpty(result)){
-            SearchResultInfo searchResultInfo = JSONObject.parseObject(result, SearchResultInfo.class);
-            searchResultDTO.setResutl(result);
-            searchResultDTO.setSearchResultInfo(searchResultInfo);
+           // searchResultDTO.setResult(result);
+            SearchResultInfos searchResultInfos = JSONObject.parseObject(result, SearchResultInfos.class);
+            searchResultDTO.setSearchResultInfos(searchResultInfos);
         }
-
         return searchResultDTO;
     }
+
+
+
+    //@Override
+  /*  public SearchResultDTO GetRegionValues(String url, String requestMode, Map<String, Object> stringObjectMap) {
+        return null;
+    }
+*/
 
     @Override
     public SearchResultDTO GetLineValues(String url, String requestMode, Map<String, Object> map) {
@@ -63,52 +73,14 @@ public class DebugServiceImpl implements DebugService {
         else
             result = WebUtil.Get(url, map);
 
-        if (!StringUtils.isEmpty(result)){
+        if(!StringUtils.isEmpty(result)){
             SearchResultInfos searchResultInfos = JSONObject.parseObject(result, SearchResultInfos.class);
-            searchResultDTO.setResutl(result);
-            List<Element> elements = GetAllElementForecastTime(searchResultInfos.getData());
-            if (StringUtils.isEmpty(elements))
-                return searchResultDTO;
-            Collections.sort(elements, new Comparator<Element>() {
-                @Override
-                public int compare(Element o1, Element o2) {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    try {
-                        Date o1Time = sdf.parse(o1.getForecastTime());
-                        Date o2Time = sdf.parse(o2.getForecastTime());
-                        return o1Time.compareTo(o2Time);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                    return 1;
-                }
-
-                @Override
-                public boolean equals(Object obj) {
-                    return false;
-                }
-            });
-
             searchResultDTO.setSearchResultInfos(searchResultInfos);
         }
         return searchResultDTO;
     }
 
-    private List<Element> GetAllElementForecastTime(List<Element> elements){
-        List<Element> resElems = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (Element element : elements){
-            try {
-                Date reportTime = sdf.parse(element.getInitialTime());
-                element.setForecastTime(GetForecastTimeByReportTime(sdf, reportTime, (int)element.getForecastTimeLength()));
-                resElems.add(element);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        return resElems;
-    }
+
 
     private String GetForecastTimeByReportTime(SimpleDateFormat sdf, Date reportTime, int addTimes){
         Calendar calendar =Calendar.getInstance();
@@ -129,15 +101,15 @@ public class DebugServiceImpl implements DebugService {
         if (StringUtils.isEmpty(result))
             return searchResultDTO;
 
-        SearchResultInfo searchResultInfo = JSONObject.parseObject(result, SearchResultInfo.class);
-        if (!StringUtils.isEmpty(searchResultInfo.getMessage()) || searchResultInfo == null)
+        SearchResultInfos searchResultInfos = JSONObject.parseObject(result, SearchResultInfos.class);
+        if (!StringUtils.isEmpty(searchResultInfos.getMessage()) || searchResultInfos == null)
         {
-            searchResultDTO.setSearchResultInfo(searchResultInfo);
+            searchResultDTO.setSearchResultInfos(searchResultInfos);
             return searchResultDTO;
         }
 
-        searchResultDTO.setResutl(result);
-        searchResultDTO.setSearchResultInfo(searchResultInfo);
+        //searchResultDTO.setResult(result);
+        searchResultDTO.setSearchResultInfos(searchResultInfos);
 
         List<LegendLevel> legendLevels = legendLevelMapper.findAll("temperatures");
 
@@ -148,13 +120,48 @@ public class DebugServiceImpl implements DebugService {
             e.printStackTrace();
         }
         ContourUtil contourHelper = new ContourUtil(String.format("%s\\%s", productPath, "static/json/ah.json"));
-        ContourResult contourResult = contourHelper.Calc(GetPoint(searchResultInfo.getData().get(0)), legendLevels, 8, -9999);
+        ContourResult contourResult = contourHelper.Calc(GetPoint(searchResultInfos.getData()/*.get(0)*/), legendLevels, 8, -9999);
         searchResultDTO.setContourResult(contourResult);
 
         return searchResultDTO;
     }
 
     @Override
+    public Map<String, List<String>> GetElementInfosByModeCode(String url, String requestMode, Map<String,Object> stringObjectMap){
+        Map<String, List<String>> map=new HashMap<>();
+        List<String> listInitialTime = new ArrayList<String>();
+        List<String> listElementCode = new ArrayList<String>();
+
+        SearchResultDTO searchResultDTO = new SearchResultDTO();
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyyMMddHH");
+
+            String result;
+            if (requestMode.equals("POST"))
+                result = WebUtil.Post(url, stringObjectMap);
+            else
+                result = WebUtil.Get(url, stringObjectMap);
+
+            if (StringUtils.isEmpty(result))
+                return null;
+
+        SearchResultInfo searchResultInfo = JSONObject.parseObject(result, SearchResultInfo.class);
+        //searchResultDTO.setSearchResultInfo(searchResultInfo);
+
+        Set set = new HashSet();
+        for(ElementInfo elementInfo : searchResultInfo.getData()){
+            if (set.add(elementInfo.getInitialTime()))
+                listInitialTime.add(elementInfo.getInitialTime().toString());
+            if (set.add(elementInfo.getElementCode()))
+                listElementCode.add(elementInfo.getElementCode());
+        }
+
+        map.put("initialTime",listInitialTime);
+        map.put("elementCode",listElementCode);
+
+        return map;
+    }
+
+    /*@Override
     public Map<String, List<ProductType>> GetElementCodesByModeCode() {
         Map<String, List<ProductType>> map = new HashMap<>();
         String result = WebUtil.Post("10.129.4.202:9535/Search/GetElementCodeByModeCode", GetElementCodeByModeCodeParms("SPCC"));
@@ -172,7 +179,7 @@ public class DebugServiceImpl implements DebugService {
         }
 
         return map;
-    }
+    }*/
 
     @Override
     public SearchResultDTO GetElementCodeByModeCode(String modeCode, String method) {
@@ -183,7 +190,7 @@ public class DebugServiceImpl implements DebugService {
         else
             result = WebUtil.Post("10.129.4.202:9535/Search/GetElementCodeByModeCode", GetElementCodeByModeCodeParms(modeCode));
 
-        searchResultDTO.setResutl(result);
+        searchResultDTO.setResult(result);
         return searchResultDTO;
     }
 
@@ -199,7 +206,7 @@ public class DebugServiceImpl implements DebugService {
         if (StringUtils.isEmpty(result))
             return searchResultDTO;
         else
-            searchResultDTO.setResutl(result);
+            searchResultDTO.setResult(result);
 
         //SearchArrayResultInfo searchResultInfo = JSONObject.parseObject(result, SearchArrayResultInfo.class);
         /*if (!StringUtils.isEmpty(searchResultInfo.getMessage()) || searchResultInfo == null)
@@ -236,31 +243,32 @@ public class DebugServiceImpl implements DebugService {
 
         List<ValuePoint> valuePoints = new ArrayList<>();
         ValuePoint valuePoint;
-        if ("EDA10".equals(element.getElementCode())){
-            for (Grid grid : element.getGrids()){
-                valuePoint = new ValuePoint();
-                valuePoint.setLatitude(grid.getLatitude());
-                valuePoint.setLongitude(grid.getLongitude());
-                valuePoint.setValue(grid.getUValue());
+        if ("EDA10".equals(element.getElementInfo().getElementCode())){
+            valuePoint = new ValuePoint();
+            for(ElementRegionValue regionValue:element.getElementRegionData().getValues()) {
+                valuePoint.setLatitude(regionValue.getLat());
+                valuePoint.setLongitude(regionValue.getLon());
+                valuePoint.setValue(regionValue.getValue());
                 valuePoints.add(valuePoint);
             }
-        }else if ("TMP".equals(element.getElementCode())){
-            for (Grid grid : element.getGrids()){
+        }else if ("TMP".equals(element.getElementInfo().getElementCode())){
+                BigDecimal bigDecimal = new BigDecimal(Double.valueOf(273.15));
                 valuePoint = new ValuePoint();
-                valuePoint.setLatitude(grid.getLatitude());
-                valuePoint.setLongitude(grid.getLongitude());
-                valuePoint.setValue(grid.getValue() - 273.15);
-                valuePoints.add(valuePoint);
-            }
+                for(ElementRegionValue regionValue:element.getElementRegionData().getValues()) {
+                    valuePoint.setLatitude(regionValue.getLat());
+                    valuePoint.setLongitude(regionValue.getLon());
+                    valuePoint.setValue(regionValue.getValue().subtract(bigDecimal));
+                    valuePoints.add(valuePoint);
+                }
         }else {
-            for (Grid grid : element.getGrids()){
                 valuePoint = new ValuePoint();
-                valuePoint.setLatitude(grid.getLatitude());
-                valuePoint.setLongitude(grid.getLongitude());
-                valuePoint.setValue(grid.getValue());
+            for(ElementRegionValue regionValue:element.getElementRegionData().getValues()) {
+                valuePoint.setLatitude(regionValue.getLat());
+                valuePoint.setLongitude(regionValue.getLon());
+                valuePoint.setValue(regionValue.getValue());
                 valuePoints.add(valuePoint);
             }
         }
         return valuePoints;
-    }
+ }
 }
