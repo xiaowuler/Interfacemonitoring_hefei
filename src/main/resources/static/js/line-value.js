@@ -283,7 +283,6 @@ var App = function () {
             valueField:'id',
             textField:'text',
             editable:false,
-            panelHeight: 'auto'
         });
     };
 
@@ -317,6 +316,7 @@ var App = function () {
                     data: elementList,
                     valueField: 'id',
                     textField: 'text',
+                    panelHeight: height = elementList.length > 6 ? 300 : "auto"
                 });
 
                 $('#initial-time').combobox({
@@ -325,13 +325,15 @@ var App = function () {
                     textField: 'text',
                     onLoadSuccess: function () {
                         $('#initial-time').combobox('select', initialList.length - 1)
-                    }
+                    },
+                    panelHeight: height = initialList.length > 6 ? 300 : "auto"
                 });
 
                 $('#orgCode').combobox({
                     data: orgCodeList,
                     valueField: 'id',
                     textField: 'text',
+                    panelHeight: height = orgCodeList.length > 6 ? 300 : "auto"
                 });
             }
         })
