@@ -2,12 +2,17 @@ var App = function () {
 
     this.Startup = function () {
         this.ReLayout();
-        this.SetElementCode();
+        this.InitComboBox('#orgCode');
+        this.InitComboBox('#element');
+        this.InitComboBox('#initial-time');
         this.SetDate();
+        this.GettingValuesThroughModecode();
+      // this.HandlerReturnElementCode();
         this.ReloadData();
         this.BindInputEvent();
         this.ReloadChart();
         this.SetModeCode();
+
         $('#run').on('click', this.OnRunButtonClick.bind(this));
         $('#run').trigger("click");
         $('.port-method button').on('click', this.SelectType.bind(this));
@@ -50,16 +55,16 @@ var App = function () {
     this.GetParams = function () {
         var startForecastTime = $("#start-time").datetimebox("getValue");
         var endForecastTime = $("#end-time").datetimebox("getValue");
-        var initialTime = $("#initial").datetimebox("getValue");
+        var initialTime = $("#initial-time").combobox("getText");
 
         return {
             URL: 'http://10.129.4.202:9535/weather/GetLineValues',
             requestMode: $('.port-method button.active').attr('value'),
             modeCode: $('#ModeCode').combobox('getValue'),
-            elementCode: $('#element').combotree('getText'),
+            elementCode: $('#element').combobox('getText'),
             lat: $('#latitude').val(),
             lon: $('#longitude').val(),
-            orgCode: $('#orgCode').val(),
+            orgCode: $('#orgCode').combobox('getText'),
             startForecastTime: startForecastTime,
             endForecastTime: endForecastTime,
             initialTime: initialTime
@@ -90,7 +95,7 @@ var App = function () {
     };
 
     this.OnRunButtonClick = function () {
-        this.ReloadData();
+            this.ReloadData();
     };
 
     this.SetReturnData = function (result) {
@@ -243,57 +248,98 @@ var App = function () {
             showSeconds: false
         });
 
-        $('#initial').datetimebox({
+      /*  $('#initial').datetimebox({
             panelWidth: 200,
             panelHeight: 260,
             showSeconds: false
-        });
+        });*/
     };
 
     this.SetModeCode = function () {
         $('#ModeCode').combobox({
+            panelHeight: 'auto',
+            onSelect: function (result) {
+                this.GettingValuesThroughModecode(result.value);
+            }.bind(this)
+        });
+    };
+
+    this.GetModecode = function (result) {
+        var modeCodes= $('#ModeCode').combobox('getValue');
+        var modeCode;
+        if(result != null && result != modeCode)
+            modeCode=result;
+        else
+            modeCode=modeCodes;
+        return {
+            URL: 'http://10.129.4.202:9535/weather/GetElementInfosByModeCode',
+            requestMode: $('.port-method button.active').attr('value'),
+            modeCode: modeCode
+        }
+    };
+
+    this.InitComboBox = function (id) {
+        $(id).combobox({
+            valueField:'id',
+            textField:'text',
+            editable:false,
             panelHeight: 'auto'
         });
     };
 
-    this.SetElementCode = function () {
+    this.GettingValuesThroughModecode=function(result){
+        var params=this.GetModecode(result);
+        var data = [];
         $.ajax({
-            type: "POST",
-            dataType: 'json',
+            type:"POST",
+            dateType:"json",
+            data:params,
             async:false,
-            url: 'debug/GetElementCodesByModeCode',
-            success: function (result) {
-                $('#element').combotree('loadData', this.HandlerReturnElementCode(result));
-            }.bind(this),
-        });
+            url:'debug/GetElementInfosByModeCode',
+            success:function (result) {
+                var elementList = [];
+                var initialList = [];
+                var orgCodeList = [];
 
-        $('#element').combotree({
-            //onlyLeafCheck:true,
-            panelHeight: 300,
-            onSelect : function(node) {
-                var tree = $(this).tree;
-                var isLeaf = tree('isLeaf', node.target);
-                if (!isLeaf) {
-                    $('#element').treegrid("unselect");
-                }
+                result.elementCode.forEach(function (item, index) {
+                    elementList.push({"id": index, "text": item});
+                }.bind(this));
+
+                result.initialTime.forEach(function (item, index) {
+                    initialList.push({"id": index, "text": item});
+                }.bind(this));
+
+                result.orgCode.forEach(function (item, index) {
+                    orgCodeList.push({"id": index, "text": item});
+                }.bind(this));
+
+                $('#element').combobox({
+                    data: elementList,
+                    valueField: 'id',
+                    textField: 'text',
+                });
+
+                $('#initial-time').combobox({
+                    data: initialList,
+                    valueField: 'id',
+                    textField: 'text',
+                    onLoadSuccess: function () {
+                        $('#initial-time').combobox('select', initialList.length - 1)
+                    }
+                });
+
+                $('#orgCode').combobox({
+                    data: orgCodeList,
+                    valueField: 'id',
+                    textField: 'text',
+                });
             }
-        });
-
-        $('#element').combotree('setValue', 'TMP');
-
+        })
     };
 
-    this.HandlerReturnElementCode = function (results) {
-        var Array = [];
-        var combotreeData = new CombotreeData(0, 'SPCC');
-        combotreeData.initData(results['SPCC']);
-        Array.push(combotreeData);
 
-        var combotreeDatas = new CombotreeData(5, 'SCMOC');
-        combotreeDatas.initData(results['SCMOC']);
-        Array.push(combotreeDatas);
-        return Array;
-    };
+
+
 };
 
 $(document).ready(function () {

@@ -4,9 +4,14 @@ var App = function () {
     this.ColorContorl = new ColorContorl();
 
     this.Startup = function () {
-        this.SetElementCode();
+        //this.SetElementCode();
         this.ReLayout();
         this.SetDate();
+        this.InitComboBox('#orgCode');
+        this.InitComboBox('#element');
+        this.InitComboBox('#initial-time');
+        this.GettingValuesThroughModecode();
+        this.ReloadData();
         this.BindInputEvent();
         this.SetModeCode();
 
@@ -46,6 +51,9 @@ var App = function () {
             url: 'debug/GetRegionValues',
             success: function (result) {
                 this.SetReturnData(result.searchResultInfos);
+                if (result.contourResult === null)
+                    return;
+
                 this.MapInfo.CreateSpotLayer(result.contourResult.spotPolygons, result.contourResult.legendLevels);
                 this.ColorContorl.setColor(result.contourResult.legendLevels[0].type,this.returnColor(result.contourResult.legendLevels));
             }.bind(this)
@@ -80,20 +88,18 @@ var App = function () {
 
     this.GetParams = function () {
         var forecastTime = $("#forecast-time").datetimebox("getValue");
-       // var forecastFormat = moment(forecastTime).format('YYYYMMDDHHmm');
-        var initialTime = $("#initial").datetimebox("getValue");
-       // var initialFormat = moment(initialTime).format('YYYYMMDDHHmm') == 'Invalid date' ? '' : moment(initialTime).format('YYYYMMDDHHmm');
+        var initialTime = $("#initial-time").combobox("getText");
 
         return {
             URL: 'http://10.129.4.202:9535/weather/GetRegionValues',
             requestMode: $('.port-method button.active').attr('value'),
             modeCode: $('#ModeCode').combobox('getValue'),
-            elementCode: $('#element').combotree('getText'),
+            elementCode: $('#element').combobox('getText'),
             startLat: $('#min-lat').val(),
             endLat: $('#max-lat').val(),
             startLon : $('#min-lon').val(),
             endLon: $('#max-lon').val(),
-            orgCode: $('#orgCode').val(),
+            orgCode: $('#orgCode').combobox('getText'),
             forecastTime: forecastTime,
             initialTime: initialTime
         }
@@ -171,48 +177,86 @@ var App = function () {
 
     this.SetModeCode = function () {
         $('#ModeCode').combobox({
+            panelHeight: 'auto',
+            onSelect: function (result) {
+                this.GettingValuesThroughModecode(result.value);
+            }.bind(this)
+        });
+    };
+
+    this.GetModecode = function (result) {
+        var modeCodes= $('#ModeCode').combobox('getValue');
+        var modeCode;
+        if(result != null && result != modeCode)
+            modeCode=result;
+        else
+            modeCode=modeCodes;
+        return {
+            URL: 'http://10.129.4.202:9535/weather/GetElementInfosByModeCode',
+            requestMode: $('.port-method button.active').attr('value'),
+            modeCode: modeCode
+        }
+    };
+
+    this.InitComboBox = function (id) {
+        $(id).combobox({
+            valueField:'id',
+            textField:'text',
+            editable:false,
             panelHeight: 'auto'
         });
     };
 
-    this.SetElementCode = function () {
+    this.GettingValuesThroughModecode=function(result){
+        var params=this.GetModecode(result);
         $.ajax({
-            type: "POST",
-            dataType: 'json',
+            type:"POST",
+            dateType:"json",
+            data:params,
             async:false,
-            url: 'debug/GetElementCodesByModeCode',
-            success: function (result) {
-                $('#element').combotree('loadData', this.HandlerReturnElementCode(result));
-            }.bind(this),
-        });
+            url:'debug/GetElementInfosByModeCode',
+            success:function (result) {
+                var elementList = [];
+                var initialList = [];
+                var orgCodeList = [];
 
-        $('#element').combotree({
-            //onlyLeafCheck:true,
-            panelHeight: 300,
-            onSelect : function(node) {
-                var tree = $(this).tree;
-                var isLeaf = tree('isLeaf', node.target);
-                if (!isLeaf) {
-                    $('#element').treegrid("unselect");
-                }
+                result.elementCode.forEach(function (item, index) {
+                    elementList.push({"id": index, "text": item});
+                }.bind(this));
+
+                result.initialTime.forEach(function (item, index) {
+                    initialList.push({"id": index, "text": item});
+                }.bind(this));
+
+                result.orgCode.forEach(function (item, index) {
+                    orgCodeList.push({"id": index, "text": item});
+                }.bind(this));
+
+                $('#element').combobox({
+                    data: elementList,
+                    valueField: 'id',
+                    textField: 'text',
+                });
+
+                $('#initial-time').combobox({
+                    data: initialList,
+                    valueField: 'id',
+                    textField: 'text',
+                    onLoadSuccess: function () {
+                        $('#initial-time').combobox('select', initialList.length - 1)
+                    }
+                });
+
+                $('#orgCode').combobox({
+                    data: orgCodeList,
+                    valueField: 'id',
+                    textField: 'text',
+                });
             }
-        });
-
-        $('#element').combotree('setValue', 'TMP');
-
+        })
     };
 
-    this.HandlerReturnElementCode = function (results) {
-        var Array = [];
-        var combotreeData = new CombotreeData(0, 'SPCC');
-        combotreeData.initData(results['SPCC']);
-        Array.push(combotreeData);
 
-        var combotreeDatas = new CombotreeData(5, 'SCMOC');
-        combotreeDatas.initData(results['SCMOC']);
-        Array.push(combotreeDatas);
-        return Array;
-    };
 };
 
 $(document).ready(function () {

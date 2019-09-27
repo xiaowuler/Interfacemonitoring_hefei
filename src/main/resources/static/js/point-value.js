@@ -1,14 +1,17 @@
 var App = function () {
+
     this.Startup = function () {
-
-
         this.SetModeCode();
         this.ReLayout();
+        this.InitComboBox('#orgCode');
+        this.InitComboBox('#element');
+        this.InitComboBox('#initial-time');
+
         this.GettingValuesThroughModecode();
         this.ReloadData();
         this.SetDate();
         this.BindInputEvent();
-        this.SetElementCode();
+
 
         $('#run').on('click', this.OnRunButtonClick.bind(this));
         $('#run').trigger("click");
@@ -49,16 +52,18 @@ var App = function () {
 
     this.GetParams = function () {
         var forecastTime = $("#forecast-time").datetimebox("getValue");
-        var initialTime = $("#initial").datetimebox("getValue");
+        var initialTime =  $("#initial-time").combobox("getText");
+     //   var initialFormat = moment(initialTime).format('YYYY');
 
+        // initialTime = moment(initialTime).format('YYYYMMDDHHmm')
         return {
             URL: 'http://10.129.4.202:9535/weather/GetPointValue',
             requestMode: $('.port-method button.active').attr('value'),
             modeCode: $('#ModeCode').combobox('getValue'),
-            elementCode: $('#element').combotree('getText'),
+            elementCode: $('#element').combobox('getText'),
             lat: $('#latitude').val(),
             lon: $('#longitude').val(),
-            orgCode: $('#orgCode').val(),
+            orgCode: $('#orgCode').combobox('getText'),
             forecastTime: forecastTime,
             initialTime: initialTime
         }
@@ -132,71 +137,91 @@ var App = function () {
 
     this.SetModeCode = function () {
         $('#ModeCode').combobox({
+            panelHeight: 'auto',
+            onSelect: function (result) {
+                this.GettingValuesThroughModecode(result.value);
+            }.bind(this)
+        });
+    };
+
+    this.InitComboBox = function (id) {
+        $(id).combobox({
+            valueField:'id',
+            textField:'text',
+            editable:false,
             panelHeight: 'auto'
         });
     };
 
-    this.SetElementCode = function () {
-        // $.ajax({
-        //     type: "POST",
-        //     dataType: 'json',
-        //     async:false,
-        //     url: 'debug/GetElementCodesByModeCode',
-        //     success: function (result) {
-        //         $('#element').combotree('loadData', this.HandlerReturnElementCode(result));
-        //     }.bind(this),
-        // });
-
-        $('#element').combotree({
-            //onlyLeafCheck:true,
-            panelHeight: 300,
-            onSelect : function(node) {
-                var tree = $(this).tree;
-                var isLeaf = tree('isLeaf', node.target);
-                if (!isLeaf) {
-                    $('#element').treegrid("unselect");
-                }
-            }
-        });
-
-        $('#element').combotree('setValue', 'WP3');
-
-    };
-
-    this.HandlerReturnElementCode = function (results) {
-        var Array = [];
-        var combotreeData = new CombotreeData(0, 'WP3');
-        combotreeData.initData(results['WP3']);
-        Array.push(combotreeData);
-
-        // var combotreeDatas = new CombotreeData(5, 'SCMOC');
-        // combotreeDatas.initData(results['SCMOC']);
-        // Array.push(combotreeDatas);
-        return Array;
-    };
-
-    this.GetModecode = function () {
+    this.GetModecode = function (result) {
+       var modeCodes= $('#ModeCode').combobox('getValue');
+       var modeCode;
+        if(result != null && result != modeCode)
+           modeCode=result;
+        else
+            modeCode=modeCodes;
         return {
             URL: 'http://10.129.4.202:9535/weather/GetElementInfosByModeCode',
             requestMode: $('.port-method button.active').attr('value'),
-            modeCode: $('#ModeCode').combobox('getValue'),
+            modeCode:modeCode
         }
     };
 
-    this.GettingValuesThroughModecode=function(){
-        var params=this.GetModecode();
+    this.GettingValuesThroughModecode = function(result){
+      /*  if (val === null)
+            val = 'SPCC';
+
+        var data = [];*/
+        var params = this.GetModecode(result);
         $.ajax({
             type:"POST",
             dateType:"json",
-            data:params,
+            data: params,
             async:false,
             url:'debug/GetElementInfosByModeCode',
             success:function (result) {
-                console.log(result);
-                $('#element').combotree('loadData', this.HandlerReturnElementCode(result.elementCode));
+                var elementList = [];
+                var initialList = [];
+                var orgCodeList = [];
+
+                result.elementCode.forEach(function (item, index) {
+                    elementList.push({"id": index, "text": item});
+                }.bind(this));
+
+                result.initialTime.forEach(function (item, index) {
+                    //item = moment(item).format('YYYY/MM/DD HH:mm');
+                    initialList.push({"id": index, "text": item});
+                }.bind(this));
+
+                result.orgCode.forEach(function (item, index) {
+                    orgCodeList.push({"id": index, "text": item});
+                }.bind(this));
+
+                $('#element').combobox({
+                    data: elementList,
+                    valueField: 'id',
+                    textField: 'text',
+                });
+
+                $('#initial-time').combobox({
+                    data: initialList,
+                    valueField: 'id',
+                    textField: 'text',
+                    onLoadSuccess: function () {
+                        $('#initial-time').combobox('select', initialList.length - 1)
+                    }
+
+                });
+
+                $('#orgCode').combobox({
+                    data: orgCodeList,
+                    valueField: 'id',
+                    textField: 'text',
+                    panelHeight: 300
+                });
             }
         })
-    }
+    };
 };
 
 $(document).ready(function () {

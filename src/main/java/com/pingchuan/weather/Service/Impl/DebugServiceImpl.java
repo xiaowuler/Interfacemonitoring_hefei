@@ -56,15 +56,8 @@ public class DebugServiceImpl implements DebugService {
         return searchResultDTO;
     }
 
-
-
-    //@Override
-  /*  public SearchResultDTO GetRegionValues(String url, String requestMode, Map<String, Object> stringObjectMap) {
-        return null;
-    }
-*/
-
     @Override
+    //获取线的值
     public SearchResultDTO GetLineValues(String url, String requestMode, Map<String, Object> map) {
         SearchResultDTO searchResultDTO = new SearchResultDTO();
         String result;
@@ -80,16 +73,8 @@ public class DebugServiceImpl implements DebugService {
         return searchResultDTO;
     }
 
-
-
-    private String GetForecastTimeByReportTime(SimpleDateFormat sdf, Date reportTime, int addTimes){
-        Calendar calendar =Calendar.getInstance();
-        calendar.setTime(reportTime);
-        calendar.add(Calendar.MINUTE, addTimes);
-        return sdf.format(calendar.getTime());
-    }
-
     @Override
+    //获取面的值
     public SearchResultDTO GetRegionValues(String url, String requestMode, Map<String, Object> stringObjectMap) {
         SearchResultDTO searchResultDTO = new SearchResultDTO();
         String result;
@@ -102,7 +87,7 @@ public class DebugServiceImpl implements DebugService {
             return searchResultDTO;
 
         SearchResultInfos searchResultInfos = JSONObject.parseObject(result, SearchResultInfos.class);
-        if (!StringUtils.isEmpty(searchResultInfos.getMessage()) || searchResultInfos == null)
+        if (!StringUtils.isEmpty(searchResultInfos.getMessage()) || searchResultInfos.getData() == null)
         {
             searchResultDTO.setSearchResultInfos(searchResultInfos);
             return searchResultDTO;
@@ -110,9 +95,7 @@ public class DebugServiceImpl implements DebugService {
 
         //searchResultDTO.setResult(result);
         searchResultDTO.setSearchResultInfos(searchResultInfos);
-
         List<LegendLevel> legendLevels = legendLevelMapper.findAll("temperatures");
-
         String productPath = ClassUtils.getDefaultClassLoader().getResource("").getPath();
         try {
             productPath = URLDecoder.decode(productPath, "utf-8");
@@ -120,6 +103,10 @@ public class DebugServiceImpl implements DebugService {
             e.printStackTrace();
         }
         ContourUtil contourHelper = new ContourUtil(String.format("%s\\%s", productPath, "static/json/ah.json"));
+
+        if (searchResultInfos.getData().getElementRegionData().getValues().size() == 0)
+            return searchResultDTO;
+
         ContourResult contourResult = contourHelper.Calc(GetPoint(searchResultInfos.getData()/*.get(0)*/), legendLevels, 8, -9999);
         searchResultDTO.setContourResult(contourResult);
 
@@ -131,9 +118,10 @@ public class DebugServiceImpl implements DebugService {
         Map<String, List<String>> map=new HashMap<>();
         List<String> listInitialTime = new ArrayList<String>();
         List<String> listElementCode = new ArrayList<String>();
+        List<String> listOrgCode = new ArrayList<String>();
 
-        SearchResultDTO searchResultDTO = new SearchResultDTO();
-        SimpleDateFormat ft = new SimpleDateFormat ("yyyyMMddHH");
+        //SearchResultDTO searchResultDTO = new SearchResultDTO();
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy/MM/dd HH:mm");
 
             String result;
             if (requestMode.equals("POST"))
@@ -150,36 +138,19 @@ public class DebugServiceImpl implements DebugService {
         Set set = new HashSet();
         for(ElementInfo elementInfo : searchResultInfo.getData()){
             if (set.add(elementInfo.getInitialTime()))
-                listInitialTime.add(elementInfo.getInitialTime().toString());
+                listInitialTime.add(ft.format(elementInfo.getInitialTime()));
             if (set.add(elementInfo.getElementCode()))
                 listElementCode.add(elementInfo.getElementCode());
+            if (set.add(elementInfo.getOrgCode()))
+                listOrgCode.add(elementInfo.getOrgCode());
         }
-
+        Collections.sort(listInitialTime);
         map.put("initialTime",listInitialTime);
         map.put("elementCode",listElementCode);
+        map.put("orgCode",listOrgCode);
 
         return map;
     }
-
-    /*@Override
-    public Map<String, List<ProductType>> GetElementCodesByModeCode() {
-        Map<String, List<ProductType>> map = new HashMap<>();
-        String result = WebUtil.Post("10.129.4.202:9535/Search/GetElementCodeByModeCode", GetElementCodeByModeCodeParms("SPCC"));
-        if (!StringUtils.isEmpty(result)) {
-            ProductTypeResult productTypeResult = JSONObject.parseObject(result, ProductTypeResult.class);
-            if (productTypeResult.getError() != 1)
-                map.put("SPCC", productTypeResult.getData());
-        }
-
-        String resultOther = WebUtil.Post("10.129.4.202:9535/Search/GetElementCodeByModeCode", GetElementCodeByModeCodeParms("SCMOC"));
-        if (!StringUtils.isEmpty(resultOther)) {
-            ProductTypeResult productTypeResult = JSONObject.parseObject(resultOther, ProductTypeResult.class);
-            if (productTypeResult.getError() != 1)
-                map.put("SCMOC", productTypeResult.getData());
-        }
-
-        return map;
-    }*/
 
     @Override
     public SearchResultDTO GetElementCodeByModeCode(String modeCode, String method) {
@@ -252,16 +223,16 @@ public class DebugServiceImpl implements DebugService {
                 valuePoints.add(valuePoint);
             }
         }else if ("TMP".equals(element.getElementInfo().getElementCode())){
-                BigDecimal bigDecimal = new BigDecimal(Double.valueOf(273.15));
-                valuePoint = new ValuePoint();
-                for(ElementRegionValue regionValue:element.getElementRegionData().getValues()) {
-                    valuePoint.setLatitude(regionValue.getLat());
-                    valuePoint.setLongitude(regionValue.getLon());
-                    valuePoint.setValue(regionValue.getValue().subtract(bigDecimal));
-                    valuePoints.add(valuePoint);
+            BigDecimal bigDecimal = new BigDecimal(Double.valueOf(273.15));
+            valuePoint = new ValuePoint();
+            for(ElementRegionValue regionValue:element.getElementRegionData().getValues()) {
+                valuePoint.setLatitude(regionValue.getLat());
+                valuePoint.setLongitude(regionValue.getLon());
+                valuePoint.setValue(regionValue.getValue().subtract(bigDecimal));
+                valuePoints.add(valuePoint);
                 }
         }else {
-                valuePoint = new ValuePoint();
+            valuePoint = new ValuePoint();
             for(ElementRegionValue regionValue:element.getElementRegionData().getValues()) {
                 valuePoint.setLatitude(regionValue.getLat());
                 valuePoint.setLongitude(regionValue.getLon());

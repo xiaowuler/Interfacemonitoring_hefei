@@ -67,66 +67,70 @@
                 <h2 class="port-title">接口参数（*号表示必填）</h2>
                 <div class="port-detail">
                     <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;ModeCode（String）</div>
+                        <div class="port-label port-name">*&nbsp;ModeCode</div>
                         <div class="port-label port-value">
                             <select class="easyui-combobox" id="ModeCode" name="ModeCode" labelPosition="top" editable="false">
                                 <option value="SPCC">SPCC</option>
-                                <option value="SCMOC">SCMOC</option>
+                                <option value="EC_ENS">EC_ENS</option>
                             </select>
                         </div>
                         <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">要素产品模式名（例如:'SPCC',必须大写）</div>
+                        <div class="port-label explain-txt">要素产品模式名</div>
                     </div>
                     <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;ElementCode（String）</div>
+                        <div class="port-label port-name">*&nbsp;ElementCode</div>
                         <div class="port-label port-value">
-                            <select id="element" class="easyui-combotree">
+                            <select id="element" class="easyui-combobox">
                             </select>
                         </div>
                         <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">预报要素（例如:'ER03'）</div>
+                        <div class="port-label explain-txt">预报要素</div>
                     </div>
                     <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;StartLat（float）</div>
+                        <div class="port-label port-name">*&nbsp;StartLat</div>
                         <div class="port-label port-value"><input type="text" class="focus" id="min-lat" value="0"></div>
                         <div class="port-label port-explain">说明</div>
                         <div class="port-label explain-txt">起始纬度</div>
                     </div>
                     <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;EndLat（float）</div>
+                        <div class="port-label port-name">*&nbsp;EndLat</div>
                         <div class="port-label port-value"><input type="text" class="focus" id="max-lat" value="55"></div>
                         <div class="port-label port-explain">说明</div>
                         <div class="port-label explain-txt">结束纬度</div>
                     </div>
                     <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;StartLon（float）</div>
+                        <div class="port-label port-name">*&nbsp;StartLon</div>
                         <div class="port-label port-value"><input type="text" class="focus" id="min-lon" value="0"></div>
                         <div class="port-label port-explain">说明</div>
                         <div class="port-label explain-txt">起始经度</div>
                     </div>
                     <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;EndLon（float）</div>
+                        <div class="port-label port-name">*&nbsp;EndLon</div>
                         <div class="port-label port-value"><input type="text" class="focus" id="max-lon" value="130"></div>
                         <div class="port-label port-explain">说明</div>
                         <div class="port-label explain-txt">结束经度</div>
                     </div>
                     <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;OrgCode（String）</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="orgCode" value="behf"></div>
+                        <div class="port-label port-name">*&nbsp;OrgCode</div>
+                        <div class="port-label port-value">
+                            <select id="orgCode" class="easyui-combobox"></select>
+                        </div>
                         <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">预报层次</div>
+                        <div class="port-label explain-txt">制作机构代码</div>
                     </div>
                     <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;ForecastTime（DateTime）</div>
+                        <div class="port-label port-name">*&nbsp;ForecastTime</div>
                         <div class="port-label port-value"><input type="text"  class="easyui-datetimebox" id="forecast-time" value="2019/09/24 08:00"></div>
                         <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">预报时间(格式yyyyMMddHHmm)</div>
+                        <div class="port-label explain-txt">预报时间</div>
                     </div>
                     <div class="port-des clearfix">
-                        <div class="port-label port-name">InitialTime（DateTime）</div>
-                        <div class="port-label port-value"><input type="text" class="easyui-datetimebox" id="initial" value="2019/09/23 08:00"></div>
+                        <div class="port-label port-name">*&nbsp;InitialTime</div>
+                        <div class="port-label port-value">
+                            <select id="initial-time" class="easyui-combobox"></select>
+                        </div>
                         <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">起报时间(格式yyyyMMddHHmm)</div>
+                        <div class="port-label explain-txt">起报时间</div>
                     </div>
                 </div>
             </div>

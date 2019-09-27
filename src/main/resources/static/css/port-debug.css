@@ -47,6 +47,8 @@
 
 .port-des div.port-name{
     width: 225px;
+    text-align: right;
+    padding-right: 50px;
 }
 
 .port-des div.port-type{

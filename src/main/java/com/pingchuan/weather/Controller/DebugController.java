@@ -51,7 +51,7 @@ public class DebugController {
     }
 
     @RequestMapping("/GetElementInfosByModeCode")
-    public Map<String, List<String>> GetRegionValues(String URL, String requestMode, String modeCode){
+    public   Map<String, List<String>> GetElementInfosByModeCode(String URL, String requestMode, String modeCode){
                 return debugService.GetElementInfosByModeCode(URL, requestMode, GetRegionModeCodeParam(modeCode));
     }
 
@@ -80,13 +80,13 @@ public class DebugController {
         return map;
     }
 
-    private String GetFloatRemoveZero(float num){
+    /*private String GetFloatRemoveZero(float num){
         try{
             return String.format("%s", (int)num);
         }catch (Exception e){
             return String.format("%s", num);
         }
-    }
+    }*/
 
     private Map<String, Object> GetLineValuesParam(String modeCode, String elementCode, BigDecimal lat, BigDecimal lon, String orgCode , Date startForecastTime , Date endForecastTime , Date initialTime){
         SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");

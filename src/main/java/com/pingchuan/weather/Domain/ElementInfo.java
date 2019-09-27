@@ -17,6 +17,8 @@ public class ElementInfo {
 
     private String elementCode;
 
+    private String orgCode;
+
     private Resolution resolution;
 
     private Boundary boundary;
