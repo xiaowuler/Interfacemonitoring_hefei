@@ -206,7 +206,7 @@ var App = function () {
                     onLoadSuccess: function () {
                         $('#initial-time').combobox('select', initialList.length - 1)
                     },
-                    panelHeight: height = initialList.length > 6 ? 300 : "auto"
+                    panelHeight: height = initialList.length > 6 ? 260 : "auto"
                 });
 
 
