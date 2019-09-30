@@ -50,8 +50,13 @@ public class DebugController {
         return debugService.GetRegionValues(URL, requestMode, GetRegionValuesParam(modeCode, elementCode, startLon, endLon, startLat, endLat, orgCode, forecastTime, initialTime));
     }
 
+    @RequestMapping("/GetModeCodeValues")
+    public SearchResultDTO GetModeCodeValues(String URL, String requestMode, String modeCode){
+        return debugService.GetModeCodeValues(URL, requestMode, GetRegionModeCodeParam(modeCode));
+    }
+
     @RequestMapping("/GetElementInfosByModeCode")
-    public   Map<String, List<String>> GetElementInfosByModeCode(String URL, String requestMode, String modeCode){
+    public Map<String, List<String>> GetElementInfosByModeCode(String URL, String requestMode, String modeCode){
                 return debugService.GetElementInfosByModeCode(URL, requestMode, GetRegionModeCodeParam(modeCode));
     }
 
@@ -79,14 +84,6 @@ public class DebugController {
         map.put("initialTime",ft.format(initialTime));
         return map;
     }
-
-    /*private String GetFloatRemoveZero(float num){
-        try{
-            return String.format("%s", (int)num);
-        }catch (Exception e){
-            return String.format("%s", num);
-        }
-    }*/
 
     private Map<String, Object> GetLineValuesParam(String modeCode, String elementCode, BigDecimal lat, BigDecimal lon, String orgCode , Date startForecastTime , Date endForecastTime , Date initialTime){
         SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
@@ -118,6 +115,6 @@ public class DebugController {
     private Map<String,Object> GetRegionModeCodeParam(String modeCode) {
         Map<String, Object> map = new HashMap<>();
         map.put("modeCode", modeCode);
-         return map;
+        return map;
     }
 }

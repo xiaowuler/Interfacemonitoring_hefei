@@ -23,7 +23,7 @@ var App = function () {
 
     this.ReloadData = function () {
         var params = this.GetParams();
-        if ($('.port-method button.active').attr('value') === 'GET'){
+        if (params.requestMode === 'GET'){
             this.ShowDetailUrl();
             $('.port-text').show();
         } else
@@ -33,16 +33,18 @@ var App = function () {
             type: "POST",
             dataType: 'json',
             data: params,
-            url: 'debug/GetElementCodeByModeCode',
+            url: 'debug/GetModeCodeValues',
             success: function (result) {
                 console.log(result);
-                this.SetReturnData(result);
+                this.SetReturnData(result.searchResultInfo);
             }.bind(this)
         });
     };
 
     this.GetParams = function () {
         return {
+            URL: 'http://10.129.4.202:9535/weather/GetElementInfosByModeCode',
+            requestMode: $('.port-method button.active').attr('value'),
             modeCode: $('#ModeCode').combobox('getValue')
         }
     };
@@ -60,9 +62,9 @@ var App = function () {
         this.ReloadData();
     };
 
-    this.SetReturnData = function (data) {
+    this.SetReturnData = function (result) {
         //var str = JSON.stringify(data);
-        $('#data').text(data.resutl);
+        $('#data').text(JSON.stringify(result, null, 4));
     };
 
     this.SelectType = function (event) {

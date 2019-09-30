@@ -12,7 +12,9 @@ import java.util.List;
 
 @Data
 public class SearchArrayResultInfo {
+
     private int error;
+
     private String message;
     //private List<ElementArray> Data;
 }

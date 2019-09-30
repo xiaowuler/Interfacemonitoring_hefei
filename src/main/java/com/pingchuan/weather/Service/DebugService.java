@@ -14,6 +14,8 @@ public interface DebugService {
 
     SearchResultDTO GetRegionValues(String url, String requestMode, Map<String,Object> stringObjectMap);
 
+    SearchResultDTO GetModeCodeValues(String url, String requestMode, Map<String,Object> stringObjectMap);
+
     Map<String, List<String>> GetElementInfosByModeCode(String url, String requestMode, Map<String,Object> stringObjectMap);
 
     SearchResultDTO GetElementCodeByModeCode(String modeCode, String method);

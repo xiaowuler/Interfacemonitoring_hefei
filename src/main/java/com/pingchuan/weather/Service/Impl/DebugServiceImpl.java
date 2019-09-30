@@ -38,6 +38,21 @@ public class DebugServiceImpl implements DebugService {
     private LegendLevelMapper legendLevelMapper;
 
 
+    @Override
+    public SearchResultDTO GetModeCodeValues(String url, String requestMode, Map<String, Object> stringObjectMap) {
+        SearchResultDTO searchResultDTO = new SearchResultDTO();
+        String result;
+        if (requestMode.equals("POST"))
+            result = WebUtil.Post(url, stringObjectMap);
+        else
+            result = WebUtil.Get(url, stringObjectMap);
+        if (!StringUtils.isEmpty(result)){
+            // searchResultDTO.setResult(result);
+            SearchResultInfo searchResultInfo = JSONObject.parseObject(result, SearchResultInfo.class);;
+            searchResultDTO.setSearchResultInfo(searchResultInfo);
+        }
+        return searchResultDTO;
+    }
 
     @Override
     //获取点的值
@@ -143,6 +158,7 @@ public class DebugServiceImpl implements DebugService {
                 listElementCode.add(elementInfo.getElementCode());
             if (set.add(elementInfo.getOrgCode()))
                 listOrgCode.add(elementInfo.getOrgCode());
+
         }
         Collections.sort(listInitialTime);
         map.put("initialTime",listInitialTime);
@@ -154,15 +170,7 @@ public class DebugServiceImpl implements DebugService {
 
     @Override
     public SearchResultDTO GetElementCodeByModeCode(String modeCode, String method) {
-        SearchResultDTO searchResultDTO = new SearchResultDTO();
-        String result;
-        if ("GET".equals(method))
-            result = WebUtil.Get("10.129.4.202:9535/Search/GetElementCodeByModeCode", GetElementCodeByModeCodeParms(modeCode));
-        else
-            result = WebUtil.Post("10.129.4.202:9535/Search/GetElementCodeByModeCode", GetElementCodeByModeCodeParms(modeCode));
-
-        searchResultDTO.setResult(result);
-        return searchResultDTO;
+        return null;
     }
 
     @Override
@@ -204,11 +212,6 @@ public class DebugServiceImpl implements DebugService {
         return searchResultDTO;
     }
 
-    private Map<String, Object> GetElementCodeByModeCodeParms(String modeCode){
-        Map<String, Object> map = new HashMap<>();
-        map.put("ModeCode", modeCode);
-        return map;
-    }
 
     private List<ValuePoint> GetPoint(Element element){
 

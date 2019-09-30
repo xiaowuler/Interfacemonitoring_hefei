@@ -45,6 +45,7 @@ var App = function () {
             data: params,
             url: 'debug/GetPointValue',
             success: function (result) {
+                console.log(result);
                 this.SetReturnData(result.searchResultInfos);
             }.bind(this)
         });
@@ -99,6 +100,7 @@ var App = function () {
         $('#data').text(JSON.stringify(result, null, 4));
         //$('#data').text(result.result);
     };
+
 
     this.SelectType = function (event) {
         $('.port-method button').removeClass("active");
@@ -206,7 +208,7 @@ var App = function () {
                     onLoadSuccess: function () {
                         $('#initial-time').combobox('select', initialList.length - 1)
                     },
-                    panelHeight: height = initialList.length > 6 ? 260 : "auto"
+                    panelHeight: "auto"
                 });
 
 

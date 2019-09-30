@@ -1,6 +1,6 @@
 package com.pingchuan.weather.Domain;
 
-import cn.hutool.core.date.DateTime;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.util.List;
@@ -12,13 +12,16 @@ import java.util.List;
  **/
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Element {
 
     private ElementInfo elementInfo;
 
     private ElementPointData elementPointData;
 
+
     private ElementLineData elementLineData;
+
 
     private ElementRegionData elementRegionData;
 }

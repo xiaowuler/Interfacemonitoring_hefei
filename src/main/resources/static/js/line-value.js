@@ -133,8 +133,16 @@ var App = function () {
         yMarks.push(yAxis);
         var xMarks = this.GetChartXMarks();
         var values = this.GetChartElementValues();
+        var uValue = this.GetChartElementUvalues();
+        var vValue = this.GetChartElementVvalues();
+
         var series = this.GetChartElementSeries(values, yMarks.length - 1);
+        var uValuEserie = this.GetChartElementSeries(uValue, yMarks.length - 1);
+        var vValuEserie = this.GetChartElementSeries(vValue, yMarks.length - 1);
         elementSeries.push(series);
+        elementSeries.push(uValuEserie);
+        elementSeries.push(vValuEserie);
+
         this.ReloadChart(xMarks, yMarks, elementSeries);
     };
 
@@ -153,13 +161,30 @@ var App = function () {
         var values = [];
 
         this.result.searchResultInfos.data.elementLineData.values.forEach(function (item, index) {
-            if (item.elementCode === 'EDA10')
-                values.push(item.value);
-            else
                 values.push(item.value);
         }.bind(this));
 
         return values;
+    };
+
+    this.GetChartElementUvalues = function () {
+        var value = [];
+
+        this.result.searchResultInfos.data.elementLineData.values.forEach(function (item, index) {
+                value.push(item.uvalue);
+        }.bind(this));
+
+        return value;
+    };
+
+    this.GetChartElementVvalues = function () {
+        var value = [];
+
+        this.result.searchResultInfos.data.elementLineData.values.forEach(function (item, index) {
+            value.push(item.vvalue);
+        }.bind(this));
+
+        return value;
     };
 
     this.GetChartYAxis = function () {
@@ -326,7 +351,7 @@ var App = function () {
                     onLoadSuccess: function () {
                         $('#initial-time').combobox('select', initialList.length - 1)
                     },
-                    panelHeight: height = initialList.length > 6 ? 260 : "auto"
+                    panelHeight: /*height = initialList.length > 5 ? 260 :*/ "auto"
                 });
 
                 $('#orgCode').combobox({

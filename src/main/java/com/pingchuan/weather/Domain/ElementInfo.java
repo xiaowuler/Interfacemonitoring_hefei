@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 public class ElementInfo {
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date initialTime;
 
     private String modeCode;
