@@ -70,7 +70,7 @@ public class LogServiceImpl implements LogService{
         //Config healthStatusConfig = configMapper.findOneById(4);
 
         float[] randomArray = {90.7f, 44.6f, 11.2f, 77.5f, 25.7f, 63.2f, 75.1f, 44.8f};
-        List<Log> logs = logMapper.findAllLogName(startTime, endTime, 0, 0);
+                List<Log> logs = logMapper.findAllLogName(startTime, endTime, 0, 0);
         LogDTO logDTO ;
         for (int x= 0, len = logs.size(); x < len; x++){
             logDTO = new LogDTO();

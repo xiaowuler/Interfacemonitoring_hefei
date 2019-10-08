@@ -47,7 +47,7 @@ public class DebugServiceImpl implements DebugService {
         else
             result = WebUtil.Get(url, stringObjectMap);
         if (!StringUtils.isEmpty(result)){
-            // searchResultDTO.setResult(result);
+                // searchResultDTO.setResult(result);
             SearchResultInfo searchResultInfo = JSONObject.parseObject(result, SearchResultInfo.class);;
             searchResultDTO.setSearchResultInfo(searchResultInfo);
         }
@@ -108,7 +108,6 @@ public class DebugServiceImpl implements DebugService {
             return searchResultDTO;
         }
 
-        //searchResultDTO.setResult(result);
         searchResultDTO.setSearchResultInfos(searchResultInfos);
         List<LegendLevel> legendLevels = legendLevelMapper.findAll("temperatures");
         String productPath = ClassUtils.getDefaultClassLoader().getResource("").getPath();
@@ -139,7 +138,7 @@ public class DebugServiceImpl implements DebugService {
         SimpleDateFormat ft = new SimpleDateFormat ("yyyy/MM/dd HH:mm");
 
             String result;
-            if (requestMode.equals("POST"))
+                if (requestMode.equals("POST"))
                 result = WebUtil.Post(url, stringObjectMap);
             else
                 result = WebUtil.Get(url, stringObjectMap);
