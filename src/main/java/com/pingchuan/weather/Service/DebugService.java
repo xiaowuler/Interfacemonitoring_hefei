@@ -23,4 +23,10 @@ public interface DebugService {
     SearchResultDTO GetRegionValuesToArray(String url, String requestMode, Map<String,Object> stringObjectMap);
 
     SearchResultDTO getBoxDiagram(String url, String requestMode, Map<String,Object> boxDiagramParamter);
+
+    SearchResultDTO DisplayIsobars(String url, String requestMode, Map<String,Object> stringObjectMap);
+
+
+    // SearchResultDTO GetRegionValuesToArray(String url, String requestMode, Map<String,Object> stringObjectMap);
+
 }

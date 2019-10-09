@@ -1,16 +1,12 @@
 package com.pingchuan.weather.Service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.pingchuan.weather.DTO.ContourResult;
-import com.pingchuan.weather.DTO.LegendLevel;
-import com.pingchuan.weather.DTO.SearchResultDTO;
-import com.pingchuan.weather.DTO.ValuePoint;
+import com.pingchuan.weather.DTO.*;
 import com.pingchuan.weather.Dao.LegendLevelMapper;
 import com.pingchuan.weather.Domain.*;
 import com.pingchuan.weather.Service.DebugService;
 import com.pingchuan.weather.Util.ContourUtil;
 import com.pingchuan.weather.Util.WebUtil;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +17,6 @@ import javax.net.ssl.SSLServerSocket;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -49,7 +44,7 @@ public class DebugServiceImpl implements DebugService {
             result = WebUtil.Get(url, stringObjectMap);
         if (!StringUtils.isEmpty(result)){
                 // searchResultDTO.setResult(result);
-            SearchResultInfo searchResultInfo = JSONObject.parseObject(result, SearchResultInfo.class);;
+            SearchResultInfo searchResultInfo = JSONObject.parseObject(result, SearchResultInfo.class);
             searchResultDTO.setSearchResultInfo(searchResultInfo);
         }
         return searchResultDTO;
@@ -174,31 +169,49 @@ public class DebugServiceImpl implements DebugService {
     }
 
     @Override
-    public SearchResultDTO GetRegionValuesToArray(String url, String requestMode, Map<String, Object> map) {
+    public SearchResultDTO GetRegionValuesToArray(String url, String requestMode, Map<String, Object> stringObjectMap) {
+        return null;
+    }
+
+    @Override
+    public SearchResultDTO DisplayIsobars(String url, String requestMode, Map<String, Object> stringObjectMap) {
         SearchResultDTO searchResultDTO = new SearchResultDTO();
+        Map<String, List<Double>> map=new HashMap<>();
         String result;
         if (requestMode.equals("POST"))
-            result = WebUtil.Post(url, map);
+            result = WebUtil.Post(url, stringObjectMap);
         else
-            result = WebUtil.Get(url, map);
+            result = WebUtil.Get(url, stringObjectMap);
 
         if (StringUtils.isEmpty(result))
-            return searchResultDTO;
-        else
-            searchResultDTO.setResult(result);
+            return null;
 
-        //SearchArrayResultInfo searchResultInfo = JSONObject.parseObject(result, SearchArrayResultInfo.class);
-        /*if (!StringUtils.isEmpty(searchResultInfo.getMessage()) || searchResultInfo == null)
-        {
-            searchResultDTO.setSearchResultInfo(searchResultInfo);
-            return searchResultDTO;
+        ContourData contourData = JSONObject.parseObject(result, ContourData.class);
+        for(List<ElementRegionValue> valueList : contourData.getData()){
+           for (ElementRegionValue value : valueList){
+               String key = value.getLon() + "-" + value.getLat();
+               if (map.containsKey(key))
+               {
+                   map.get(key).add(value.getValue().doubleValue());
+                   continue;
+               }
+
+               List<Double> values = new ArrayList<>();
+               values.add(value.getValue().doubleValue());
+               map.put(key, values);
+           }
+        }
+        List<ValuePoints> valuePoints = new ArrayList<>();
+        for(String key:map.keySet()){
+            String[] locs = key.split("-");
+            ValuePoints valuePoint = new ValuePoints();
+            valuePoint.setLongitude(Double.parseDouble(locs[0]));
+            valuePoint.setLatitude(Double.parseDouble(locs[1]));
+            valuePoint.setValue(Calc(map.get(key)));
+            valuePoints.add(valuePoint);
         }
 
-        searchResultDTO.setResutl(result);
-        searchResultDTO.setSearchResultInfo(searchResultInfo);
-
-        List<LegendLevel> legendLevels = legendLevelMapper.findAll("temperatures");
-
+        List<LegendLevel> legendLevels = legendLevelMapper.findAll("IsobaricLine");
         String productPath = ClassUtils.getDefaultClassLoader().getResource("").getPath();
         try {
             productPath = URLDecoder.decode(productPath, "utf-8");
@@ -206,9 +219,13 @@ public class DebugServiceImpl implements DebugService {
             e.printStackTrace();
         }
         ContourUtil contourHelper = new ContourUtil(String.format("%s\\%s", productPath, "static/json/ah.json"));
-        ContourResult contourResult = contourHelper.Calc(GetPoint(searchResultInfo.getData().get(0)), legendLevels, 8, -9999);
+
+        if (valuePoints.size() == 0)
+            return null;
+
+        ContourResult contourResult = contourHelper.Calcs(valuePoints/*.get(0)*/,legendLevels, 8, -9999);
         searchResultDTO.setContourResult(contourResult);
-*/
+        searchResultDTO.setContourData(contourData);
         return searchResultDTO;
     }
 
@@ -264,5 +281,23 @@ public class DebugServiceImpl implements DebugService {
             }
         }
         return valuePoints;
- }
+    }
+    public double Calc(List<Double> values)
+    {
+        double average = GetAverage(values);
+
+        double sum = 0;
+        for (double value : values)
+        sum += Math.pow(average - value, 2);
+
+        return Math.sqrt(sum / values.size());
+    }
+
+    private double GetAverage(List<Double> values)
+    {
+        double sum = 0;
+        for (Double value : values)
+        sum += value;
+        return sum / values.size();
+    }
 }

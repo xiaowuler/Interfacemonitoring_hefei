@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>RegionValuesToArray</title>
+    <title>RegionValues</title>
+    <link rel="stylesheet" href="css/leaflet.css">
+    <link rel="stylesheet" href="css/map.css">
     <link rel="stylesheet" href="plug/easyui.css">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/common.css">
@@ -19,7 +21,7 @@
     <div class="top bg clearfix">
         <div class="logo fl"><img src="images/logo.png"></div>
         <div class="top-info fr">
-            <div class="top-user">欢迎，<span id="name"></span>[ <span id="level">超级管理员</span> ]</div>
+            <div class="top-user">欢迎，<span id="name"></span><span id="level">超级管理员</span></div>
             <button class="quit-button">退出</button>
         </div>
     </div>
@@ -49,8 +51,8 @@
                     <li class="level-second-menu icon-debug"><a href="LineValues.html">LineValues（SequenceChart）</a></li>
                   <!--  <li class="level-second-menu icon-debug"><a href="LineColumnValues.html">LineValues（BarChart）</a></li>-->
                     <li class="level-second-menu icon-debug"><a href="RegionValues.html">RegionValues</a></li>
-                    <!--<li class="level-second-menu icon-debug active"><a href="RegionArray.html">RegionValuesToArray</a></li>-->
-                    <li class="level-second-menu icon-debug"><a href="dispersion-degree.html">集合预报离散度</a></li>
+                    <li class="level-second-menu icon-debug active"><a href="dispersion-degree.html">集合预报离散度</a></li>
+                   <!-- <li class="level-second-menu icon-debug"><a href="RegionArray.html">RegionValuesToArray</a></li>-->
                 </ul>
             </li>
         </ul>
@@ -66,68 +68,18 @@
                 <h2 class="port-title">接口参数（*号表示必填）</h2>
                 <div class="port-detail">
                     <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;ModeCode</div>
-                        <div class="port-label port-value">
-                            <select class="easyui-combobox" id="ModeCode" name="ModeCode" labelPosition="top" editable="false">
-                                <option value="SPCC">SPCC</option>
-                                <option value="SCMOC">SCMOC</option>
-                            </select>
-                        </div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">要素产品模式名</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;ElementCode</div>
-                        <div class="port-label port-value">
-                            <select id="element" class="easyui-combobox">
-                            </select>
-                        </div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">预报要素</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;StartLat</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="min-lat" value="0"></div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">起始纬度</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;EndLat</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="max-lat" value="55"></div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">结束纬度</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;StartLon</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="min-lon" value="0"></div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">起始经度</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;EndLon</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="max-lon" value="130"></div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">结束经度</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;OrgCode</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="orgCode" value="behf"></div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">制作机构代码</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;ForecastTime</div>
-                        <div class="port-label port-value"><input type="text"  class="easyui-datetimebox" id="forecast-time" value="2019/09/24 08:00"></div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">预报时间</div>
-                    </div>
-                    <div class="port-des clearfix">
                         <div class="port-label port-name">*&nbsp;InitialTime</div>
                         <div class="port-label port-value">
                             <select id="initial-time" class="easyui-combobox"></select>
                         </div>
                         <div class="port-label port-explain">说明</div>
                         <div class="port-label explain-txt">起报时间</div>
+                    </div>
+                    <div class="port-des clearfix">
+                        <div class="port-label port-name">*&nbsp;ForecastTime</div>
+                        <div class="port-label port-value"><input type="text" class="easyui-datetimebox" id="forecast-time" value="2019/10/07 20:00"></div>
+                        <div class="port-label port-explain">说明</div>
+                        <div class="port-label explain-txt">预报时间</div>
                     </div>
                 </div>
             </div>
@@ -150,15 +102,11 @@
             <h2>接口返回</h2>
             <div class="return-title">
                 <ul class="clearfix">
-                    <li class="active">数据</li>
+                    <li class="active">等压线图</li>
+                    <li>数据</li>
                 </ul>
             </div>
             <ul class="return-content">
-                <li>
-                    <div class="describe" id="describe">
-                        <pre id="data"></pre>
-                    </div>
-                </li>
                 <li>
                     <div class="describe" id="map-height">
                         <div class="map-wrapper" id="map-wrapper">
@@ -173,6 +121,11 @@
                         </div>
                     </div>
                 </li>
+                <li>
+                    <div class="describe" id="describe">
+                        <pre id="data"></pre>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
@@ -183,8 +136,12 @@
 <script type="text/javascript" src="plug/helper.js"></script>
 <script type="text/javascript" src="plug/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="plug/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript" src="js/region-array.js"></script>
-<script type="text/javascript" src="js/region_values/bottom-panel.js"></script>
+<script type="text/javascript" src="js/leaflet.js"></script>
+<script type="text/javascript" src="js/leaflet.ChineseTmsProviders.js"></script>
+<script type="text/javascript" src="js/leaflet-windbarb.js"></script>
+<script type="text/javascript" src="js/color-control.js"></script>
 <script type="text/javascript" src="js/combotree_datas/CombotreeData.js"></script>
 <script type="text/javascript" src="js/combotree_datas/CombotreeChildData.js"></script>
+<script type="text/javascript" src="js/dispersion-degree.js"></script>
+<script type="text/javascript" src="js/dispersion_degree/mapInfo.js"></script>
 </html>

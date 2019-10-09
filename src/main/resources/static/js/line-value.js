@@ -149,6 +149,9 @@ var App = function () {
     this.GetChartXMarks = function () {
         var marks = [];
 
+        if( this.result.searchResultInfos.data === null)
+            return null
+
         this.result.searchResultInfos.data.elementLineData.values.forEach(function (item, index) {
             var time = item.forecastTime;
             marks.push(moment(time).format('MM-DD HH:ss'));
@@ -160,6 +163,9 @@ var App = function () {
     this.GetChartElementValues = function () {
         var values = [];
 
+        if( this.result.searchResultInfos.data === null)
+            return null
+
         this.result.searchResultInfos.data.elementLineData.values.forEach(function (item, index) {
                 values.push(item.value);
         }.bind(this));
@@ -170,6 +176,9 @@ var App = function () {
     this.GetChartElementUvalues = function () {
         var value = [];
 
+        if( this.result.searchResultInfos.data === null)
+            return null
+
         this.result.searchResultInfos.data.elementLineData.values.forEach(function (item, index) {
                 value.push(item.uvalue);
         }.bind(this));
@@ -179,6 +188,9 @@ var App = function () {
 
     this.GetChartElementVvalues = function () {
         var value = [];
+
+        if( this.result.searchResultInfos.data === null)
+            return null
 
         this.result.searchResultInfos.data.elementLineData.values.forEach(function (item, index) {
             value.push(item.vvalue);

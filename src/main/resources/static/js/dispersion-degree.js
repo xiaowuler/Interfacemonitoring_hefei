@@ -1,15 +1,15 @@
 var App = function () {
+    this.MapInfo = new MapInfo();
+    this.ColorContorl = new ColorContorl();
 
     this.Startup = function () {
-        this.SetModeCode();
         this.ReLayout();
-        this.InitComboBox('#orgCode');
-        this.InitComboBox('#element');
-        this.InitComboBox('#initial-time');
-
         this.GettingValuesThroughModecode();
-        this.ReloadData();
+      //  this.CreateMap();
+     //   this.ReloadData();
+        this.InitComboBox('#initial-time');
         this.SetDate();
+        this.SetPredictionAging();
         this.BindInputEvent();
 
 
@@ -20,6 +20,8 @@ var App = function () {
         window.onresize = this.ReLayout.bind(this);
 
         $(".return-content li").eq(0).show();
+        this.MapInfo.CreateEasyMap();
+        this.MapInfo.GetProBorder();
     };
 
     this.ReLayout = function () {
@@ -43,53 +45,91 @@ var App = function () {
             type: "POST",
             dataType: 'json',
             data: params,
-            url: 'debug/GetPointValue',
+            url: 'debug/DisplayIsobars',
             success: function (result) {
-                this.SetReturnData(result.searchResultInfos);
+                this.SetReturnData(result);
+                if (result == null)
+                    return;
+
+                if (result.contourResult == null)
+                    return;
+
+                if (result.contourResult.contourPolylines == null)
+                    return;
+
+
+                this.MapInfo.CreateSpotLayer(result.contourResult.spotPolygons, result.contourResult.legendLevels);
+                this.ColorContorl.setColor(result.contourResult.legendLevels[0].type,this.returnColor(result.contourResult.legendLevels));
+                this.MapInfo.CreateContourLayer(result.contourResult.contourPolylines);
             }.bind(this)
         });
     };
 
     this.GetParams = function () {
-        var forecastTime = $("#forecast-time").datetimebox("getValue");
         var initialTime =  $("#initial-time").combobox("getText");
-     //   var initialFormat = moment(initialTime).format('YYYY');
-
-        // initialTime = moment(initialTime).format('YYYYMMDDHHmm')
+        var forecastTime = $("#forecast-time").datetimebox("getValue");
         return {
-            URL: 'http://10.129.4.202:9535/weather/GetPointValue',
+            URL: 'http://10.129.4.202:9535/weather/GetRainfallSetDispersion',
             requestMode: $('.port-method button.active').attr('value'),
-            modeCode: $('#ModeCode').combobox('getValue'),
-            elementCode: $('#element').combobox('getText'),
-            lat: $('#latitude').val(),
-            lon: $('#longitude').val(),
-            orgCode: $('#orgCode').combobox('getText'),
+            modeCode: 'ec_ens',
+            elementCode: 'pph',
+            startLat: '29.41',
+            endLat: '34.38',
+            startLon : '114.54',
+            endLon: '119.37',
+            callerCode: 'sc002',
             forecastTime: forecastTime,
             initialTime: initialTime
         }
     };
 
-    this.ShowDetailUrl = function () {
+    this.SetDate = function () {
+        $('#forecast-time').datetimebox({
+            panelWidth: 170,
+            panelHeight: 260,
+            showSeconds: false
+        });
+    };
+    /*this.ShowDetailUrl = function () {
         var params = this.GetParams();
-        var url = params.URL;
-        var requestMode = params.requestMode;
-        var modeCode = params.modeCode;
-        var elementCode = params.elementCode;
-        var lat = params.lat;
-        var lon = params.lon;
-        var forecastLevel = params.forecastLevel;
-        var forecastTime = params.forecastTime;
         var initialTime = params.initialTime;
-        var init;
-        if (params.initialTime === '' || params.initialTime === undefined || params.initialTime === null)
-            init = '';
-        else
-            init = '&InitialTime =' + initialTime;
-
         var pattern = '{0}?requestMode={1}&ModeCode={2}&ElementCode={3}&Latitude={4}&Longitude={5}&ForecastLevel={6}&ForecastTime={7}{8}';
         var label = pattern.format(url, requestMode, modeCode, elementCode, lat, lon, forecastLevel, forecastTime, init);
         $('#port-url').text(label);
+    };*/
+
+    this.returnColor = function (colors) {
+        var array = []
+        var arrayColor = [];
+        var arrayValue = [];
+        $(colors).each(function (index,color) {
+            if(index == 0){
+                //arrayColor.push(new Array(color.Color,color.Color));
+                arrayValue.push(color.BeginValue);
+                arrayValue.push(color.EndValue);
+            }else{
+                //arrayColor.push(new Array(colors[index-1].Color,color.Color));
+                arrayValue.push(color.EndValue);
+            }
+        }.bind(this));
+        for(var i = colors.length -1 ; i >= 0; i--){
+            if(i == 0){
+                arrayColor.push(new Array(colors[i].Color,colors[i].Color));
+            }else{
+                arrayColor.push(new Array(colors[i-1].Color,colors[i].Color));
+            }
+        }
+        array.push(arrayColor);
+        array.push(arrayValue);
+        return array;
+    }
+
+    this.SetPredictionAging = function () {
+        $('#PredictionAging').combobox({
+            panelHeight: 'auto',
+        });
     };
+
 
     this.OnRunButtonClick = function () {
         this.ReloadData();
@@ -97,7 +137,6 @@ var App = function () {
 
     this.SetReturnData = function (result) {
         $('#data').text(JSON.stringify(result, null, 4));
-        //$('#data').text(result.result);
     };
 
 
@@ -122,19 +161,6 @@ var App = function () {
         $(".return-content li").eq(index).css("display","block").siblings().css("display","none");
     };
 
-    this.SetDate = function () {
-        $('#forecast-time').datetimebox({
-            panelWidth: 170,
-            panelHeight: 260,
-            showSeconds: false
-        });
-
-        $('#initial').datetimebox({
-            panelWidth: 170,
-            panelHeight: 260,
-            showSeconds: false
-        });
-    };
 
     this.SetModeCode = function () {
         $('#ModeCode').combobox({
@@ -145,6 +171,14 @@ var App = function () {
         });
     };
 
+    this.GetModecode = function () {
+        return {
+            URL: 'http://10.129.4.202:9535/weather/GetElementInfosByModeCode',
+            requestMode: $('.port-method button.active').attr('value'),
+            modeCode: 'ec_ens'
+        }
+    };
+
     this.InitComboBox = function (id) {
         $(id).combobox({
             valueField:'id',
@@ -153,52 +187,21 @@ var App = function () {
         });
     };
 
-    this.GetModecode = function (result) {
-       var modeCodes= $('#ModeCode').combobox('getValue');
-       var modeCode;
-        if(result != null && result != modeCode)
-           modeCode=result;
-        else
-            modeCode=modeCodes;
-        return {
-            URL: 'http://10.129.4.202:9535/weather/GetElementInfosByModeCode',
-            requestMode: $('.port-method button.active').attr('value'),
-            modeCode:modeCode
-        }
-    };
 
-    this.GettingValuesThroughModecode = function(result){
-        var params = this.GetModecode(result);
+    this.GettingValuesThroughModecode=function(){
+        var params=this.GetModecode();
         $.ajax({
             type:"POST",
             dateType:"json",
-            data: params,
+            data:params,
             async:false,
             url:'debug/GetElementInfosByModeCode',
             success:function (result) {
-                var elementList = [];
                 var initialList = [];
-                var orgCodeList = [];
-
-                result.elementCode.forEach(function (item, index) {
-                    elementList.push({"id": index, "text": item});
-                }.bind(this));
 
                 result.initialTime.forEach(function (item, index) {
-                    //item = moment(item).format('YYYY/MM/DD HH:mm');
                     initialList.push({"id": index, "text": item});
                 }.bind(this));
-
-                result.orgCode.forEach(function (item, index) {
-                    orgCodeList.push({"id": index, "text": item});
-                }.bind(this));
-
-                $('#element').combobox({
-                    data: elementList,
-                    valueField: 'id',
-                    textField: 'text',
-                    panelHeight: height = elementList.length > 6 ? 300 : "auto"
-                });
 
                 $('#initial-time').combobox({
                     data: initialList,
@@ -207,20 +210,12 @@ var App = function () {
                     onLoadSuccess: function () {
                         $('#initial-time').combobox('select', initialList.length - 1)
                     },
-                    panelHeight: initialList.length > 6 ? 260:"auto"
-                });
-
-
-                $('#orgCode').combobox({
-                    data: orgCodeList,
-                    valueField: 'id',
-                    textField: 'text',
-                    panelHeight: height = orgCodeList.length > 6 ? 300 : "auto"
+                    panelHeight: height = initialList.length > 6 ? 260 : "auto"
                 });
             }
         })
     };
-};
+}
 
 $(document).ready(function () {
     var app = new App();
