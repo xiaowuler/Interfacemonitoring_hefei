@@ -57,8 +57,15 @@ public class DebugController {
 
     @RequestMapping("/GetElementInfosByModeCode")
     public Map<String, List<String>> GetElementInfosByModeCode(String URL, String requestMode, String modeCode){
-                return debugService.GetElementInfosByModeCode(URL, requestMode, GetRegionModeCodeParam(modeCode));
+        return debugService.GetElementInfosByModeCode(URL, requestMode, GetRegionModeCodeParam(modeCode));
     }
+
+    @RequestMapping("/DisplayIsobars")
+    public SearchResultDTO DisplayIsobars(String URL, String requestMode, String modeCode, String elementCode, BigDecimal startLon, BigDecimal endLon, BigDecimal startLat, BigDecimal endLat,String callerCode, Date forecastTime, Date initialTime){
+       // return debugService.GetElementInfosByModeCode(URL, requestMode, GetRegionModeCodeParam(modeCode));
+        return debugService.DisplayIsobars(URL, requestMode, DisplayIsobarsParam(modeCode, elementCode, startLon, endLon, startLat, endLat, callerCode, forecastTime, initialTime));
+    }
+
 
  /*   @RequestMapping("/GetRegionValuesToArray")
     public SearchResultDTO GetRegionValuesToArray(String URL, String requestMode, String modeCode, String elementCode, float minLat, float maxLat, float minLon, float maxLon, int forecastLevel, String forecastTime, String initialTime){
@@ -115,6 +122,20 @@ public class DebugController {
     private Map<String,Object> GetRegionModeCodeParam(String modeCode) {
         Map<String, Object> map = new HashMap<>();
         map.put("modeCode", modeCode);
+        return map;
+    }
+    private Map<String,Object> DisplayIsobarsParam(String modeCode, String elementCode, BigDecimal startLon, BigDecimal endLon, BigDecimal startLat, BigDecimal endLat, String callerCode, Date forecastTime, Date initialTime) {
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+        Map<String, Object> map = new HashMap<>();
+        map.put("modeCode", modeCode);
+        map.put("elementCode", elementCode);
+        map.put("startLat", startLat);
+        map.put("endLat", endLat);
+        map.put("startLon", startLon);
+        map.put("endLon", endLon);
+        map.put("callerCode", callerCode);
+        map.put("forecastTime", ft.format(forecastTime));
+        map.put("initialTime",ft.format(initialTime));
         return map;
     }
 }

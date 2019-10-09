@@ -23,7 +23,6 @@ public class ElementPointData {
 
     private BigDecimal value;
 
-
     private BigDecimal uValue;
 
     private BigDecimal vValue;

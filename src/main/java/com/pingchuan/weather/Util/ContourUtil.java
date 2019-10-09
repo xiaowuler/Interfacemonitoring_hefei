@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.pingchuan.weather.DTO.ContourResult;
 import com.pingchuan.weather.DTO.LegendLevel;
 import com.pingchuan.weather.DTO.ValuePoint;
+import com.pingchuan.weather.DTO.ValuePoints;
 import wContour.Contour;
 import wContour.Global.Border;
 import wContour.Global.PointD;
@@ -144,7 +145,73 @@ public class ContourUtil {
 
             ContourResult contourResult = new ContourResult();
             contourResult.setSpotPolygons(_clipContourPolygons);
+            contourResult.setContourPolylines(_clipContourLines);
             contourResult.setLegendLevels(levels);
+            return contourResult;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ContourResult Calcs(List<ValuePoints> points,List<LegendLevel> levels, int numberOfNearestNeighbors, double missData) {
+
+        double[][] _gridData;
+        double[][] _discreteData;
+        double[] _X = {};
+        double[] _Y = {};
+        double[] _CValues;
+        double _undefData = -9999.0;
+        List<Border> _borders;
+        List<PolyLine> _contourLines;
+        List<PolyLine> _clipContourLines;
+        List<Polygon> _contourPolygons;
+        List<Polygon> _clipContourPolygons;
+        try {
+            _discreteData = new double[3][points.size()];
+            for (int i = 0; i < points.size(); i++) {
+                _discreteData[0][i] = points.get(i).getLongitude();
+                _discreteData[1][i] = points.get(i).getLatitude();
+                _discreteData[2][i] = points.get(i).getValue();
+            }
+
+            List<double[]> list = CreateGridXY_Delt(MinX, MinY, MaxX, MaxY, 0.1, 0.1, _X, _Y);
+
+            _X = list.get(0);
+            _Y = list.get(1);
+            _gridData = Interpolate.Interpolation_IDW_Neighbor(_discreteData, _X, _Y, numberOfNearestNeighbors, _undefData);
+
+            double[] values = new double[levels.size() + 1];
+            for (int i = 0; i < levels.size(); i++) {
+                if (i == 0) {
+                    values[i] = levels.get(i).getBeginValue();
+                }
+                values[i + 1] = levels.get(i).getEndValue();
+            }
+
+            _CValues = values;
+            int nc = _CValues.length;
+            int[][] S1 = new int[_gridData.length][_gridData[0].length];
+            _borders = Contour.tracingBorders(_gridData, _X, _Y, S1, _undefData);
+            _contourLines = Contour.tracingContourLines(_gridData, _X, _Y, nc, _CValues, _undefData, _borders, S1);
+            _contourLines = Contour.smoothLines(_contourLines);
+
+            _clipContourLines = new ArrayList<>();
+            for (List<PointD> cLine : _clipLines) {
+                _clipContourLines.addAll(Contour.clipPolylines(_contourLines, cLine));
+            }
+
+            _contourPolygons = Contour.tracingPolygons(_gridData, _contourLines, _borders, _CValues);
+            _clipContourPolygons = new ArrayList<>();
+            for (List<PointD> cLine : _clipLines) {
+                _clipContourPolygons.addAll(Contour.clipPolygons(_contourPolygons, cLine));
+            }
+
+            ContourResult contourResult = new ContourResult();
+            contourResult.setContourPolylines(_clipContourLines);
+            contourResult.setLegendLevels(levels);
+            contourResult.setSpotPolygons(_clipContourPolygons);
+           // contourResult.setValuePoints(points);
             return contourResult;
         } catch (Exception e) {
             e.printStackTrace();

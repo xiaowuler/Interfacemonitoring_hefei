@@ -1,6 +1,7 @@
 package com.pingchuan.weather.DTO;
 
 import lombok.Data;
+import wContour.Global.PolyLine;
 import wContour.Global.Polygon;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public class ContourResult<T> {
     public List<Polygon> spotPolygons;
 
     public List<LegendLevel> legendLevels;
+
+   public List<PolyLine> contourPolylines;
 }

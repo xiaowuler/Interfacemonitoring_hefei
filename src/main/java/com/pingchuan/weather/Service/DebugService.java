@@ -20,5 +20,9 @@ public interface DebugService {
 
     SearchResultDTO GetElementCodeByModeCode(String modeCode, String method);
 
-    SearchResultDTO GetRegionValuesToArray(String url, String requestMode, Map<String,Object> stringObjectMap);
+    SearchResultDTO DisplayIsobars(String url, String requestMode, Map<String,Object> stringObjectMap);
+
+
+    // SearchResultDTO GetRegionValuesToArray(String url, String requestMode, Map<String,Object> stringObjectMap);
+
 }
