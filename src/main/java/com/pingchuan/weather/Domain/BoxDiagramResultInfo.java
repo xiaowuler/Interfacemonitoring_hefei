@@ -2,7 +2,6 @@ package com.pingchuan.weather.Domain;
 
 import lombok.Data;
 
-import java.util.List;
 
 /**
  * @description: 箱线图 结果映射类

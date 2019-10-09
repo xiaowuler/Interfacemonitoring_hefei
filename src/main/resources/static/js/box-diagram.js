@@ -10,11 +10,13 @@ var App = function () {
         this.ReloadData();
         this.BindInputEvent();
         this.SetModeCode();
+        this.HidePicture();
 
         $('#run').on('click', this.OnRunButtonClick.bind(this));
         $('#run').trigger("click");
         $('.port-method button').on('click', this.SelectType.bind(this));
         $('.return-title ul li').on('click', this.PortCallTab.bind(this));
+        $('#box-diagram-img').on('click', this.OnDiagramImgClick.bind(this));
         window.onresize = this.ReLayout.bind(this);
 
         $(".return-content li").eq(0).show();
@@ -44,7 +46,7 @@ var App = function () {
             url: 'debug/getBoxDiagram',
             success: function (result) {
                 this.result = result;
-                this.SetReturnData(result.result);
+                this.SetReturnData(result.boxDiagramResultInfo);
                 if (result.picUrl == null)
                     return;
                 this.setPictureSrc(result.picUrl);
@@ -54,6 +56,7 @@ var App = function () {
     
     this.setPictureSrc = function (url) {
         $("#box-diagram-img").attr('src', url);
+        $("#shade-picture").attr('src', url);
     }
 
     this.GetParams = function () {
@@ -97,6 +100,22 @@ var App = function () {
 
     this.OnRunButtonClick = function () {
             this.ReloadData();
+    };
+
+    this.OnDiagramImgClick = function () {
+        $('.shade').show();
+
+    };
+
+    this.HidePicture = function () {
+
+        $(document).mouseup(function(e){
+            e.stopPropagation();
+            var _con = $('.shade-picture');   // 设置目标区域
+            if (!_con.is(e.target) && _con.has(e.target).length === 0) {
+                $('.shade').hide();
+            }
+        })
     };
 
     this.SetReturnData = function (result) {

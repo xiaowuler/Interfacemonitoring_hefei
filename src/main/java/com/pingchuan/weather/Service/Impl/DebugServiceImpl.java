@@ -240,10 +240,11 @@ public class DebugServiceImpl implements DebugService {
 
         if (StringUtils.isEmpty(result))
             return searchResultDTO;
-        else
-            searchResultDTO.setResult(result);
+        /*else
+            searchResultDTO.setResult(result);*/
 
         BoxDiagramResultInfo boxDiagramResultInfo = JSONObject.parseObject(result, BoxDiagramResultInfo.class);
+        searchResultDTO.setBoxDiagramResultInfo(boxDiagramResultInfo);
         if (boxDiagramResultInfo.getError() == 0)
             searchResultDTO.setPicUrl(boxDiagramResultInfo.getData());
         return searchResultDTO;

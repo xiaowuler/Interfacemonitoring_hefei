@@ -95,7 +95,7 @@ var MapInfo = function () {
             this.layer.addLayer(L.polygon(polygon).setStyle({
                 weight: 0,
                 opacity: 0.5,
-                fillOpacity: 0.5,
+                fillOpacity: 0.8,
                 fillColor: this.GetFillColor(polygons[i], levels)
             }));
         }
@@ -108,7 +108,7 @@ var MapInfo = function () {
 
         var color = levels[levels.length - 1];
         for (var i = 0; i < levels.length; i++) {
-            if (polygon.HighValue < levels[i].EndValue) {
+            if (levels[i].BeginValue < polygon.HighValue && polygon.HighValue <= levels[i].EndValue) {
                 color = levels[i].Color;
                 break;
             }

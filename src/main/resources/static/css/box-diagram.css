@@ -10,4 +10,31 @@
 
 .describe-picture img{
     width: 100%;
+    cursor: pointer;
+}
+
+.shade{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    background: rgba(0,0,0,0.3);
+}
+
+.shade-picture{
+    width: 70%;
+    height: 700px;
+    margin: -350px 0 0 -35%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1100;
+}
+
+.shade-picture img{
+    width: 100%;
+    height: 100%;
 }

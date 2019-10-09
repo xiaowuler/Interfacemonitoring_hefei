@@ -33,9 +33,9 @@ var ColorContorl = function () {
         var list = '';
 
         for(var i = 0; i < this.color.length; i++) {
-            var beignColor = this.color[i][0].replace(/\s+/g,"");
-            var endColor = this.color[i][1].replace(/\s+/g,"");
-            element += '<span style="background: linear-gradient(rgb({0}), rgb({1}))"></span>'.format(beignColor, endColor);
+            var endColor = this.color[i][0].replace(/\s+/g,"");
+            var beginColor = this.color[i][1].replace(/\s+/g,"");
+            element += '<span style="background: linear-gradient(rgb({0}), rgb({1}))"></span>'.format(beginColor, endColor);
         }
         document.getElementById('color-gradient').innerHTML = element;
 

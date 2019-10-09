@@ -42,12 +42,14 @@
             <li class="level-first-menu">
                 <h2>接口调试</h2>
                 <ul>
-                    <li class="level-second-menu icon-debug"><a href="ModeCode.html">ElementInfosByModeCode</a></li>
-                    <li class="level-second-menu icon-debug"><a href="PointValue.html">PointValue</a></li>
-                    <li class="level-second-menu icon-debug"><a href="LineValues.html">LineValues（SequenceChart）</a></li>
-                    <li class="level-second-menu icon-debug"><a href="RegionValues.html">RegionValues</a></li>
-                    <li class="level-second-menu icon-debug active"><a href="box-diagram.html">箱线图</a></li>
-                    <li class="level-second-menu icon-debug "><a href="dispersion-degree.html">集合预报离散度</a></li>
+                    <li class="level-second-menu icon-debug"><a href="ModeCode.html">获取基础信息</a></li>
+                    <li class="level-second-menu icon-debug"><a href="PointValue.html">获取点数据</a></li>
+                    <li class="level-second-menu icon-debug"><a href="LineValues.html">获取线数据</a></li>
+                    <!-- <li class="level-second-menu icon-debug"><a href="LineColumnValues.html">LineValues（BarChart）</a></li>-->
+                    <li class="level-second-menu icon-debug"><a href="RegionValues.html">获取面数据</a></li>
+                    <li class="level-second-menu icon-debug active"><a href="box-diagram.html">集合预报须图</a></li>
+                    <!-- <li class="level-second-menu icon-debug"><a href="RegionArray.html">RegionValuesToArray</a></li>-->
+                    <li class="level-second-menu icon-debug"><a href="dispersion-degree.html">集合预报离散度</a></li>
                 </ul>
             </li>
         </ul>
@@ -103,13 +105,13 @@
                     </div>
                     <div class="port-des clearfix">
                         <div class="port-label port-name">*&nbsp;StartForecastTime</div>
-                        <div class="port-label port-value"><input type="text" class="easyui-datetimebox" id="start-time" value="2019/09/29 08:00:00"></div>
+                        <div class="port-label port-value"><input type="text" class="easyui-datetimebox" id="start-time" value="2019/10/11 08:00:00"></div>
                         <div class="port-label port-explain">说明</div>
                         <div class="port-label explain-txt">起始预报时间</div>
                     </div>
                     <div class="port-des clearfix">
                         <div class="port-label port-name">*&nbsp;EndForecastTime</div>
-                        <div class="port-label port-value"><input type="text" class="easyui-datetimebox" id="end-time" value="2019/9/29 23:00:00"></div>
+                        <div class="port-label port-value"><input type="text" class="easyui-datetimebox" id="end-time" value="2019/10/18 23:00:00"></div>
                         <div class="port-label port-explain">说明</div>
                         <div class="port-label explain-txt">终止预报时间</div>
                     </div>
@@ -142,7 +144,7 @@
             <h2>接口返回</h2>
             <div class="return-title">
                 <ul class="clearfix">
-                    <li class="active">时序图</li>
+                    <li class="active">箱线图</li>
                     <li>数据</li>
                 </ul>
             </div>
@@ -158,6 +160,11 @@
                     </div>
                 </li>
             </ul>
+        </div>
+    </div>
+    <div class="shade">
+        <div class="shade-picture">
+            <img src="http://10.129.4.202:9535/Content/Products\5620\201910082000\201910110800-201910182000.png" id="shade-picture">
         </div>
     </div>
 </div>
