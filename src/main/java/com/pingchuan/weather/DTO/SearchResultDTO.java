@@ -20,4 +20,6 @@ public class SearchResultDTO {
     private SearchResultInfo searchResultInfo;
 
     private ContourResult contourResult;
+
+    private String picUrl;
 }

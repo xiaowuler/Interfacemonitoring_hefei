@@ -1,0 +1,13 @@
+.describe-picture{
+    display: table;
+    background: #ffffff;
+}
+
+.describe-picture div{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.describe-picture img{
+    width: 100%;
+}

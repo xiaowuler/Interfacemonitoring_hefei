@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
+import javax.net.ssl.SSLServerSocket;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
@@ -208,6 +209,26 @@ public class DebugServiceImpl implements DebugService {
         ContourResult contourResult = contourHelper.Calc(GetPoint(searchResultInfo.getData().get(0)), legendLevels, 8, -9999);
         searchResultDTO.setContourResult(contourResult);
 */
+        return searchResultDTO;
+    }
+
+    @Override
+    public SearchResultDTO getBoxDiagram(String url, String requestMode, Map<String, Object> boxDiagramParamter) {
+        SearchResultDTO searchResultDTO = new SearchResultDTO();
+        String result;
+        if (requestMode.equals("POST"))
+            result = WebUtil.Post(url, boxDiagramParamter);
+        else
+            result = WebUtil.Get(url, boxDiagramParamter);
+
+        if (StringUtils.isEmpty(result))
+            return searchResultDTO;
+        else
+            searchResultDTO.setResult(result);
+
+        BoxDiagramResultInfo boxDiagramResultInfo = JSONObject.parseObject(result, BoxDiagramResultInfo.class);
+        if (boxDiagramResultInfo.getError() == 0)
+            searchResultDTO.setPicUrl(boxDiagramResultInfo.getData());
         return searchResultDTO;
     }
 

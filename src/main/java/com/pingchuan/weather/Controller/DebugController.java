@@ -57,10 +57,31 @@ public class DebugController {
 
     @RequestMapping("/GetElementInfosByModeCode")
     public Map<String, List<String>> GetElementInfosByModeCode(String URL, String requestMode, String modeCode){
-                return debugService.GetElementInfosByModeCode(URL, requestMode, GetRegionModeCodeParam(modeCode));
+        return debugService.GetElementInfosByModeCode(URL, requestMode, GetRegionModeCodeParam(modeCode));
     }
 
- /*   @RequestMapping("/GetRegionValuesToArray")
+    @RequestMapping("/getBoxDiagram")
+    public SearchResultDTO getBoxDiagram(String url, String requestMode, BigDecimal lat, BigDecimal lon, Date startForecastTime, Date endForecastTime, Date initialTime){
+        return debugService.getBoxDiagram(url, requestMode, getBoxDiagramParamter(lat, lon, startForecastTime, endForecastTime, initialTime));
+    }
+
+    private Map<String, Object> getBoxDiagramParamter(BigDecimal lat, BigDecimal lon, Date startForecastTime, Date endForecastTime, Date initialTime){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("modeCode", "ec_ens");
+        map.put("elementCode", "pph");
+        map.put("lon", lon);
+        map.put("lat", lat);
+        map.put("startForecastTime", simpleDateFormat.format(startForecastTime));
+        map.put("endForecastTime", simpleDateFormat.format(endForecastTime));
+        map.put("initialTime", simpleDateFormat.format(initialTime));
+        map.put("callerCode", "sc002");
+
+        return map;
+    }
+
+    /*   @RequestMapping("/GetRegionValuesToArray")
     public SearchResultDTO GetRegionValuesToArray(String URL, String requestMode, String modeCode, String elementCode, float minLat, float maxLat, float minLon, float maxLon, int forecastLevel, String forecastTime, String initialTime){
         return  debugService.GetRegionValuesToArray(URL, requestMode, GetRegionValuesParam(modeCode, elementCode, minLat, maxLat, minLon, maxLon, forecastLevel, forecastTime, initialTime));
     }*/
