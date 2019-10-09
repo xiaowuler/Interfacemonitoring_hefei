@@ -6,7 +6,7 @@ var App = function () {
         this.ReLayout();
         this.GettingValuesThroughModecode();
       //  this.CreateMap();
-     //   this.ReloadData();
+        this.ReloadData();
         this.InitComboBox('#initial-time');
         this.SetDate();
         this.SetPredictionAging();

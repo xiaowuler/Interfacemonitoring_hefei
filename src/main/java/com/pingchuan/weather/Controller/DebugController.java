@@ -113,6 +113,7 @@ public class DebugController {
         map.put("orgCode", orgCode);
         map.put("forecastTime", ft.format(forecastTime));
         map.put("initialTime",ft.format(initialTime));
+        map.put("callerCode", "sc002");
         return map;
     }
 
@@ -127,6 +128,7 @@ public class DebugController {
         map.put("startForecastTime", ft.format(startForecastTime));
         map.put("endForecastTime",ft.format(endForecastTime));
         map.put("initialTime",ft.format(initialTime));
+        map.put("callerCode", "sc002");
         return map;
     }
 
@@ -140,12 +142,14 @@ public class DebugController {
         map.put("orgCode", orgCode);
         map.put("forecastTime", ft.format(forecastTime));
         map.put("initialTime",ft.format(initialTime));
+        map.put("callerCode", "sc002");
         return map;
     }
 
     private Map<String,Object> GetRegionModeCodeParam(String modeCode) {
         Map<String, Object> map = new HashMap<>();
         map.put("modeCode", modeCode);
+        map.put("callerCode", "sc002");
         return map;
     }
 
