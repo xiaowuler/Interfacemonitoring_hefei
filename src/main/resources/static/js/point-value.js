@@ -1,15 +1,14 @@
 var App = function () {
 
     this.Startup = function () {
-        this.SetModeCode();
         this.ReLayout();
+        this.SetModeCode();
         this.InitComboBox('#orgCode');
         this.InitComboBox('#element');
         this.InitComboBox('#initial-time');
 
-        this.GettingValuesThroughModecode();
-        this.ReloadData();
         this.SetDate();
+        this.ReloadData();
         this.BindInputEvent();
 
 
@@ -207,7 +206,7 @@ var App = function () {
                     onLoadSuccess: function () {
                         $('#initial-time').combobox('select', initialList.length - 1)
                     },
-                    panelHeight: initialList.length > 6 ? 260:"auto"
+                    panelHeight: "auto"
                 });
 
 

@@ -5,11 +5,10 @@ var App = function () {
         this.InitComboBox('#orgCode');
         this.InitComboBox('#element');
         this.InitComboBox('#initial-time');
+        this.SetModeCode();
         this.SetDate();
-        this.GettingValuesThroughModecode();
         this.ReloadData();
         this.BindInputEvent();
-        this.SetModeCode();
         this.HidePicture();
 
         $('#run').on('click', this.OnRunButtonClick.bind(this));

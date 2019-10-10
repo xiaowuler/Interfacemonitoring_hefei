@@ -126,31 +126,35 @@ public class DebugServiceImpl implements DebugService {
     @Override
     public Map<String, List<String>> GetElementInfosByModeCode(String url, String requestMode, Map<String,Object> stringObjectMap){
         Map<String, List<String>> map=new HashMap<>();
-        List<String> listInitialTime = new ArrayList<String>();
-        List<String> listElementCode = new ArrayList<String>();
-        List<String> listOrgCode = new ArrayList<String>();
+        List<String> listInitialTime = new ArrayList<>();
+        List<String> listElementCode = new ArrayList<>();
+        List<String> listOrgCode = new ArrayList<>();
 
         //SearchResultDTO searchResultDTO = new SearchResultDTO();
         SimpleDateFormat ft = new SimpleDateFormat ("yyyy/MM/dd HH:mm");
 
-            String result;
-                if (requestMode.equals("POST"))
-                result = WebUtil.Post(url, stringObjectMap);
-            else
-                result = WebUtil.Get(url, stringObjectMap);
+        String result;
+        if (requestMode.equals("POST"))
+            result = WebUtil.Post(url, stringObjectMap);
+        else
+            result = WebUtil.Get(url, stringObjectMap);
 
-            if (StringUtils.isEmpty(result))
-                return null;
+        if (StringUtils.isEmpty(result))
+            return null;
 
         SearchResultInfo searchResultInfo = JSONObject.parseObject(result, SearchResultInfo.class);
         //searchResultDTO.setSearchResultInfo(searchResultInfo);
 
+        String firstElementCode = searchResultInfo.getData().get(0).getElementCode();
         Set set = new HashSet();
         for(ElementInfo elementInfo : searchResultInfo.getData()){
-            if (set.add(elementInfo.getInitialTime()))
-                listInitialTime.add(ft.format(elementInfo.getInitialTime()));
+
             if (set.add(elementInfo.getElementCode()))
                 listElementCode.add(elementInfo.getElementCode());
+
+            if (set.add(elementInfo.getInitialTime()) && firstElementCode.equals(elementInfo.getElementCode()))
+                listInitialTime.add(ft.format(elementInfo.getInitialTime()));
+
             if (set.add(elementInfo.getOrgCode()))
                 listOrgCode.add(elementInfo.getOrgCode());
 

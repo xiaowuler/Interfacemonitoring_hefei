@@ -57,7 +57,7 @@ public class DebugController {
 
     @RequestMapping("/GetElementInfosByModeCode")
     public Map<String, List<String>> GetElementInfosByModeCode(String URL, String requestMode, String modeCode){
-        return debugService.GetElementInfosByModeCode(URL, requestMode, GetRegionModeCodeParam(modeCode));
+          return debugService.GetElementInfosByModeCode(URL, requestMode, GetRegionModeCodeParam(modeCode));
     }
 
     @RequestMapping("/getBoxDiagram")
@@ -88,10 +88,8 @@ public class DebugController {
     }
 
     /*   @RequestMapping("/GetRegionValuesToArray")
-=======
 
- /*   @RequestMapping("/GetRegionValuesToArray")
->>>>>>> origin/master
+    /*   @RequestMapping("/GetRegionValuesToArray")
     public SearchResultDTO GetRegionValuesToArray(String URL, String requestMode, String modeCode, String elementCode, float minLat, float maxLat, float minLon, float maxLon, int forecastLevel, String forecastTime, String initialTime){
         return  debugService.GetRegionValuesToArray(URL, requestMode, GetRegionValuesParam(modeCode, elementCode, minLat, maxLat, minLon, maxLon, forecastLevel, forecastTime, initialTime));
     }*/

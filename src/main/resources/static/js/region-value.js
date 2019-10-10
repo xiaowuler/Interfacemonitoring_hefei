@@ -7,13 +7,12 @@ var App = function () {
         //this.SetElementCode();
         this.ReLayout();
         this.SetDate();
+        this.SetModeCode();
         this.InitComboBox('#orgCode');
         this.InitComboBox('#element');
         this.InitComboBox('#initial-time');
-        this.GettingValuesThroughModecode();
         this.ReloadData();
         this.BindInputEvent();
-        this.SetModeCode();
 
         $('#run').on('click', this.OnRunButtonClick.bind(this));
         $('#run').trigger("click");
@@ -245,7 +244,7 @@ var App = function () {
                     onLoadSuccess: function () {
                         $('#initial-time').combobox('select', initialList.length - 1)
                     },
-                    panelHeight: height = initialList.length > 6 ? 260 : "auto"
+                    panelHeight: "auto"
                 });
 
                 $('#orgCode').combobox({
