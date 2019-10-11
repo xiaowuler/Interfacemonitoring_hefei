@@ -17,8 +17,8 @@ var MapInfo = function () {
 
     this.CreateEasyMap = function () {
         this.Map = L.map("map", {
-            center: [31.40666, 117.40758],
-            zoom: 6,
+            center: [31.40666, 117.20758],
+            zoom: 7,
             zoomControl: false
         });
         var layer = L.tileLayer.chinaProvider('Geoq.Normal.PurplishBlue', {
