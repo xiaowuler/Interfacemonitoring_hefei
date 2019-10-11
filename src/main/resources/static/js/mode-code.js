@@ -35,8 +35,9 @@ var App = function () {
             data: params,
             url: 'debug/GetModeCodeValues',
             success: function (result) {
-                console.log(result);
+               // console.log(result);
                 this.SetReturnData(result.searchResultInfo);
+                //this.GetAllData(result.searchResultInfo.data);
             }.bind(this)
         });
     };
@@ -85,7 +86,15 @@ var App = function () {
             panelHeight: 'auto'
         });
     };
-
+   /* this.GetAllData=function(result){
+        var initialTime = []
+        var elementCode = []
+        for(var i = 0; i < result.length; i++) {
+            if( !initialTime.includes( result[i].initialTime) ) //includes 检测数组是否有某个值
+                initialTime.push(result[i].initialTime);
+        }
+        console.log(initialTime);
+    }*/
 };
 
 $(document).ready(function () {

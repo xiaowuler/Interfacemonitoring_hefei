@@ -287,6 +287,7 @@ public class DebugServiceImpl implements DebugService {
         }
         return valuePoints;
     }
+    //算法
     public double Calc(List<Double> values)
     {
         double average = GetAverage(values);

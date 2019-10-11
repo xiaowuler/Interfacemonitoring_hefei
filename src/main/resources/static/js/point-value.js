@@ -144,6 +144,16 @@ var App = function () {
         });
     };
 
+  /*  this.SetElementCode = function () {
+        $('#element').combobox({
+            panelHeight: 'auto',
+            onSelect: function (result) {
+                this.GettingValuesThroughModecode(result.value);
+            }.bind(this)
+        });
+    };*/
+
+
     this.InitComboBox = function (id) {
         $(id).combobox({
             valueField:'id',
@@ -153,16 +163,27 @@ var App = function () {
     };
 
     this.GetModecode = function (result) {
-       var modeCodes= $('#ModeCode').combobox('getValue');
-       var modeCode;
+        var modeCodes= $('#ModeCode').combobox('getValue');
+    //    var elementCodes= $('#element').combobox('getValue');
+
+        var modeCode;
+     //   var elementCode;
+
         if(result != null && result != modeCode)
            modeCode=result;
         else
             modeCode=modeCodes;
+
+       /* if(result != null && result != elementCode)
+            elementCode=result;
+        else
+            elementCode=elementCodes;*/
+
         return {
             URL: 'http://10.129.4.202:9535/weather/GetElementInfosByModeCode',
             requestMode: $('.port-method button.active').attr('value'),
-            modeCode:modeCode
+            modeCode : modeCode ,
+           // elementCode : elementCode
         }
     };
 
@@ -173,9 +194,9 @@ var App = function () {
             dateType:"json",
             data: params,
             async:false,
-            url:'debug/GetElementInfosByModeCode',
+            url:'debug/GetModeCodeValues',
             success:function (result) {
-                var elementList = [];
+                /*var elementList = [];
                 var initialList = [];
                 var orgCodeList = [];
 
@@ -215,7 +236,68 @@ var App = function () {
                     valueField: 'id',
                     textField: 'text',
                     panelHeight: height = orgCodeList.length > 6 ? 300 : "auto"
+                });*/
+                //console.log(result);
+
+               // var elementCodes=  $('#element').on('click',$('#element').combobox('getValue') );
+
+                var value = result.searchResultInfo.data;
+                var initialTime = [];
+                var elementCode = [];
+                var orgCode = [];
+
+                var initialList = [];
+                var elementList = [];
+                var orgCodeList = [];
+
+                for (var i = 0; i < value.length; i++) {
+                    if (!initialTime.includes(value[i].initialTime) /*&& value[i].initialTime ===elementCodes*/) //includes 检测数组是否有某个值
+                        initialTime.push(value[i].initialTime);
+
+                    if (!elementCode.includes(value[i].elementCode)) //includes 检测数组是否有某个值
+                        elementCode.push(value[i].elementCode);
+
+                    if (!orgCode.includes(value[i].orgCode)) //includes 检测数组是否有某个值
+                        orgCode.push(value[i].orgCode);
+
+                }
+
+                elementCode.forEach(function (item, index) {
+                    elementList.push({"id": index, "text": item});
+                }.bind(this));
+
+                initialTime.forEach(function (item, index) {
+                    item = moment(item).format('YYYY/MM/DD HH:mm');
+                    initialList.push({"id": index, "text": item});
+                }.bind(this));
+
+                orgCode.forEach(function (item, index) {
+                    orgCodeList.push({"id": index, "text": item});
+                }.bind(this));
+
+                $('#element').combobox({
+                    data: elementList,
+                    valueField: 'id',
+                    textField: 'text',
+                    panelHeight: elementList.length > 6 ? 300 : "auto"
                 });
+
+                $('#initial-time').combobox({
+                    data: initialList,
+                    valueField: 'id',
+                    textField: 'text',
+                    onLoadSuccess: function () {
+                        $('#initial-time').combobox('select', initialList.length - 1)
+                    },
+                    panelHeight: "auto"
+                })
+
+                $('#orgCode').combobox({
+                    data: orgCodeList,
+                    valueField: 'id',
+                    textField: 'text',
+                    panelHeight: height = orgCodeList.length > 6 ? 300 : "auto"
+                })
             }
         })
     };
