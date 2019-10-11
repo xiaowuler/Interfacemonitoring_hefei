@@ -1,11 +1,8 @@
 package com.pingchuan.weather.Controller;
 
 
-import cn.hutool.http.HttpRequest;
 import com.pingchuan.weather.Model.PageResult;
-import com.pingchuan.weather.Util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

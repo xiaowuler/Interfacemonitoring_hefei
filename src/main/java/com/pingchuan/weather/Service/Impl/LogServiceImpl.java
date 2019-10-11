@@ -65,20 +65,17 @@ public class LogServiceImpl implements LogService{
         //准备参数
         long startTime = getTimeByDays(-7);
         long endTime = getTimeByDays(1);
-        //Config failureRateConfig = configMapper.findOneById(3);
-        //Config consumingAvgConfig = configMapper.findOneById(2);
-        //Config healthStatusConfig = configMapper.findOneById(4);
+        /*Config failureRateConfig = configMapper.findOneById(3);
+        Config consumingAvgConfig = configMapper.findOneById(2);
+        Config healthStatusConfig = configMapper.findOneById(4);*/
 
-        float[] randomArray = {90.7f, 44.6f, 11.2f, 77.5f, 25.7f, 63.2f, 75.1f, 44.8f};
-                List<Log> logs = logMapper.findAllLogName(startTime, endTime, 0, 0);
+        List<Log> logs = logMapper.findAllLogName(startTime, endTime, 0, 0);
         LogDTO logDTO ;
-        for (int x= 0, len = logs.size(); x < len; x++){
+        for (Log log : logs){
             logDTO = new LogDTO();
-            logDTO.setLog(logs.get(x));
-            logDTO.setName(logs.get(x).getName());
+            logDTO.setLog(log);
+            logDTO.setName(log.getName());
             logDTO = getInfoOfWeek(logDTO, startTime, endTime);
-            logDTO.setSuccessRate(randomArray[x]);
-            logDTO.setFailureRate(100 - randomArray[x]);
             logDTOS.add(logDTO);
         }
 
@@ -101,7 +98,7 @@ public class LogServiceImpl implements LogService{
 
         List<Log> logs = logMapper.findAllLogName(startTime, endTime, (pageNum - 1) * pageSize, pageSize);
         int total = logMapper.findAllLogNameByCount(startTime, endTime).size();
-        float[] randomArray = {90.7f, 44.6f, 11.2f, 77.5f, 25.7f, 63.2f, 75.1f, 44.8f};
+        //float[] randomArray = {90.7f, 44.6f, 11.2f, 77.5f, 25.7f, 63.2f, 75.1f, 44.8f};
         //Long count = (long)logs.size();
         LogDTO logDTO = null;
         for (int x = 0, len = logs.size(); x < len; x++ ){
@@ -119,13 +116,13 @@ public class LogServiceImpl implements LogService{
 
 
             //death data
-            String success = String.format("%.2f", randomArray[x] / 100);
-            logDTO.setSuccessRate(Float.parseFloat(success));
-            //logDTO.setSuccessRate(getOneSuccessRate(successRateConfig, logDTO.getLog().getName()));
+            //String success = String.format("%.2f", randomArray[x] / 100);
+            //logDTO.setSuccessRate(Float.parseFloat(success));
+            logDTO.setSuccessRate(getOneSuccessRate(successRateConfig, logDTO.getLog().getName()));
             logDTO.setSuccessConsumingAvg(getOneConsumingAvg(1, logDTO.getLog().getName(), Integer.parseInt(successConsumingAvgConfig.getValue())));
 
-            logDTO.setFailureRate(100 - Float.parseFloat(success));
-            //logDTO.setFailureConsumingAvg(getOneConsumingAvg(0, logDTO.getLog().getName(), Integer.parseInt(failureConsumingAvgConfig.getValue())));
+            //logDTO.setFailureRate(100 - Float.parseFloat(success));
+            logDTO.setFailureConsumingAvg(getOneConsumingAvg(0, logDTO.getLog().getName(), Integer.parseInt(failureConsumingAvgConfig.getValue())));
             logDTOS.add(logDTO);
         }
 

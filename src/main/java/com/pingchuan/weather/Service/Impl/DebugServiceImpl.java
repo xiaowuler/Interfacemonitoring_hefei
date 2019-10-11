@@ -105,7 +105,7 @@ public class DebugServiceImpl implements DebugService {
         }
 
         searchResultDTO.setSearchResultInfos(searchResultInfos);
-        List<LegendLevel> legendLevels = legendLevelMapper.findAll("temperatures");
+        List<LegendLevel> legendLevels = legendLevelMapper.findAll("IsobaricLine");
         String productPath = ClassUtils.getDefaultClassLoader().getResource("").getPath();
         try {
             productPath = URLDecoder.decode(productPath, "utf-8");
