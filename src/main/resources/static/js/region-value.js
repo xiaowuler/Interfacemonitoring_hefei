@@ -1,16 +1,17 @@
 var App = function () {
-
     this.MapInfo = new MapInfo();
     this.ColorContorl = new ColorContorl();
+    this.elementCodeInfo;
 
     this.Startup = function () {
         //this.SetElementCode();
         this.ReLayout();
-        this.SetDate();
+        this.ElementCodeSelect();
         this.SetModeCode();
         this.InitComboBox('#orgCode');
         this.InitComboBox('#element');
         this.InitComboBox('#initial-time');
+        this.InitComboBox('#foreast-time');
         this.ReloadData();
         this.BindInputEvent();
 
@@ -86,7 +87,7 @@ var App = function () {
     }
 
     this.GetParams = function () {
-        var forecastTime = $("#forecast-time").datetimebox("getValue");
+        var forecastTime = $("#forecast-time").combobox("getText");
         var initialTime = $("#initial-time").combobox("getText");
 
         return {
@@ -160,19 +161,6 @@ var App = function () {
         L.Util.requestAnimFrame(this.MapInfo.Map.invalidateSize,this.MapInfo.Map,!1,this.MapInfo.Map._container);
     };
 
-    this.SetDate = function () {
-        $('#forecast-time').datetimebox({
-            panelWidth: 200,
-            panelHeight: 260,
-            showSeconds: false
-        });
-
-        $('#initial').datetimebox({
-            panelWidth: 200,
-            panelHeight: 260,
-            showSeconds: false
-        });
-    };
 
     this.SetModeCode = function () {
         $('#ModeCode').combobox({
@@ -197,6 +185,79 @@ var App = function () {
         }
     };
 
+    this.ElementCodeSelect = function(){
+        $('#element').combobox({
+            panelHeight: 'auto',
+            onSelect: function (result) {
+                this.SetInitialTimesAndOrgCodesByElementCodeChange(result.text);
+            }.bind(this)
+        });
+    }
+
+    this.SetInitialTimesAndOrgCodesByElementCodeChange = function (elementCode) {
+        var initialTimes = [];
+        var orgCodes = [];
+        $(this.elementCodeInfo.searchResultInfo.data).each(function (index, item) {
+            if (item.elementCode == elementCode){
+                if (initialTimes.indexOf(item.initialTime) === -1)
+                    initialTimes.push(moment(item.initialTime).format("YYYY/MM/DD HH:mm"));
+
+                if (orgCodes.indexOf(item.orgCode) === -1)
+                    orgCodes.push(item.orgCode);
+            }
+        }.bind(this));
+
+        var initialTimeInfos = this.GetCodeInfos(initialTimes);
+        var orgCodeInfos = this.GetCodeInfos(orgCodes);
+
+        $('#initial-time').combobox({
+            data: initialTimeInfos,
+            valueField: 'id',
+            textField: 'text',
+            onSelect: function (result) {
+                this.SetForecastTimeByInitialTime(result.text, elementCode);
+            }.bind(this),
+            onLoadSuccess: function () {
+                $('#initial-time').combobox('select', initialTimeInfos.length - 1)
+            },
+            panelHeight: "auto"
+        })
+
+        $('#orgCode').combobox({
+            data: orgCodeInfos,
+            valueField: 'id',
+            textField: 'text',
+            panelHeight: height = orgCodeInfos.length > 6 ? 300 : "auto"
+        })
+    }
+
+    this.SetForecastTimeByInitialTime = function (initialTime, elementCode) {
+        var elementInfo;
+        $(this.elementCodeInfo.searchResultInfo.data).each(function (index, item) {
+            if (item.elementCode == elementCode && moment(item.initialTime).format("YYYY/MM/DD HH:mm") == initialTime){
+                elementInfo = item;
+                return false;
+            }
+        }.bind(this));
+
+        var forecastTimes = [];
+        var initialDateTime = moment(initialTime, "YYYY/MM/DD HH:mm");
+        var times = parseInt(elementInfo.forecastPeriods / elementInfo.forecastInterval);
+        var forecastInterval = parseInt(elementInfo.forecastInterval);
+        for (var i = 1; i <= times; i++ ){
+            var forecastTime = moment(initialDateTime).minute(i * forecastInterval).format("YYYY/MM/DD HH:mm");
+            forecastTimes.push(forecastTime);
+        }
+
+        var forecastTimeInfos = this.GetCodeInfos(forecastTimes);
+        $('#forecast-time').combobox({
+            data: forecastTimeInfos,
+            valueField: 'id',
+            textField: 'text',
+            panelHeight: forecastTimeInfos.length > 6 ? 300 : "auto"
+        })
+    }
+
     this.InitComboBox = function (id) {
         $(id).combobox({
             valueField:'id',
@@ -205,6 +266,15 @@ var App = function () {
         });
     };
 
+    this.getElementCodes = function () {
+        var elementCodes = [];
+        $(this.elementCodeInfo.searchResultInfo.data).each(function (index, item) {
+            if (elementCodes.indexOf(item.elementCode) === -1)
+                elementCodes.push(item.elementCode);
+        }.bind(this));
+        return elementCodes;
+    }
+
     this.GettingValuesThroughModecode=function(result){
         var params=this.GetModecode(result);
         $.ajax({
@@ -212,50 +282,31 @@ var App = function () {
             dateType:"json",
             data:params,
             async:false,
-            url:'debug/GetElementInfosByModeCode',
+            url:'debug/GetModeCodeValues',
             success:function (result) {
-                var elementList = [];
-                var initialList = [];
-                var orgCodeList = [];
+                this.elementCodeInfo = result;
 
-                result.elementCode.forEach(function (item, index) {
-                    elementList.push({"id": index, "text": item});
-                }.bind(this));
-
-                result.initialTime.forEach(function (item, index) {
-                    initialList.push({"id": index, "text": item});
-                }.bind(this));
-
-                result.orgCode.forEach(function (item, index) {
-                    orgCodeList.push({"id": index, "text": item});
-                }.bind(this));
+                var elementCodes = this.getElementCodes();
+                var elementCodeInfos = this.GetCodeInfos(elementCodes);
 
                 $('#element').combobox({
-                    data: elementList,
+                    data: elementCodeInfos,
                     valueField: 'id',
                     textField: 'text',
-                    panelHeight: height = elementList.length > 6 ? 300 : "auto"
+                    panelHeight: elementCodeInfos.length > 6 ? 300 : "auto"
                 });
-
-                $('#initial-time').combobox({
-                    data: initialList,
-                    valueField: 'id',
-                    textField: 'text',
-                    onLoadSuccess: function () {
-                        $('#initial-time').combobox('select', initialList.length - 1)
-                    },
-                    panelHeight: "auto"
-                });
-
-                $('#orgCode').combobox({
-                    data: orgCodeList,
-                    valueField: 'id',
-                    textField: 'text',
-                    panelHeight: height = orgCodeList.length > 6 ? 300 : "auto"
-                });
-            }
+            }.bind(this)
         })
     };
+
+    this.GetCodeInfos = function (codes) {
+        var codeInfos = [];
+        codes.forEach(function (item, index) {
+            codeInfos.push({"id": index, "text": item});
+        }.bind(this));
+
+        return codeInfos;
+    }
 };
 
 $(document).ready(function () {

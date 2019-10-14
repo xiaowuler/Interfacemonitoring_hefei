@@ -1,14 +1,13 @@
 var App = function () {
     this.MapInfo = new MapInfo();
     this.ColorContorl = new ColorContorl();
+    this.elementCodeInfo;
 
     this.Startup = function () {
         this.ReLayout();
-        this.GettingValuesThroughModecode();
+         this.GettingValuesThroughModecode();
       //  this.CreateMap();
         this.ReloadData();
-        this.InitComboBox('#initial-time');
-        this.SetDate();
         this.SetPredictionAging();
         this.BindInputEvent();
 
@@ -57,7 +56,6 @@ var App = function () {
                 if (result.contourResult.contourPolylines == null)
                     return;
 
-
                 this.MapInfo.CreateSpotLayer(result.contourResult.spotPolygons, result.contourResult.legendLevels);
                 this.ColorContorl.setColor(result.contourResult.legendLevels[0].type,this.returnColor(result.contourResult.legendLevels));
                 this.MapInfo.CreateContourLayer(result.contourResult.contourPolylines);
@@ -67,7 +65,7 @@ var App = function () {
 
     this.GetParams = function () {
         var initialTime =  $("#initial-time").combobox("getText");
-        var forecastTime = $("#forecast-time").datetimebox("getValue");
+        var forecastTime = $("#forecast-time").combobox("getText");
         return {
             URL: 'http://10.129.4.202:9535/weather/GetRainfallSetDispersion',
             requestMode: $('.port-method button.active').attr('value'),
@@ -82,21 +80,6 @@ var App = function () {
             initialTime: initialTime
         }
     };
-
-    this.SetDate = function () {
-        $('#forecast-time').datetimebox({
-            panelWidth: 170,
-            panelHeight: 260,
-            showSeconds: false
-        });
-    };
-    /*this.ShowDetailUrl = function () {
-        var params = this.GetParams();
-        var initialTime = params.initialTime;
-        var pattern = '{0}?requestMode={1}&ModeCode={2}&ElementCode={3}&Latitude={4}&Longitude={5}&ForecastLevel={6}&ForecastTime={7}{8}';
-        var label = pattern.format(url, requestMode, modeCode, elementCode, lat, lon, forecastLevel, forecastTime, init);
-        $('#port-url').text(label);
-    };*/
 
     this.returnColor = function (colors) {
         var array = []
@@ -139,7 +122,6 @@ var App = function () {
         $('#data').text(JSON.stringify(result, null, 4));
     };
 
-
     this.SelectType = function (event) {
         $('.port-method button').removeClass("active");
         $(event.target).addClass("active");
@@ -161,60 +143,89 @@ var App = function () {
         $(".return-content li").eq(index).css("display","block").siblings().css("display","none");
     };
 
-
-    this.SetModeCode = function () {
-        $('#ModeCode').combobox({
-            panelHeight: 'auto',
-            onSelect: function (result) {
-                this.GettingValuesThroughModecode(result.value);
-            }.bind(this)
-        });
-    };
-
-    this.GetModecode = function () {
-        return {
-            URL: 'http://10.129.4.202:9535/weather/GetElementInfosByModeCode',
-            requestMode: $('.port-method button.active').attr('value'),
-            modeCode: 'ec_ens'
-        }
-    };
-
-    this.InitComboBox = function (id) {
-        $(id).combobox({
-            valueField:'id',
-            textField:'text',
-            editable:false,
-        });
-    };
-
-
-    this.GettingValuesThroughModecode=function(){
-        var params=this.GetModecode();
-        $.ajax({
-            type:"POST",
-            dateType:"json",
-            data:params,
-            async:false,
-            url:'debug/GetElementInfosByModeCode',
-            success:function (result) {
-                var initialList = [];
-
-                result.initialTime.forEach(function (item, index) {
-                    initialList.push({"id": index, "text": item});
-                }.bind(this));
-
-                $('#initial-time').combobox({
-                    data: initialList,
-                    valueField: 'id',
-                    textField: 'text',
-                    onLoadSuccess: function () {
-                        $('#initial-time').combobox('select', initialList.length - 1)
-                    },
-                    panelHeight: height = initialList.length > 6 ? 260 : "auto"
-                });
+    this.SetInitialTimesAndOrgCodesByElementCodeChange = function (elementCode) {
+        var initialTimes = [];
+        $(this.elementCodeInfo.searchResultInfo.data).each(function (index, item) {
+            if (item.elementCode == elementCode){
+                if (initialTimes.indexOf(moment(item.initialTime).format("YYYY/MM/DD HH:mm")) === -1)
+                    initialTimes.push(moment(item.initialTime).format("YYYY/MM/DD HH:mm"));
             }
+        }.bind(this));
+
+        var initialTimeInfos = this.GetCodeInfos(initialTimes.sort());
+
+        $('#initial-time').combobox({
+            data: initialTimeInfos,
+            valueField: 'id',
+            textField: 'text',
+            onSelect: function (result) {
+                this.SetForecastTimeByInitialTime(result.text, elementCode);
+            }.bind(this),
+            onLoadSuccess: function () {
+                $('#initial-time').combobox('select', initialTimeInfos.length - 1)
+            },
+            panelHeight: "auto"
         })
-    };
+    }
+
+    this.SetForecastTimeByInitialTime = function (initialTime, elementCode) {
+        var elementInfo;
+        $(this.elementCodeInfo.searchResultInfo.data).each(function (index, item) {
+            if (item.elementCode == elementCode && moment(item.initialTime).format("YYYY/MM/DD HH:mm") == initialTime) {
+                elementInfo = item;
+                return false;
+            }
+        }.bind(this));
+
+        var forecastTimes = [];
+        var initialDateTime = moment(initialTime, "YYYY/MM/DD HH:mm");
+        var times = parseInt(elementInfo.forecastPeriods / elementInfo.forecastInterval);
+        var forecastInterval = parseInt(elementInfo.forecastInterval);
+        for (var i = 1; i <= times; i++ ){
+            var forecastTime = moment(initialDateTime).minute(i * forecastInterval).format("YYYY/MM/DD HH:mm");
+            forecastTimes.push(forecastTime);
+        }
+
+        var forecastTimeInfos = this.GetCodeInfos(forecastTimes);
+        $('#forecast-time').combobox({
+            data: forecastTimeInfos,
+            valueField: 'id',
+            textField: 'text',
+            panelHeight: forecastTimeInfos.length > 6 ? 300 : "auto"
+        })
+    }
+
+        this.GetModecode = function () {
+            return {
+                URL: 'http://10.129.4.202:9535/weather/GetElementInfosByModeCode',
+                requestMode: $('.port-method button.active').attr('value'),
+                modeCode: 'ec_ens'
+            }
+        };
+
+        this.GettingValuesThroughModecode = function () {
+            var params = this.GetModecode();
+            $.ajax({
+                type: "POST",
+                dateType: "json",
+                data: params,
+                async: false,
+                url: 'debug/GetModeCodeValues',
+                success: function (result) {
+                    this.elementCodeInfo = result;
+                    var elementCode = 'PPH';
+                    this.SetInitialTimesAndOrgCodesByElementCodeChange(elementCode);
+                }.bind(this)
+            })
+        };
+
+        this.GetCodeInfos = function (codes) {
+            var codeInfos = [];
+            codes.forEach(function (item, index) {
+                codeInfos.push({"id": index, "text": item});
+            }.bind(this));
+            return codeInfos;
+        }
 }
 
 $(document).ready(function () {

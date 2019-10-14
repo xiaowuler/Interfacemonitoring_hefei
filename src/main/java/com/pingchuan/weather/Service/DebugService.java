@@ -16,8 +16,6 @@ public interface DebugService {
 
     SearchResultDTO GetModeCodeValues(String url, String requestMode, Map<String,Object> stringObjectMap);
 
-    Map<String, List<String>> GetElementInfosByModeCode(String url, String requestMode, Map<String,Object> stringObjectMap);
-
     SearchResultDTO GetElementCodeByModeCode(String modeCode, String method);
 
     SearchResultDTO GetRegionValuesToArray(String url, String requestMode, Map<String,Object> stringObjectMap);
@@ -25,6 +23,8 @@ public interface DebugService {
     SearchResultDTO getBoxDiagram(String url, String requestMode, Map<String,Object> boxDiagramParamter);
 
     SearchResultDTO DisplayIsobars(String url, String requestMode, Map<String,Object> stringObjectMap);
+
+    SearchResultDTO getWeatherPhenomenon(String url, String requestMode, Map<String,Object> weatherPhenomenonParamter);
 
 
     // SearchResultDTO GetRegionValuesToArray(String url, String requestMode, Map<String,Object> stringObjectMap);

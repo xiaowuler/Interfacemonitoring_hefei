@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>RegionValues</title>
+    <title>WeatherPhenomenon</title>
     <link rel="stylesheet" href="css/leaflet.css">
     <link rel="stylesheet" href="css/map.css">
     <link rel="stylesheet" href="plug/easyui.css">
@@ -50,11 +50,11 @@
                     <li class="level-second-menu icon-debug"><a href="PointValue.html">获取点数据</a></li>
                     <li class="level-second-menu icon-debug"><a href="LineValues.html">获取线数据</a></li>
                     <!-- <li class="level-second-menu icon-debug"><a href="LineColumnValues.html">LineValues（BarChart）</a></li>-->
-                    <li class="level-second-menu icon-debug active"><a href="RegionValues.html">获取面数据</a></li>
+                    <li class="level-second-menu icon-debug"><a href="RegionValues.html">获取面数据</a></li>
                     <li class="level-second-menu icon-debug"><a href="box-diagram.html">集合预报须图</a></li>
                     <!-- <li class="level-second-menu icon-debug"><a href="RegionArray.html">RegionValuesToArray</a></li>-->
                     <li class="level-second-menu icon-debug"><a href="dispersion-degree.html">集合预报离散度</a></li>
-                    <li class="level-second-menu icon-debug"><a href="WeatherPhenomenon.html">天气现象</a></li>
+                    <li class="level-second-menu icon-debug active"><a href="WeatherPhenomenon.html">天气现象</a></li>
                 </ul>
             </li>
         </ul>
@@ -64,71 +64,11 @@
         <div class="port-debug">
             <div class="port-instruct bg">
                 <h2 class="port-title">接口说明</h2>
-                <p>获取具体时间的不同经纬度值</p>
+                <p>集合预报离散度</p>
             </div>
             <div class="port-param bg">
                 <h2 class="port-title">接口参数（*号表示必填）</h2>
                 <div class="port-detail">
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;ModeCode</div>
-                        <div class="port-label port-value">
-                            <select class="easyui-combobox" id="ModeCode" name="ModeCode" labelPosition="top" editable="false">
-                                <option value="SPCC">SPCC</option>
-                                <option value="EC_ENS">EC_ENS</option>
-                            </select>
-                        </div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">要素产品模式名</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;ElementCode</div>
-                        <div class="port-label port-value">
-                            <select id="element" class="easyui-combobox">
-                            </select>
-                        </div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">预报要素</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;StartLat</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="min-lat" value="25"></div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">起始纬度</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;EndLat</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="max-lat" value="29"></div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">结束纬度</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;StartLon</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="min-lon" value="118"></div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">起始经度</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;EndLon</div>
-                        <div class="port-label port-value"><input type="text" class="focus" id="max-lon" value="120"></div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">结束经度</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;OrgCode</div>
-                        <div class="port-label port-value">
-                            <select id="orgCode" class="easyui-combobox"></select>
-                        </div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">制作机构代码</div>
-                    </div>
-                    <div class="port-des clearfix">
-                        <div class="port-label port-name">*&nbsp;ForecastTime</div>
-                        <div class="port-label port-value">
-                            <select id="forecast-time" class="easyui-combobox"></select>
-                        </div>
-                        <div class="port-label port-explain">说明</div>
-                        <div class="port-label explain-txt">预报时间</div>
-                    </div>
                     <div class="port-des clearfix">
                         <div class="port-label port-name">*&nbsp;InitialTime</div>
                         <div class="port-label port-value">
@@ -136,6 +76,18 @@
                         </div>
                         <div class="port-label port-explain">说明</div>
                         <div class="port-label explain-txt">起报时间</div>
+                    </div>
+                    <div class="port-des clearfix">
+                        <div class="port-label port-name">*&nbsp;Latitude</div>
+                        <div class="port-label port-value"><input type="text" class="focus" id="latitude" value="34.5"></div>
+                        <div class="port-label port-explain">说明</div>
+                        <div class="port-label explain-txt">纬度</div>
+                    </div>
+                    <div class="port-des clearfix">
+                        <div class="port-label port-name">*&nbsp;Longitude</div>
+                        <div class="port-label port-value"><input type="text" class="focus" id="longitude" value="117.8"></div>
+                        <div class="port-label port-explain">说明</div>
+                        <div class="port-label explain-txt">经度</div>
                     </div>
                 </div>
             </div>
@@ -158,7 +110,7 @@
             <h2>接口返回</h2>
             <div class="return-title">
                 <ul class="clearfix">
-                    <li class="active">等值面图</li>
+                    <li class="active">离散度图</li>
                     <li>数据</li>
                 </ul>
             </div>
@@ -195,10 +147,5 @@
 <script type="text/javascript" src="js/leaflet.js"></script>
 <script type="text/javascript" src="js/leaflet.ChineseTmsProviders.js"></script>
 <script type="text/javascript" src="js/leaflet-windbarb.js"></script>
-<script type="text/javascript" src="js/region-value.js"></script>
-<script type="text/javascript" src="js/region_values/bottom-panel.js"></script>
-<script type="text/javascript" src="js/region_values/mapInfo.js"></script>
-<script type="text/javascript" src="js/color-control.js"></script>
-<script type="text/javascript" src="js/combotree_datas/CombotreeData.js"></script>
-<script type="text/javascript" src="js/combotree_datas/CombotreeChildData.js"></script>
+<script type="text/javascript" src="js/weather-phenomenon.js"></script>
 </html>

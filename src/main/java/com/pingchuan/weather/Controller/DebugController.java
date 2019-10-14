@@ -55,14 +55,28 @@ public class DebugController {
         return debugService.GetModeCodeValues(URL, requestMode, GetRegionModeCodeParam(modeCode));
     }
 
-    @RequestMapping("/GetElementInfosByModeCode")
-    public Map<String, List<String>> GetElementInfosByModeCode(String URL, String requestMode, String modeCode){
-          return debugService.GetElementInfosByModeCode(URL, requestMode, GetRegionModeCodeParam(modeCode));
-    }
+
 
     @RequestMapping("/getBoxDiagram")
     public SearchResultDTO getBoxDiagram(String url, String requestMode, BigDecimal lat, BigDecimal lon, Date startForecastTime, Date endForecastTime, Date initialTime){
         return debugService.getBoxDiagram(url, requestMode, getBoxDiagramParamter(lat, lon, startForecastTime, endForecastTime, initialTime));
+    }
+
+    @RequestMapping("/GetWeatherPhenomenon")
+    public SearchResultDTO getWeatherPhenomenon(String URL, String requestMode, BigDecimal lat, BigDecimal lon, Date initialTime){
+        return debugService.getWeatherPhenomenon(URL, requestMode, getWeatherPhenomenonParamter(lat, lon, initialTime));
+    }
+
+    private Map<String,Object> getWeatherPhenomenonParamter(BigDecimal lat, BigDecimal lon, Date initialTime) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("lon", lon);
+        map.put("lat", lat);
+        map.put("initialTime", simpleDateFormat.format(initialTime));
+        map.put("callerCode", "sc002");
+
+        return map;
     }
 
     private Map<String, Object> getBoxDiagramParamter(BigDecimal lat, BigDecimal lon, Date startForecastTime, Date endForecastTime, Date initialTime){

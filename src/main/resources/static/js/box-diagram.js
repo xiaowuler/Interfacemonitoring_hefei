@@ -1,11 +1,11 @@
 var App = function () {
 
+    this.elementCodeInfo;
+
     this.Startup = function () {
         this.ReLayout();
-        this.InitComboBox('#orgCode');
-        this.InitComboBox('#element');
         this.InitComboBox('#initial-time');
-        this.SetModeCode();
+        this.GettingValuesThroughModecode();
         this.SetDate();
         this.ReloadData();
         this.BindInputEvent();
@@ -273,14 +273,27 @@ var App = function () {
 
     };
 
-    this.SetModeCode = function () {
-        $('#ModeCode').combobox({
-            panelHeight: 'auto',
-            onSelect: function (result) {
-                this.GettingValuesThroughModecode(result.value);
-            }.bind(this)
-        });
-    };
+    this.SetInitialTimesAndOrgCodesByElementCodeChange = function (elementCode) {
+        var initialTimes = [];
+        $(this.elementCodeInfo.searchResultInfo.data).each(function (index, item) {
+            if (item.elementCode == elementCode){
+                if (initialTimes.indexOf(moment(item.initialTime).format("YYYY/MM/DD HH:mm")) === -1)
+                    initialTimes.push(moment(item.initialTime).format("YYYY/MM/DD HH:mm"));
+            }
+        }.bind(this));
+
+        var initialTimeInfos = this.GetCodeInfos(initialTimes.sort());
+
+        $('#initial-time').combobox({
+            data: initialTimeInfos,
+            valueField: 'id',
+            textField: 'text',
+            onLoadSuccess: function () {
+                $('#initial-time').combobox('select', initialTimeInfos.length - 1)
+            },
+            panelHeight: "auto"
+        })
+    }
 
     this.GetModecode = function (result) {
         var modeCodes= $('#ModeCode').combobox('getValue');
@@ -304,6 +317,14 @@ var App = function () {
         });
     };
 
+    this.GetModecode = function () {
+        return {
+            URL: 'http://10.129.4.202:9535/weather/GetElementInfosByModeCode',
+            requestMode: $('.port-method button.active').attr('value'),
+            modeCode: 'ec_ens'
+        }
+    };
+
     this.GettingValuesThroughModecode=function(result){
         var params=this.GetModecode(result);
         var data = [];
@@ -312,50 +333,22 @@ var App = function () {
             dateType:"json",
             data:params,
             async:false,
-            url:'debug/GetElementInfosByModeCode',
+            url:'debug/GetModeCodeValues',
             success:function (result) {
-                var elementList = [];
-                var initialList = [];
-                var orgCodeList = [];
-
-                result.elementCode.forEach(function (item, index) {
-                    elementList.push({"id": index, "text": item});
-                }.bind(this));
-
-                result.initialTime.forEach(function (item, index) {
-                    initialList.push({"id": index, "text": item});
-                }.bind(this));
-
-                result.orgCode.forEach(function (item, index) {
-                    orgCodeList.push({"id": index, "text": item});
-                }.bind(this));
-
-                $('#element').combobox({
-                    data: elementList,
-                    valueField: 'id',
-                    textField: 'text',
-                    panelHeight: height = elementList.length > 6 ? 300 : "auto"
-                });
-
-                $('#initial-time').combobox({
-                    data: initialList,
-                    valueField: 'id',
-                    textField: 'text',
-                    onLoadSuccess: function () {
-                        $('#initial-time').combobox('select', initialList.length - 1)
-                    },
-                    panelHeight: height = initialList.length > 6 ? 260 : "auto"
-                });
-
-                $('#orgCode').combobox({
-                    data: orgCodeList,
-                    valueField: 'id',
-                    textField: 'text',
-                    panelHeight: height = orgCodeList.length > 6 ? 300 : "auto"
-                });
-            }
+                this.elementCodeInfo = result;
+                var elementCode = 'PPH';
+                this.SetInitialTimesAndOrgCodesByElementCodeChange(elementCode);
+            }.bind(this)
         })
     };
+
+    this.GetCodeInfos = function (codes) {
+        var codeInfos = [];
+        codes.forEach(function (item, index) {
+            codeInfos.push({"id": index, "text": item});
+        }.bind(this));
+        return codeInfos;
+    }
 
 };
 

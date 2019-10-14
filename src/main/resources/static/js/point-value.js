@@ -263,11 +263,6 @@ var App = function () {
                 this.elementCodeInfo = result;
 
                 var elementCodes = this.getElementCodes();
-                //var elementCodeInfos = [];
-
-                /*elementCodes.forEach(function (item, index) {
-                    elementCodeInfos.push({"id": index, "text": item});
-                }.bind(this));*/
                 var elementCodeInfos = this.GetCodeInfos(elementCodes);
 
                 $('#element').combobox({

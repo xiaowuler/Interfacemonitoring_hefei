@@ -1,10 +1,7 @@
 package com.pingchuan.weather.DTO;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.pingchuan.weather.Domain.BoxDiagramResultInfo;
-import com.pingchuan.weather.Domain.ContourData;
-import com.pingchuan.weather.Domain.SearchResultInfo;
-import com.pingchuan.weather.Domain.SearchResultInfos;
+import com.pingchuan.weather.Domain.*;
 import lombok.Data;
 
 /**
@@ -30,4 +27,6 @@ public class SearchResultDTO {
     private ContourData contourData;
 
     private BoxDiagramResultInfo boxDiagramResultInfo;
+
+    private WeatherPhenomenonResultInfo weatherPhenomenonResultInfo;
 }
